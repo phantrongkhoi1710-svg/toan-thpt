@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bài tập — Bài 1. Mệnh đề</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../index.html">Toán THPT</a>
+        <nav class="nav" aria-label="Điều hướng chính">
+          <a href="../index.html">Trang chủ</a>
+          <a href="slides.html">Slide</a>
+          <a href="bai-tap.html" aria-current="page">Bài tập</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1 class="page-title">Bài tập về nhà</h1>
+      <p class="page-sub">
+        Bài 1. Mệnh đề · Chọn đáp án rồi xem giải thích. Có thể làm lại bất cứ
+        lúc nào.
+      </p>
+
+      <form id="quiz" class="quiz"></form>
+
+      <div class="score-bar" id="scoreBar" hidden>
+        <div>
+          Kết quả: <strong id="scoreText">0/0</strong>
+          <span id="scoreHint" style="opacity: 0.8; margin-left: 0.5rem"></span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+          <button type="button" class="btn btn--ghost" id="resetBtn" style="background: #fff">
+            Làm lại
+          </button>
+          <a class="btn btn--primary" href="slides.html">Xem lại slide</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      Bản thử · Dựa trên phần luyện tập trong giáo án
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+      const questions = [
+        {
+          level: "Mức 1",
+          prompt:
+            "Trong các câu sau, câu nào <strong>không</strong> phải mệnh đề?",
+          options: [
+            "Số 5 là số nguyên dương.",
+            "Số 15 là số nguyên tố.",
+            "Cố lên, sắp đến rồi!",
+            "Tổng các góc của một tam giác là \\(180^\\circ\\).",
+          ],
+          answer: 2,
+          explain:
+            "“Cố lên, sắp đến rồi!” là câu cảm thán — không đúng/sai theo nghĩa logic, nên không phải mệnh đề.",
+        },
+        {
+          level: "Mức 1",
+          prompt:
+            "Cho \\(P\\): “4 là số chẵn” và \\(Q\\): “Hà Nội là thủ đô Việt Nam”. Phát biểu của \\(P \\Rightarrow Q\\) là:",
+          options: [
+            "Nếu 4 là số chẵn thì Hà Nội là thủ đô của Việt Nam.",
+            "Nếu Hà Nội là thủ đô của Việt Nam thì 4 là số chẵn.",
+            "4 là số chẵn nếu Hà Nội là thủ đô của Việt Nam.",
+            "Nếu 4 là số chẵn thì Hà Nội không là thủ đô của Việt Nam.",
+          ],
+          answer: 0,
+          explain:
+            "\\(P \\Rightarrow Q\\) đọc là “Nếu \\(P\\) thì \\(Q\\)”.",
+        },
+        {
+          level: "Mức 1",
+          prompt:
+            "Mệnh đề phủ định của “Phương trình \\(x^2 + 1 = 0\\) vô nghiệm” (trên \\(\\mathbb{R}\\)) là:",
+          options: [
+            "Phương trình không có nghiệm.",
+            "Phương trình có 2 nghiệm phân biệt.",
+            "Phương trình có nghiệm kép.",
+            "Phương trình có nghiệm.",
+          ],
+          answer: 3,
+          explain:
+            "Phủ định của “vô nghiệm” là “có nghiệm” (không cần nói rõ số nghiệm).",
+        },
+        {
+          level: "Mức 2",
+          prompt:
+            "Cho mệnh đề: “Nếu hai tứ giác bằng nhau thì diện tích bằng nhau”. Mệnh đề đảo là:",
+          options: [
+            "Nếu hai tứ giác có diện tích bằng nhau thì chúng bằng nhau.",
+            "Nếu hai tứ giác không bằng nhau thì diện tích không bằng nhau.",
+            "Hai tứ giác bằng nhau khi và chỉ khi diện tích bằng nhau.",
+            "Nếu diện tích không bằng nhau thì hai tứ giác không bằng nhau.",
+          ],
+          answer: 0,
+          explain:
+            "Đảo của \\(P \\Rightarrow Q\\) là \\(Q \\Rightarrow P\\).",
+        },
+        {
+          level: "Mức 2",
+          prompt:
+            "Phủ định của \\(\\forall x \\in \\mathbb{R},\\; x^2 \\ge 0\\) là:",
+          options: [
+            "\\(\\exists x \\in \\mathbb{R},\\; x^2 &lt; 0\\)",
+            "\\(\\forall x \\in \\mathbb{R},\\; x^2 &lt; 0\\)",
+            "\\(\\exists x \\in \\mathbb{R},\\; x^2 \\ge 0\\)",
+            "\\(\\forall x \\in \\mathbb{R},\\; x^2 &gt; 0\\)",
+          ],
+          answer: 0,
+          explain:
+            "\\(\\overline{\\forall x,\\, P(x)} = \\exists x,\\, \\overline{P(x)}\\).",
+        },
+        {
+          level: "Mức 2",
+          prompt: "Mệnh đề nào dưới đây đúng?",
+          options: [
+            "Một số nguyên dương chia hết cho 3 khi và chỉ khi tổng các chữ số của nó chia hết cho 3.",
+            "Hai tam giác bằng nhau khi và chỉ khi chúng có diện tích bằng nhau.",
+            "\\(a + b\\) chia hết cho 7 khi và chỉ khi \\(a\\) và \\(b\\) cùng chia hết cho 7.",
+            "Nếu \\(x &gt; 2\\) thì \\(x^2 &gt; 4\\) có mệnh đề đảo luôn đúng.",
+          ],
+          answer: 0,
+          explain:
+            "Dấu hiệu chia hết cho 3 là tính chất đúng (điều kiện cần và đủ).",
+        },
+        {
+          level: "Mức 3",
+          prompt:
+            "Phủ định của “Có ít nhất một số vô tỉ là số thập phân vô hạn tuần hoàn” là:",
+          options: [
+            "Mọi số vô tỉ đều là số thập phân vô hạn không tuần hoàn.",
+            "Mọi số vô tỉ đều là số thập phân tuần hoàn.",
+            "Mọi số vô tỉ đều là số thập phân vô hạn tuần hoàn.",
+            "Có ít nhất một số vô tỉ là số thập phân vô hạn không tuần hoàn.",
+          ],
+          answer: 0,
+          explain:
+            "Phủ định “có ít nhất một…” là “mọi… không…”.",
+        },
+        {
+          level: "Mức 3",
+          prompt:
+            "Xét \\(P \\Rightarrow Q\\): “Nếu 18 chia hết cho 3 thì tam giác cân có 2 cạnh bằng nhau” và \\(R \\Rightarrow S\\): “Nếu 17 là số chẵn thì 25 là số chính phương”. Khẳng định đúng?",
+          options: [
+            "\\(P \\Rightarrow Q\\) đúng, \\(R \\Rightarrow S\\) sai.",
+            "\\(P \\Rightarrow Q\\) đúng, \\(R \\Rightarrow S\\) đúng.",
+            "\\(P \\Rightarrow Q\\) sai, \\(R \\Rightarrow S\\) đúng.",
+            "Cả hai đều sai.",
+          ],
+          answer: 1,
+          explain:
+            "\\(P \\Rightarrow Q\\) chỉ sai khi tiền đề đúng và hậu quả sai. Ở đây cả hai kéo theo đều đúng (kéo theo thứ hai có tiền đề sai).",
+        },
+      ];
+
+      const form = document.getElementById("quiz");
+      const scoreBar = document.getElementById("scoreBar");
+      const scoreText = document.getElementById("scoreText");
+      const scoreHint = document.getElementById("scoreHint");
+      const resetBtn = document.getElementById("resetBtn");
+
+      function render() {
+        form.innerHTML = questions
+          .map(
+            (q, i) => `
+          <article class="q-card" data-index="${i}">
+            <div class="q-card__tag">${q.level} · Câu ${i + 1}</div>
+            <h3>${q.prompt}</h3>
+            <div class="options" role="radiogroup" aria-label="Câu ${i + 1}">
+              ${q.options
+                .map(
+                  (opt, j) => `
+                <label class="option">
+                  <input type="radio" name="q${i}" value="${j}" />
+                  <span>${String.fromCharCode(65 + j)}. ${opt}</span>
+                </label>`
+                )
+                .join("")}
+            </div>
+            <div class="feedback" id="fb${i}"></div>
+          </article>`
+          )
+          .join("");
+
+        form.insertAdjacentHTML(
+          "beforeend",
+          `<button type="submit" class="btn btn--primary" style="justify-self:start">Nộp bài &amp; xem giải thích</button>`
+        );
+
+        renderMathInElement(form, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+        });
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let correct = 0;
+
+        questions.forEach((q, i) => {
+          const chosen = form.querySelector(`input[name="q${i}"]:checked`);
+          const labels = form.querySelectorAll(
+            `article[data-index="${i}"] .option`
+          );
+          labels.forEach((el) => el.classList.remove("is-correct", "is-wrong"));
+
+          const fb = document.getElementById(`fb${i}`);
+          if (!chosen) {
+            fb.textContent = "Bạn chưa chọn đáp án cho câu này.";
+            fb.classList.add("is-visible");
+            return;
+          }
+
+          const val = Number(chosen.value);
+          labels[q.answer].classList.add("is-correct");
+          if (val === q.answer) {
+            correct += 1;
+            fb.innerHTML = `<strong>Đúng.</strong> ${q.explain}`;
+          } else {
+            labels[val].classList.add("is-wrong");
+            fb.innerHTML = `<strong>Chưa đúng.</strong> ${q.explain}`;
+          }
+          fb.classList.add("is-visible");
+        });
+
+        renderMathInElement(form, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+        });
+
+        scoreBar.hidden = false;
+        scoreText.textContent = `${correct}/${questions.length}`;
+        scoreHint.textContent =
+          correct === questions.length
+            ? "— Xuất sắc!"
+            : correct >= questions.length * 0.7
+              ? "— Khá tốt, xem lại các câu sai."
+              : "— Xem lại slide rồi làm tiếp nhé.";
+        scoreBar.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+
+      resetBtn.addEventListener("click", () => {
+        scoreBar.hidden = true;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      render();
+    </script>
+  </body>
+</html>

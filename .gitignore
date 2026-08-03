@@ -1,0 +1,6 @@
+*.docx
+*.doc
+_tmp*
+_docx*
+.DS_Store
+Thumbs.db
