@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>Slide — Bài 2. Tập hợp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.css?v=10" />
+  </head>
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="../index.html">
+          <span class="brand__mark" aria-hidden="true" style="background:linear-gradient(135deg,#22d3ee,#6366f1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="12" r="5" /><circle cx="15" cy="12" r="5" />
+            </svg>
+          </span>
+          Toán THPT
+        </a>
+        <nav aria-label="Menu chính">
+          <p class="nav-group__label">Học tập</p>
+          <ul class="nav-list">
+            <li><a href="../index.html"><span class="ico">⌂</span> Trang chủ</a></li>
+            <li><a class="is-active" href="slides.html"><span class="ico">▣</span> Slide Bài 2</a></li>
+            <li><a href="bai-tap.html"><span class="ico">🏝</span> Đảo Tập Hợp</a></li>
+            <li><a href="../bai-1-menh-de/slides.html"><span class="ico">1</span> Bài 1 · Mệnh đề</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar__foot">
+          <strong>Đảo Tập Hợp</strong>
+          Theo dõi Club Lịch sử · bấm vùng Venn để khám phá phép toán.
+        </div>
+      </aside>
+
+      <div class="main-col">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu">☰</button>
+          <label class="search">
+            <span aria-hidden="true">⌕</span>
+            <input type="search" placeholder="Tìm trong bài tập hợp..." />
+          </label>
+          <div class="topbar__actions">
+            <a class="btn btn--ghost" href="bai-tap.html">Đảo Tập Hợp →</a>
+            <div class="avatar" title="Học sinh" style="background:linear-gradient(135deg,#22d3ee,#818cf8)">HS</div>
+          </div>
+        </header>
+
+        <main class="content">
+          <div class="page-head" style="margin-bottom:1rem">
+            <h1>Bài 2 · Tập hợp</h1>
+            <p>4 tiết · hành trình “Đảo Tập Hợp” · Venn tương tác</p>
+          </div>
+
+          <section class="deck" aria-label="Slide tập hợp">
+            <div class="deck__card">
+              <div class="deck__progress"><i id="deckBar" style="width:6%;background:linear-gradient(90deg,#22d3ee,#6366f1)"></i></div>
+              <div class="deck__body teach" id="deckBody"></div>
+              <div class="deck__foot">
+                <div class="deck__meta">
+                  <strong id="deckTitle">Mở đầu</strong>
+                  <span>Slide <span id="deckIndex">1</span> / <span id="deckTotal">0</span></span>
+                </div>
+                <div class="deck__dots" id="deckDots"></div>
+                <div class="deck__actions">
+                  <button type="button" class="btn btn--ghost" id="prevBtn">← Trước</button>
+                  <button type="button" class="btn btn--primary" id="nextBtn" style="background:linear-gradient(135deg,#06b6d4,#6366f1);box-shadow:0 8px 20px rgba(99,102,241,.35)">Tiếp →</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+      const vennSVG = `
+        <div class="venn-lab" aria-label="Biểu đồ Ven tương tác">
+          <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="340" height="220" rx="16" fill="#ecfeff"/>
+            <circle class="venn-zone" data-zone="Aonly" cx="125" cy="110" r="80" fill="#67e8f9" fill-opacity="0.45" stroke="#0891b2" stroke-width="2.5"/>
+            <circle class="venn-zone" data-zone="Bonly" cx="215" cy="110" r="80" fill="#c4b5fd" fill-opacity="0.45" stroke="#7c3aed" stroke-width="2.5"/>
+            <path class="venn-zone" data-zone="inter"
+              d="M170 42 A80 80 0 0 1 170 178 A80 80 0 0 1 170 42 Z"
+              fill="#34d399" fill-opacity="0.8" stroke="#059669" stroke-width="2.5"/>
+            <text x="88" y="114" font-size="26" font-weight="800" fill="#0e7490" pointer-events="none">A</text>
+            <text x="228" y="114" font-size="26" font-weight="800" fill="#6d28d9" pointer-events="none">B</text>
+            <text x="160" y="118" font-size="16" font-weight="800" fill="#065f46" pointer-events="none">∩</text>
+          </svg>
+        </div>`;
+
+      const slides = [
+        {
+          title: "Đảo Tập Hợp",
+          html: `
+            <div class="teach-hero" style="background:linear-gradient(135deg,#0e7490 0%,#4f46e5 55%,#7c3aed 100%)">
+              <div class="teach-hero__text">
+                <p class="deck__eyebrow">Toán 10 · Chương I · 4 tiết</p>
+                <h2>Bài 2. Tập hợp &amp; phép toán</h2>
+                <p>Không học khô: lần này ta phá án Club Lịch sử — ai vắng chuyên đề? Ai thuộc giao hai tập?</p>
+              </div>
+              <div class="teach-hero__art">
+                <img src="../images/bai2/venn-islands.jpg" alt="Đảo Tập Hợp" />
+              </div>
+            </div>`,
+        },
+        {
+          title: "Án Club Lịch sử",
+          quiz: {
+            type: "single",
+            correct: [1],
+            explain: "Club có 12 thành viên. Chuyên đề 1 vắng 5 → có 7 bạn tham gia. Chuyên đề 2 vắng 4 → có 8 bạn tham gia.",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Nhiệm vụ mở đầu · Tương tác</span>
+              <h2>Club Lịch sử · 12 thành viên</h2>
+              <div class="teach-split teach-split--img-right">
+                <div>
+                  <p>Hai chuyên đề trên phần mềm học trực tuyến. Theo giáo án: CD1 vắng 5, CD2 vắng 4. Hỏi số bạn <strong>tham gia CD1</strong> là?</p>
+                  <div class="teach-choices" data-quiz-options>
+                    <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>5 bạn</p></button>
+                    <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#06b6d4">B</span><p>7 bạn</p></button>
+                    <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#8b5cf6">C</span><p>8 bạn</p></button>
+                    <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#22c55e">D</span><p>12 bạn</p></button>
+                  </div>
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+                  </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
+                </div>
+                <div class="teach-media">
+                  <img src="../images/bai2/history-club.jpg" alt="Club Lịch sử" />
+                </div>
+              </div>
+            </div>`,
+        },
+        {
+          title: "Lộ trình 4 đảo",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Bản đồ kiến thức</span>
+              <h2>Bốn hòn đảo cần chinh phục</h2>
+              <div class="teach-parts">
+                <div class="teach-part"><div class="teach-part__n" style="background:#06b6d4">1</div><h3>Khái niệm</h3><p>Phần tử · liệt kê · tính chất · ∅</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#8b5cf6">2</div><h3>Tập con · =</h3><p>⊂ · biểu đồ Ven</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#10b981">3</div><h3>Tập số</h3><p>N ⊂ Z ⊂ Q ⊂ R · khoảng</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#ec4899">4</div><h3>Phép toán</h3><p>∩ ∪ ∖ · phần bù</p></div>
+              </div>
+              <div class="teach-media" style="margin-top:1rem">
+                <img src="../images/bai2/sgk-2.jpg" alt="Biểu đồ Ven trong SGK" />
+              </div>
+            </div>`,
+        },
+        {
+          title: "Tập hợp là gì?",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Đảo 1 · Khái niệm</span>
+              <h2>Tập hợp &amp; phần tử</h2>
+              <div class="teach-def">
+                Tập hợp là một nhóm các đối tượng xác định. Mỗi đối tượng trong nhóm gọi là <strong>phần tử</strong>.
+              </div>
+              <ul>
+                <li>\\(a \\in A\\): \\(a\\) thuộc \\(A\\)</li>
+                <li>\\(a \\notin A\\): \\(a\\) không thuộc \\(A\\)</li>
+                <li>Hai cách mô tả: <strong>liệt kê</strong> hoặc <strong>tính chất đặc trưng</strong></li>
+                <li>Tập không có phần tử: tập rỗng \\(\\varnothing\\), \\(|\\varnothing| = 0\\)</li>
+              </ul>
+              <div class="teach-tags">
+                <span class="teach-tag">A = {Nam, Lan, …}</span>
+                <span class="teach-tag">B = {x | x là châu lục}</span>
+              </div>
+            </div>`,
+        },
+        {
+          title: "Thuộc hay không?",
+          quiz: {
+            type: "single",
+            correct: [2],
+            explain: "Nghiệm của \\(x^2 + 1 = 0\\) trên \\(\\mathbb{R}\\) là tập rỗng → không có phần tử nào thuộc tập nghiệm.",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Đảo 1 · Tương tác</span>
+              <h2>Gọi S là tập nghiệm thực của \\(x^2 + 1 = 0\\)</h2>
+              <div class="teach-choices" data-quiz-options>
+                <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(0 \\in S\\)</p></button>
+                <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#06b6d4">B</span><p>\\(1 \\in S\\)</p></button>
+                <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#8b5cf6">C</span><p>\\(S = \\varnothing\\)</p></button>
+                <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#f97316">D</span><p>\\(|S| = 2\\)</p></button>
+              </div>
+              <div class="teach-quiz-actions">
+                <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+              </div>
+              <div class="teach-feedback" data-quiz-feedback></div>
+            </div>`,
+        },
+        {
+          title: "Tập con",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Đảo 2</span>
+              <h2>Tập con &amp; hai tập bằng nhau</h2>
+              <div class="teach-split teach-split--img-right">
+                <div>
+                  <div class="teach-def">
+                    \\(T \\subset S\\) nếu mọi phần tử của \\(T\\) đều thuộc \\(S\\).<br/>
+                    \\(S = T\\) khi \\(S \\subset T\\) và \\(T \\subset S\\).
+                  </div>
+                  <ul>
+                    <li>\\(\\varnothing\\) là tập con của mọi tập hợp</li>
+                    <li>\\(S \\subset S\\) luôn đúng</li>
+                  </ul>
+                </div>
+                <div class="teach-media">
+                  <img src="../images/bai2/sgk-2.jpg" alt="Tập con trên Ven" />
+                </div>
+              </div>
+            </div>`,
+        },
+        {
+          title: "Hình vuông ⊂ ?",
+          quiz: {
+            type: "single",
+            correct: [1],
+            explain: "Mọi hình vuông đều là hình bình hành có hai đường chéo vuông góc → \\(D \\subset C\\). Chiều ngược lại sai (hình thoi chưa chắc là hình vuông).",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Đảo 2 · Tương tác</span>
+              <h2>C = {hình bình hành có đường chéo ⊥}, D = {hình vuông}</h2>
+              <div class="teach-choices" data-quiz-options>
+                <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(C \\subset D\\)</p></button>
+                <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#8b5cf6">B</span><p>\\(D \\subset C\\)</p></button>
+                <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#06b6d4">C</span><p>\\(C = D\\)</p></button>
+                <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#f43f5e">D</span><p>\\(D \\not\\subset C\\)</p></button>
+              </div>
+              <div class="teach-quiz-actions">
+                <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+              </div>
+              <div class="teach-feedback" data-quiz-feedback></div>
+            </div>`,
+        },
+        {
+          title: "Các tập số",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Đảo 3</span>
+              <h2>Chuỗi bao hàm tập số</h2>
+              <div class="nest-stack stagger">
+                <div class="nest-row"><span class="nest-dot" style="background:#22d3ee"></span>\\(\\mathbb{N}\\) · số tự nhiên</div>
+                <div class="nest-row"><span class="nest-dot" style="background:#818cf8"></span>\\(\\mathbb{Z}\\) · số nguyên · \\(\\mathbb{N} \\subset \\mathbb{Z}\\)</div>
+                <div class="nest-row"><span class="nest-dot" style="background:#a78bfa"></span>\\(\\mathbb{Q}\\) · số hữu tỉ · \\(\\mathbb{Z} \\subset \\mathbb{Q}\\)</div>
+                <div class="nest-row"><span class="nest-dot" style="background:#f472b6"></span>\\(\\mathbb{R}\\) · số thực · \\(\\mathbb{Q} \\subset \\mathbb{R}\\)</div>
+              </div>
+              <div class="teach-callout" style="margin-top:1rem">
+                Khoảng \\((a;b)\\), đoạn \\([a;b]\\), nửa khoảng \\([a;b)\\), \\((a;+\\infty)\\)…
+              </div>
+            </div>`,
+        },
+        {
+          title: "Ghép khoảng",
+          quiz: {
+            type: "single",
+            correct: [3],
+            explain: "\\(x \\in [2;5]\\) nghĩa là \\(2 \\le x \\le 5\\).",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Đảo 3 · Tương tác</span>
+              <h2>\\(x \\in [2;5]\\) tương đương với?</h2>
+              <div class="teach-split">
+                <div class="teach-media"><img src="../images/bai2/sgk-3.jpg" alt="Bài ghép khoảng" /></div>
+                <div>
+                  <div class="teach-choices" data-quiz-options>
+                    <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(2 &lt; x \\le 5\\)</p></button>
+                    <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#06b6d4">B</span><p>\\(2 \\le x &lt; 5\\)</p></button>
+                    <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#8b5cf6">C</span><p>\\(2 &lt; x &lt; 5\\)</p></button>
+                    <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#10b981">D</span><p>\\(2 \\le x \\le 5\\)</p></button>
+                  </div>
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+                  </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
+                </div>
+              </div>
+            </div>`,
+        },
+        {
+          title: "Phòng lab Venn",
+          quiz: {
+            type: "venn",
+            correct: ["inter"],
+            explain: "Vùng giao (∩) gồm phần tử thuộc <strong>cả A và B</strong> — chính là những bạn tham gia cả hai chuyên đề.",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Đảo 4 · Lab Ven · Tương tác</span>
+              <h2>Bấm vào vùng = thành viên tham gia <em>cả hai</em> chuyên đề</h2>
+              ${vennSVG}
+              <p class="venn-caption">Gợi ý: vùng giữa hai vòng tròn</p>
+              <div class="teach-quiz-actions">
+                <button type="button" class="btn btn--primary" data-quiz-check>Khóa đáp án</button>
+                <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Thử lại</button>
+              </div>
+              <div class="teach-feedback" data-quiz-feedback></div>
+            </div>`,
+        },
+        {
+          title: "∩ ∪ ∖",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Đảo 4 · Chốt kiến thức</span>
+              <h2>Ba phép toán vàng</h2>
+              <div class="teach-parts">
+                <div class="teach-part"><div class="teach-part__n" style="background:#10b981">∩</div><h3>Giao</h3><p>Thuộc cả S và T</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#06b6d4">∪</div><h3>Hợp</h3><p>Thuộc S hoặc T</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#f59e0b">∖</div><h3>Hiệu</h3><p>Thuộc S, không thuộc T</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#ec4899">∁</div><h3>Phần bù</h3><p>Nếu T ⊂ S thì S∖T = C_S(T)</p></div>
+              </div>
+              <div class="teach-def">
+                Công thức đếm: \\(|A \\cup B| = |A| + |B| - |A \\cap B|\\)
+              </div>
+            </div>`,
+        },
+        {
+          title: "Bóng đá & cầu lông",
+          quiz: {
+            type: "single",
+            correct: [0],
+            explain: "|A∪B|=24, |A|=16, |B|=11 → |A∩B| = 16+11-24 = 3 bạn chơi cả hai.",
+          },
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--cyan">Vận dụng · Tương tác</span>
+              <h2>24 bạn chơi bóng đá hoặc cầu lông; 16 đá bóng, 11 cầu lông. Bao nhiêu bạn chơi cả hai?</h2>
+              <div class="teach-choices" data-quiz-options>
+                <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>3</p></button>
+                <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#06b6d4">B</span><p>5</p></button>
+                <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#8b5cf6">C</span><p>8</p></button>
+                <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#f43f5e">D</span><p>27</p></button>
+              </div>
+              <div class="teach-quiz-actions">
+                <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+              </div>
+              <div class="teach-feedback" data-quiz-feedback></div>
+            </div>`,
+        },
+        {
+          title: "Tóm tắt đảo",
+          html: `
+            <div class="teach-pad">
+              <span class="teach-banner teach-banner--indigo">Kho báu kiến thức</span>
+              <h2>Nhớ nhanh trước khi ra đảo Challenge</h2>
+              <div class="teach-parts">
+                <div class="teach-part"><div class="teach-part__n" style="background:#06b6d4">∈</div><h3>Thuộc</h3><p>Phần tử · ∅</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#8b5cf6">⊂</div><h3>Tập con</h3><p>Ven · bằng nhau</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#10b981">R</div><h3>Tập số</h3><p>N⊂Z⊂Q⊂R</p></div>
+                <div class="teach-part"><div class="teach-part__n" style="background:#ec4899">∪</div><h3>Phép toán</h3><p>|A∪B|=|A|+|B|−|A∩B|</p></div>
+              </div>
+              <p class="slide-note" style="margin-top:1.2rem">
+                <a class="btn btn--primary" href="bai-tap.html" style="background:linear-gradient(135deg,#06b6d4,#6366f1)">Chinh phục Đảo Tập Hợp →</a>
+              </p>
+            </div>`,
+        },
+      ];
+
+      let index = 0;
+      const answered = {};
+      const body = document.getElementById("deckBody");
+      const bar = document.getElementById("deckBar");
+      const titleEl = document.getElementById("deckTitle");
+      const indexEl = document.getElementById("deckIndex");
+      const totalEl = document.getElementById("deckTotal");
+      const dots = document.getElementById("deckDots");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      totalEl.textContent = String(slides.length);
+      dots.innerHTML = slides.map((_, i) => `<button type="button" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join("");
+
+      function sameSet(a, b) {
+        return [...a].sort().join(",") === [...b].sort().join(",");
+      }
+
+      function bindQuiz(slideIndex) {
+        const slide = slides[slideIndex];
+        if (!slide.quiz) return;
+        const optsWrap = body.querySelector("[data-quiz-options]") || body.querySelector(".venn-lab");
+        const checkBtn = body.querySelector("[data-quiz-check]");
+        const resetBtn = body.querySelector("[data-quiz-reset]");
+        const feedback = body.querySelector("[data-quiz-feedback]");
+        if (!checkBtn || !feedback) return;
+
+        let selected = new Set(answered[slideIndex]?.selected || []);
+        let locked = Boolean(answered[slideIndex]?.locked);
+
+        const isVenn = slide.quiz.type === "venn";
+        const options = isVenn
+          ? [...body.querySelectorAll(".venn-zone[data-zone]")]
+          : [...(optsWrap?.querySelectorAll("[data-i]") || [])];
+
+        function paint() {
+          if (isVenn) {
+            options.forEach((el) => {
+              const z = el.dataset.zone;
+              el.classList.toggle("is-selected", selected.has(z));
+              el.classList.remove("is-correct", "is-wrong");
+              if (locked) {
+                if (slide.quiz.correct.includes(z)) el.classList.add("is-correct");
+                else if (selected.has(z)) el.classList.add("is-wrong");
+              }
+            });
+          } else {
+            options.forEach((el) => {
+              const i = Number(el.dataset.i);
+              el.classList.toggle("is-selected", selected.has(i));
+              el.classList.remove("is-correct", "is-wrong");
+              if (locked) {
+                el.disabled = true;
+                if (slide.quiz.correct.includes(i)) el.classList.add("is-correct");
+                else if (selected.has(i)) el.classList.add("is-wrong");
+              } else el.disabled = false;
+            });
+          }
+          if (resetBtn) resetBtn.hidden = !locked;
+          checkBtn.disabled = locked;
+        }
+
+        options.forEach((el) => {
+          el.addEventListener("click", () => {
+            if (locked) return;
+            if (isVenn) {
+              const z = el.dataset.zone;
+              selected = new Set([z]);
+            } else {
+              const i = Number(el.dataset.i);
+              if (slide.quiz.type === "multi") {
+                selected.has(i) ? selected.delete(i) : selected.add(i);
+              } else selected = new Set([i]);
+            }
+            paint();
+          });
+        });
+
+        checkBtn.addEventListener("click", () => {
+          if (!selected.size) {
+            feedback.className = "teach-feedback is-visible is-bad";
+            feedback.textContent = "Hãy chọn trước đã!";
+            return;
+          }
+          locked = true;
+          const ok = isVenn
+            ? sameSet([...selected], slide.quiz.correct)
+            : sameSet([...selected], slide.quiz.correct);
+          answered[slideIndex] = { selected: [...selected], locked: true, ok };
+          feedback.className = `teach-feedback is-visible ${ok ? "is-ok" : "is-bad"}`;
+          feedback.innerHTML = `<strong>${ok ? "Chuẩn!" : "Chưa đúng."}</strong> ${slide.quiz.explain}`;
+          renderMathInElement(feedback, { delimiters: [{ left: "\\(", right: "\\)", display: false }] });
+          paint();
+        });
+
+        resetBtn?.addEventListener("click", () => {
+          locked = false;
+          selected = new Set();
+          delete answered[slideIndex];
+          feedback.className = "teach-feedback";
+          feedback.innerHTML = "";
+          paint();
+        });
+
+        if (locked) {
+          const ok = answered[slideIndex].ok;
+          feedback.className = `teach-feedback is-visible ${ok ? "is-ok" : "is-bad"}`;
+          feedback.innerHTML = `<strong>${ok ? "Chuẩn!" : "Chưa đúng."}</strong> ${slide.quiz.explain}`;
+        }
+        paint();
+      }
+
+      function show(i) {
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        const s = slides[index];
+        body.classList.remove("anim-in");
+        void body.offsetWidth;
+        body.innerHTML = s.html;
+        body.classList.add("anim-in");
+        titleEl.textContent = s.title + (s.quiz ? " · Tương tác" : "");
+        indexEl.textContent = String(index + 1);
+        bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        nextBtn.textContent = index === slides.length - 1 ? "Hết" : "Tiếp →";
+        dots.querySelectorAll("button").forEach((b, n) => b.classList.toggle("is-active", n === index));
+        renderMathInElement(body, { delimiters: [{ left: "\\(", right: "\\)", display: false }, { left: "\\[", right: "\\]", display: true }] });
+        bindQuiz(index);
+        history.replaceState(null, "", `#${index + 1}`);
+      }
+
+      prevBtn.addEventListener("click", () => show(index - 1));
+      nextBtn.addEventListener("click", () => show(index + 1));
+      dots.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-i]");
+        if (b) show(Number(b.dataset.i));
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.target.matches("input, textarea")) return;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") show(index + 1);
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") show(index - 1);
+      });
+
+      const hash = Number((location.hash || "").replace("#", ""));
+      show(Number.isFinite(hash) && hash >= 1 ? hash - 1 : 0);
+
+      const toggle = document.getElementById("menuToggle");
+      const overlayNav = document.getElementById("overlay");
+      toggle?.addEventListener("click", () => {
+        document.body.classList.toggle("sidebar-open");
+        overlayNav.hidden = !document.body.classList.contains("sidebar-open");
+      });
+      overlayNav?.addEventListener("click", () => {
+        document.body.classList.remove("sidebar-open");
+        overlayNav.hidden = true;
+      });
+    </script>
+  </body>
+</html>

@@ -2108,3 +2108,123 @@ body.sidebar-open .overlay {
 
 
 
+
+/* ——— Bài 2 · Đảo Tập Hợp theme ——— */
+.island-hud .map-stat {
+  background: linear-gradient(135deg, #ecfeff, #f5f3ff);
+  border-color: #a5f3fc;
+}
+
+.map-board--island {
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, #a5f3fc55, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 20% 80%, #c4b5fd33, transparent 55%),
+    linear-gradient(180deg, #e0f2fe 0%, #f8fafc 40%, #ede9fe 100%);
+  border-radius: 24px;
+  padding: 1.25rem 1rem 2rem;
+  border: 1px solid #bae6fd;
+  max-width: 600px;
+}
+
+.map-board--island .map-path::before {
+  background: repeating-linear-gradient(
+    180deg,
+    #67e8f9 0 10px,
+    transparent 10px 20px
+  );
+  opacity: 0.7;
+}
+
+.map-node__btn--island {
+  border-radius: 40% 40% 45% 45% / 45% 45% 40% 40%;
+  background: linear-gradient(160deg, #22d3ee, #6366f1) !important;
+}
+
+.map-node__btn--island.map-node__btn--2 {
+  background: linear-gradient(160deg, #a78bfa, #7c3aed) !important;
+}
+.map-node__btn--island.map-node__btn--3 {
+  background: linear-gradient(160deg, #34d399, #059669) !important;
+}
+.map-node__btn--island.map-node__btn--4 {
+  background: linear-gradient(160deg, #f472b6, #db2777) !important;
+}
+
+.venn-lab {
+  position: relative;
+  width: min(340px, 100%);
+  height: 220px;
+  margin: 0.75rem auto 0.25rem;
+}
+
+.venn-lab svg {
+  width: 100%;
+  height: 100%;
+}
+
+.venn-zone {
+  cursor: pointer;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.venn-zone:hover {
+  filter: brightness(1.08);
+}
+
+.venn-zone.is-selected {
+  stroke: #0f172a;
+  stroke-width: 3;
+  filter: brightness(1.12);
+}
+
+.venn-zone.is-correct {
+  filter: brightness(1.15) saturate(1.2);
+  stroke: #059669;
+  stroke-width: 3;
+}
+
+.venn-zone.is-wrong {
+  filter: grayscale(0.3) brightness(0.95);
+  stroke: #e11d48;
+  stroke-width: 3;
+}
+
+.venn-caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.nest-stack {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.nest-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.nest-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.teach-banner--cyan {
+  background: #cffafe;
+  color: #0e7490;
+}
+.teach-banner--indigo {
+  background: #e0e7ff;
+  color: #4338ca;
+}
