@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css?v=4" />
+    <link rel="stylesheet" href="../css/style.css?v=5" />
   </head>
   <body>
     <div class="overlay" id="overlay" hidden></div>
@@ -48,21 +48,18 @@
               >
             </li>
           </ul>
-          <p class="nav-group__label">Trong bài này</p>
+          <p class="nav-group__label">Chương I</p>
           <ul class="nav-list">
-            <li><a href="#s1"><span class="ico">1</span> Giới thiệu</a></li>
-            <li><a href="#s2"><span class="ico">2</span> Khởi động</a></li>
-            <li><a href="#s3"><span class="ico">3</span> Mệnh đề</a></li>
-            <li><a href="#s6"><span class="ico">6</span> Phủ định</a></li>
-            <li><a href="#s7"><span class="ico">7</span> Kéo theo</a></li>
-            <li><a href="#s10"><span class="ico">10</span> Tương đương</a></li>
-            <li><a href="#s11"><span class="ico">11</span> Lượng từ</a></li>
-            <li><a href="#s13"><span class="ico">13</span> Tóm tắt</a></li>
+            <li>
+              <a class="is-active" href="slides.html"
+                ><span class="ico">1</span> Mệnh đề</a
+              >
+            </li>
           </ul>
         </nav>
         <div class="sidebar__foot">
-          <strong>Mẹo học</strong>
-          Đọc lần lượt các mục bên dưới, rồi sang bài tập để luyện.
+          <strong>Phím tắt</strong>
+          ← → để chuyển slide
         </div>
       </aside>
 
@@ -73,234 +70,46 @@
           </button>
           <label class="search">
             <span aria-hidden="true">⌕</span>
-            <input type="search" placeholder="Tìm trong bài giảng..." />
+            <input type="search" placeholder="Tìm bài giảng..." />
           </label>
           <div class="topbar__actions">
-            <a class="btn btn--primary" href="bai-tap.html">Làm bài tập →</a>
+            <a class="btn btn--ghost" href="bai-tap.html">Bài tập →</a>
             <div class="avatar" title="Học sinh">HS</div>
           </div>
         </header>
 
         <main class="content">
-          <div class="page-head">
-            <h1>Bài 1. Mệnh đề</h1>
-            <p>
-              Slide bài giảng · Toán 10 · Chương I · 3 tiết — cuộn đọc từng mục
-              như trang bài tập.
-            </p>
+          <div class="page-head" style="margin-bottom: 1rem">
+            <h1>Slide bài giảng</h1>
+            <p>Bài 1. Mệnh đề · xem từng slide trong dashboard</p>
           </div>
 
-          <div class="lesson-flow" id="lesson">
-            <article class="q-card" id="s1">
-              <div class="q-card__tag">Mục 1 · Giới thiệu</div>
-              <h3>Bài 1. Mệnh đề</h3>
-              <p>
-                Mục tiêu: nhận biết mệnh đề; lập phủ định, kéo theo, đảo, tương
-                đương; làm việc với \(\forall\) và \(\exists\).
-              </p>
-            </article>
-
-            <article class="q-card" id="s2">
-              <div class="q-card__tag">Mục 2 · Khởi động</div>
-              <h3>Khẳng định nào đúng / sai?</h3>
-              <ul class="lesson-ul">
-                <li>“Khu vực có biển cấm ô tô thì ô tô không được đi vào.”</li>
-                <li>
-                  Bình: “\(7\) là số nguyên tố.” · An: “\(7\) không phải số
-                  nguyên tố.”
-                </li>
-                <li>
-                  “Nếu An vượt đèn đỏ thì An vi phạm luật giao thông.”
-                </li>
-              </ul>
-              <div class="feedback is-visible">
-                → Đây chính là các <strong>mệnh đề</strong>: khẳng định đúng hoặc
-                sai.
+          <section class="deck" aria-label="Trình chiếu bài giảng">
+            <div class="deck__card">
+              <div class="deck__progress" aria-hidden="true">
+                <i id="deckBar" style="width: 8%"></i>
               </div>
-            </article>
 
-            <article class="q-card" id="s3">
-              <div class="q-card__tag">Mục 3 · Kiến thức</div>
-              <h3>1. Mệnh đề</h3>
-              <div class="slide-def">
-                <strong>Mệnh đề</strong> là một câu khẳng định đúng hoặc sai.
-              </div>
-              <ul class="lesson-ul">
-                <li>Mỗi mệnh đề <em>hoặc đúng, hoặc sai</em>.</li>
-                <li>Không thể vừa đúng vừa sai.</li>
-                <li>
-                  Câu hỏi, câu cảm thán, câu mệnh lệnh
-                  <strong>không</strong> là mệnh đề.
-                </li>
-              </ul>
-            </article>
+              <div class="deck__body" id="deckBody" aria-live="polite"></div>
 
-            <article class="q-card" id="s4">
-              <div class="q-card__tag">Mục 4 · Ví dụ</div>
-              <h3>Nhận biết mệnh đề</h3>
-              <div class="slide-grid">
-                <div class="slide-panel slide-panel--ok">
-                  <h3>Là mệnh đề</h3>
-                  <ul class="lesson-ul">
-                    <li>
-                      \(13\) là số nguyên tố. <span class="chip">đúng</span>
-                    </li>
-                    <li>
-                      Tổng hai cạnh bất kì của tam giác nhỏ hơn cạnh còn lại.
-                      <span class="chip">sai</span>
-                    </li>
-                  </ul>
+              <div class="deck__foot">
+                <div class="deck__meta">
+                  <strong id="deckTitle">Giới thiệu</strong>
+                  <span
+                    >Slide <span id="deckIndex">1</span> /
+                    <span id="deckTotal">13</span></span
+                  >
                 </div>
-                <div class="slide-panel slide-panel--bad">
-                  <h3>Không phải mệnh đề</h3>
-                  <ul class="lesson-ul">
-                    <li>Bạn đã làm bài tập chưa?</li>
-                    <li>Thời tiết hôm nay thật đẹp!</li>
-                  </ul>
+
+                <div class="deck__dots" id="deckDots" aria-label="Chọn slide"></div>
+
+                <div class="deck__actions">
+                  <button type="button" class="btn btn--ghost" id="prevBtn">← Trước</button>
+                  <button type="button" class="btn btn--primary" id="nextBtn">Tiếp →</button>
                 </div>
               </div>
-            </article>
-
-            <article class="q-card" id="s5">
-              <div class="q-card__tag">Mục 5 · Kiến thức</div>
-              <h3>Mệnh đề chứa biến</h3>
-              <div class="slide-def">
-                Câu có chứa biến, khi thay biến bằng giá trị cụ thể thì trở thành
-                mệnh đề.
-              </div>
-              <p>Ví dụ: “\(x &gt; 5\)”.</p>
-              <ul class="lesson-ul">
-                <li>\(x = 6\) → mệnh đề <span class="text-ok">đúng</span></li>
-                <li>\(x = 4\) → mệnh đề <span class="text-bad">sai</span></li>
-              </ul>
-            </article>
-
-            <article class="q-card" id="s6">
-              <div class="q-card__tag">Mục 6 · Kiến thức</div>
-              <h3>2. Mệnh đề phủ định</h3>
-              <div class="slide-def">
-                Phủ định của mệnh đề \(P\) kí hiệu \(\overline{P}\) (hoặc
-                \(\neg P\)): tính đúng/sai <em>trái ngược</em> với \(P\).
-              </div>
-              <ul class="lesson-ul">
-                <li>Thường thêm/bớt “không”, “không phải” trước vị ngữ.</li>
-                <li>Nếu \(P\) đúng thì \(\overline{P}\) sai, và ngược lại.</li>
-              </ul>
-              <p class="slide-note">
-                Ví dụ: \(P\): “\(2022\) chia hết cho \(5\)” → \(\overline{P}\):
-                “\(2022\) không chia hết cho \(5\)”.
-              </p>
-            </article>
-
-            <article class="q-card" id="s7">
-              <div class="q-card__tag">Mục 7 · Kiến thức</div>
-              <h3>3. Mệnh đề kéo theo</h3>
-              <div class="slide-def">
-                “Nếu \(P\) thì \(Q\)” kí hiệu \(P \Rightarrow Q\).
-              </div>
-              <ul class="lesson-ul">
-                <li>
-                  \(P \Rightarrow Q\) <strong>chỉ sai</strong> khi \(P\) đúng và
-                  \(Q\) sai.
-                </li>
-                <li>Các trường hợp còn lại: đúng.</li>
-              </ul>
-              <p class="slide-note">
-                Định lí toán học thường có dạng \(P \Rightarrow Q\): \(P\) là giả
-                thiết, \(Q\) là kết luận.
-              </p>
-            </article>
-
-            <article class="q-card" id="s8">
-              <div class="q-card__tag">Mục 8 · Kiến thức</div>
-              <h3>Điều kiện cần · đủ</h3>
-              <p>Với định lí \(P \Rightarrow Q\):</p>
-              <ul class="lesson-ul">
-                <li>\(P\) là <strong>điều kiện đủ</strong> để có \(Q\).</li>
-                <li>\(Q\) là <strong>điều kiện cần</strong> để có \(P\).</li>
-              </ul>
-              <p class="slide-note">
-                Ví dụ: Nếu \(a\) và \(b\) chia hết cho \(c\) thì \(a+b\) chia hết
-                cho \(c\).
-              </p>
-            </article>
-
-            <article class="q-card" id="s9">
-              <div class="q-card__tag">Mục 9 · Kiến thức</div>
-              <h3>Mệnh đề đảo</h3>
-              <div class="slide-def">
-                Đảo của \(P \Rightarrow Q\) là \(Q \Rightarrow P\).
-              </div>
-              <p>Định lí đúng không đảm bảo mệnh đề đảo đúng.</p>
-              <p class="slide-note">
-                Ví dụ đảo sai: “Nếu \(a+b\) chia hết cho \(c\) thì \(a\) và \(b\)
-                chia hết cho \(c\)” — sai khi \(a=1, b=2, c=3\).
-              </p>
-            </article>
-
-            <article class="q-card" id="s10">
-              <div class="q-card__tag">Mục 10 · Kiến thức</div>
-              <h3>4. Mệnh đề tương đương</h3>
-              <div class="slide-def">
-                “\(P\) nếu và chỉ nếu \(Q\)” kí hiệu \(P \Leftrightarrow Q\).
-              </div>
-              <ul class="lesson-ul">
-                <li>
-                  \(P \Leftrightarrow Q\) đúng khi cả \(P \Rightarrow Q\) và
-                  \(Q \Rightarrow P\) đều đúng.
-                </li>
-                <li>
-                  Nói: \(P\) tương đương \(Q\), hoặc \(P\) là
-                  <strong>điều kiện cần và đủ</strong> để có \(Q\).
-                </li>
-              </ul>
-            </article>
-
-            <article class="q-card" id="s11">
-              <div class="q-card__tag">Mục 11 · Kiến thức</div>
-              <h3>5. Lượng từ \(\forall\), \(\exists\)</h3>
-              <ul class="lesson-ul">
-                <li>\(\forall\): <strong>với mọi</strong></li>
-                <li>\(\exists\): <strong>tồn tại</strong> (có ít nhất một)</li>
-              </ul>
-              <div class="slide-def">
-                \(\forall x \in \mathbb{R},\; x^2 + 1 \ge 0\) — đúng.<br />
-                \(\forall x \in \mathbb{R},\; x^2 + 1 \le 0\) — sai.
-              </div>
-            </article>
-
-            <article class="q-card" id="s12">
-              <div class="q-card__tag">Mục 12 · Kiến thức</div>
-              <h3>Phủ định lượng từ</h3>
-              <div class="slide-def">
-                \(\overline{\forall x,\; P(x)} \;=\; \exists x,\;
-                \overline{P(x)}\)<br />
-                \(\overline{\exists x,\; P(x)} \;=\; \forall x,\;
-                \overline{P(x)}\)
-              </div>
-              <p class="slide-note">
-                “Mọi …” ↔ phủ định “Có ít nhất một … không …”
-              </p>
-            </article>
-
-            <article class="q-card" id="s13">
-              <div class="q-card__tag">Mục 13 · Tổng kết</div>
-              <h3>Tóm tắt nhanh</h3>
-              <ul class="lesson-ul">
-                <li>Mệnh đề: đúng hoặc sai</li>
-                <li>Phủ định \(\overline{P}\)</li>
-                <li>Kéo theo \(P \Rightarrow Q\) · Đảo \(Q \Rightarrow P\)</li>
-                <li>Tương đương \(P \Leftrightarrow Q\)</li>
-                <li>Lượng từ \(\forall\), \(\exists\) và cách phủ định</li>
-              </ul>
-              <div class="btn-row" style="margin-top: 1rem">
-                <a class="btn btn--primary" href="bai-tap.html"
-                  >Sang bài tập về nhà</a
-                >
-                <a class="btn btn--ghost" href="../index.html">Về trang chủ</a>
-              </div>
-            </article>
-          </div>
+            </div>
+          </section>
         </main>
       </div>
     </div>
@@ -308,12 +117,221 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
     <script>
-      renderMathInElement(document.getElementById("lesson"), {
-        delimiters: [
-          { left: "\\(", right: "\\)", display: false },
-          { left: "\\[", right: "\\]", display: true },
-        ],
+      const slides = [
+        {
+          title: "Giới thiệu",
+          html: `
+            <p class="deck__eyebrow">Chương I · 3 tiết</p>
+            <h2>Bài 1. Mệnh đề</h2>
+            <p>Mục tiêu: nhận biết mệnh đề; lập phủ định, kéo theo, đảo, tương đương; làm việc với \\(\\forall\\) và \\(\\exists\\).</p>
+          `,
+        },
+        {
+          title: "Khởi động",
+          html: `
+            <h2>Khởi động</h2>
+            <p>Khẳng định nào đúng / sai?</p>
+            <ul>
+              <li>“Khu vực có biển cấm ô tô thì ô tô không được đi vào.”</li>
+              <li>Bình: “\\(7\\) là số nguyên tố.” · An: “\\(7\\) không phải số nguyên tố.”</li>
+              <li>“Nếu An vượt đèn đỏ thì An vi phạm luật giao thông.”</li>
+            </ul>
+            <p class="slide-note">→ Đây chính là các <strong>mệnh đề</strong>: khẳng định đúng hoặc sai.</p>
+          `,
+        },
+        {
+          title: "Mệnh đề",
+          html: `
+            <h2>1. Mệnh đề</h2>
+            <div class="slide-def"><strong>Mệnh đề</strong> là một câu khẳng định đúng hoặc sai.</div>
+            <ul>
+              <li>Mỗi mệnh đề <em>hoặc đúng, hoặc sai</em>.</li>
+              <li>Không thể vừa đúng vừa sai.</li>
+              <li>Câu hỏi, câu cảm thán, câu mệnh lệnh <strong>không</strong> là mệnh đề.</li>
+            </ul>
+          `,
+        },
+        {
+          title: "Ví dụ nhận biết",
+          html: `
+            <h2>Ví dụ nhận biết</h2>
+            <div class="slide-grid">
+              <div class="slide-panel slide-panel--ok">
+                <h3>Là mệnh đề</h3>
+                <ul>
+                  <li>\\(13\\) là số nguyên tố. <span class="chip">đúng</span></li>
+                  <li>Tổng hai cạnh bất kì của tam giác nhỏ hơn cạnh còn lại. <span class="chip">sai</span></li>
+                </ul>
+              </div>
+              <div class="slide-panel slide-panel--bad">
+                <h3>Không phải mệnh đề</h3>
+                <ul>
+                  <li>Bạn đã làm bài tập chưa?</li>
+                  <li>Thời tiết hôm nay thật đẹp!</li>
+                </ul>
+              </div>
+            </div>
+          `,
+        },
+        {
+          title: "Chứa biến",
+          html: `
+            <h2>Mệnh đề chứa biến</h2>
+            <div class="slide-def">Câu có chứa biến, khi thay biến bằng giá trị cụ thể thì trở thành mệnh đề.</div>
+            <p>Ví dụ: “\\(x &gt; 5\\)”.</p>
+            <ul>
+              <li>\\(x = 6\\) → mệnh đề <span class="text-ok">đúng</span></li>
+              <li>\\(x = 4\\) → mệnh đề <span class="text-bad">sai</span></li>
+            </ul>
+          `,
+        },
+        {
+          title: "Phủ định",
+          html: `
+            <h2>2. Mệnh đề phủ định</h2>
+            <div class="slide-def">Phủ định của mệnh đề \\(P\\) kí hiệu \\(\\overline{P}\\) (hoặc \\(\\neg P\\)): tính đúng/sai <em>trái ngược</em> với \\(P\\).</div>
+            <ul>
+              <li>Thường thêm/bớt “không”, “không phải” trước vị ngữ.</li>
+              <li>Nếu \\(P\\) đúng thì \\(\\overline{P}\\) sai, và ngược lại.</li>
+            </ul>
+            <p class="slide-note">Ví dụ: \\(P\\): “\\(2022\\) chia hết cho \\(5\\)” → \\(\\overline{P}\\): “\\(2022\\) không chia hết cho \\(5\\)”.</p>
+          `,
+        },
+        {
+          title: "Kéo theo",
+          html: `
+            <h2>3. Mệnh đề kéo theo</h2>
+            <div class="slide-def">“Nếu \\(P\\) thì \\(Q\\)” kí hiệu \\(P \\Rightarrow Q\\).</div>
+            <ul>
+              <li>\\(P \\Rightarrow Q\\) <strong>chỉ sai</strong> khi \\(P\\) đúng và \\(Q\\) sai.</li>
+              <li>Các trường hợp còn lại: đúng.</li>
+            </ul>
+            <p class="slide-note">Định lí toán học thường có dạng \\(P \\Rightarrow Q\\): \\(P\\) là giả thiết, \\(Q\\) là kết luận.</p>
+          `,
+        },
+        {
+          title: "Cần · đủ",
+          html: `
+            <h2>Điều kiện cần · đủ</h2>
+            <p>Với định lí \\(P \\Rightarrow Q\\):</p>
+            <ul>
+              <li>\\(P\\) là <strong>điều kiện đủ</strong> để có \\(Q\\).</li>
+              <li>\\(Q\\) là <strong>điều kiện cần</strong> để có \\(P\\).</li>
+            </ul>
+            <p class="slide-note">Ví dụ: Nếu \\(a\\) và \\(b\\) chia hết cho \\(c\\) thì \\(a+b\\) chia hết cho \\(c\\).</p>
+          `,
+        },
+        {
+          title: "Mệnh đề đảo",
+          html: `
+            <h2>Mệnh đề đảo</h2>
+            <div class="slide-def">Đảo của \\(P \\Rightarrow Q\\) là \\(Q \\Rightarrow P\\).</div>
+            <p>Định lí đúng không đảm bảo mệnh đề đảo đúng.</p>
+            <p class="slide-note">Ví dụ đảo sai: “Nếu \\(a+b\\) chia hết cho \\(c\\) thì \\(a\\) và \\(b\\) chia hết cho \\(c\\)” — sai khi \\(a=1, b=2, c=3\\).</p>
+          `,
+        },
+        {
+          title: "Tương đương",
+          html: `
+            <h2>4. Mệnh đề tương đương</h2>
+            <div class="slide-def">“\\(P\\) nếu và chỉ nếu \\(Q\\)” kí hiệu \\(P \\Leftrightarrow Q\\).</div>
+            <ul>
+              <li>\\(P \\Leftrightarrow Q\\) đúng khi cả \\(P \\Rightarrow Q\\) và \\(Q \\Rightarrow P\\) đều đúng.</li>
+              <li>Nói: \\(P\\) tương đương \\(Q\\), hoặc \\(P\\) là <strong>điều kiện cần và đủ</strong> để có \\(Q\\).</li>
+            </ul>
+          `,
+        },
+        {
+          title: "Lượng từ",
+          html: `
+            <h2>5. Lượng từ \\(\\forall\\), \\(\\exists\\)</h2>
+            <ul>
+              <li>\\(\\forall\\): <strong>với mọi</strong></li>
+              <li>\\(\\exists\\): <strong>tồn tại</strong> (có ít nhất một)</li>
+            </ul>
+            <div class="slide-def">
+              \\(\\forall x \\in \\mathbb{R},\\; x^2 + 1 \\ge 0\\) — đúng.<br />
+              \\(\\forall x \\in \\mathbb{R},\\; x^2 + 1 \\le 0\\) — sai.
+            </div>
+          `,
+        },
+        {
+          title: "Phủ định ∀ ∃",
+          html: `
+            <h2>Phủ định lượng từ</h2>
+            <div class="slide-def">
+              \\(\\overline{\\forall x,\\; P(x)} \\;=\\; \\exists x,\\; \\overline{P(x)}\\)<br />
+              \\(\\overline{\\exists x,\\; P(x)} \\;=\\; \\forall x,\\; \\overline{P(x)}\\)
+            </div>
+            <p class="slide-note">“Mọi …” ↔ phủ định “Có ít nhất một … không …”</p>
+          `,
+        },
+        {
+          title: "Tóm tắt",
+          html: `
+            <h2>Tóm tắt nhanh</h2>
+            <ul>
+              <li>Mệnh đề: đúng hoặc sai</li>
+              <li>Phủ định \\(\\overline{P}\\)</li>
+              <li>Kéo theo \\(P \\Rightarrow Q\\) · Đảo \\(Q \\Rightarrow P\\)</li>
+              <li>Tương đương \\(P \\Leftrightarrow Q\\)</li>
+              <li>Lượng từ \\(\\forall\\), \\(\\exists\\) và cách phủ định</li>
+            </ul>
+            <p class="slide-note"><a class="btn btn--primary" href="bai-tap.html" style="margin-top:0.85rem">Làm bài tập về nhà</a></p>
+          `,
+        },
+      ];
+
+      let index = 0;
+      const body = document.getElementById("deckBody");
+      const bar = document.getElementById("deckBar");
+      const titleEl = document.getElementById("deckTitle");
+      const indexEl = document.getElementById("deckIndex");
+      const totalEl = document.getElementById("deckTotal");
+      const dots = document.getElementById("deckDots");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      totalEl.textContent = String(slides.length);
+      dots.innerHTML = slides
+        .map((_, i) => `<button type="button" data-i="${i}" aria-label="Slide ${i + 1}"></button>`)
+        .join("");
+
+      function show(i) {
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        const s = slides[index];
+        body.innerHTML = s.html;
+        titleEl.textContent = s.title;
+        indexEl.textContent = String(index + 1);
+        bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        nextBtn.textContent = index === slides.length - 1 ? "Hết" : "Tiếp →";
+        dots.querySelectorAll("button").forEach((b, n) => {
+          b.classList.toggle("is-active", n === index);
+        });
+        renderMathInElement(body, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+        });
+        history.replaceState(null, "", `#${index + 1}`);
+      }
+
+      prevBtn.addEventListener("click", () => show(index - 1));
+      nextBtn.addEventListener("click", () => show(index + 1));
+      dots.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-i]");
+        if (b) show(Number(b.dataset.i));
       });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") show(index + 1);
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") show(index - 1);
+      });
+
+      const hash = Number((location.hash || "").replace("#", ""));
+      show(Number.isFinite(hash) && hash >= 1 ? hash - 1 : 0);
 
       const toggle = document.getElementById("menuToggle");
       const overlay = document.getElementById("overlay");
