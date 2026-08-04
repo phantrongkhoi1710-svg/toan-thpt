@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css?v=7" />
+    <link rel="stylesheet" href="../css/style.css?v=8" />
   </head>
   <body>
     <div class="overlay" id="overlay" hidden></div>
@@ -81,7 +81,7 @@
         <main class="content">
           <div class="page-head" style="margin-bottom: 1rem">
             <h1>Slide bài giảng</h1>
-            <p>Bài 1. Mệnh đề · hình ảnh + trình bày sinh động kiểu video</p>
+            <p>Bài 1. Mệnh đề · hình ảnh · animation · câu hỏi tương tác</p>
           </div>
 
           <section class="deck" aria-label="Trình chiếu bài giảng">
@@ -131,26 +131,35 @@
         },
         {
           title: "Tình huống mở đầu",
+          quiz: {
+            type: "single",
+            correct: [1],
+            explain:
+              "Trong hình có voi, khỉ, ngựa, chó, mèo, chuột — <strong>6</strong> con vật. Khoa đúng, An sai. Câu hỏi “Có bao nhiêu…?” không phải mệnh đề.",
+          },
           html: `
             <div class="teach-pad">
-              <span class="teach-banner teach-banner--orange">Hoạt động mở đầu</span>
-              <h2>Có bao nhiêu con vật trong hình?</h2>
+              <span class="teach-banner teach-banner--orange">Hoạt động mở đầu · Tương tác</span>
+              <h2>Ai nói đúng về số con vật?</h2>
               <div class="teach-split teach-split--img-right">
                 <div>
-                  <div class="teach-vs">
-                    <div class="teach-bubble teach-bubble--bad">
+                  <p>Chọn một ý kiến, rồi bấm <strong>Kiểm tra</strong>.</p>
+                  <div class="teach-vs" data-quiz-options>
+                    <button type="button" class="teach-bubble teach-bubble--bad teach-pick" data-i="0">
                       <strong>An nói</strong>
                       <p>“Có <b>5</b> con vật xuất hiện trong hình vẽ.”</p>
-                    </div>
+                    </button>
                     <div class="teach-vs__mid">VS</div>
-                    <div class="teach-bubble teach-bubble--ok">
+                    <button type="button" class="teach-bubble teach-bubble--ok teach-pick" data-i="1">
                       <strong>Khoa nói</strong>
                       <p>“Có <b>6</b> con vật xuất hiện trong hình vẽ.”</p>
-                    </div>
+                    </button>
                   </div>
-                  <div class="teach-callout">
-                    Câu nào đúng / sai? Câu nào <strong>không</strong> xác định được tính đúng–sai?
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
                   </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
                 </div>
                 <div class="teach-media">
                   <img src="../images/sgk-animals.jpg" alt="Hình con vật trong SGK" />
@@ -200,19 +209,28 @@
         },
         {
           title: "Nhận biết mệnh đề",
+          quiz: {
+            type: "multi",
+            correct: [0, 1],
+            explain:
+              "A và B là mệnh đề (khẳng định đúng/sai). C là câu hỏi, D là câu cảm thán — không phải mệnh đề.",
+          },
           html: `
             <div class="teach-pad">
-              <span class="teach-banner teach-banner--blue">Phần 1</span>
-              <h2>Câu nào là mệnh đề?</h2>
-              <div class="teach-choices">
-                <div class="teach-choice"><span class="teach-choice__key">A</span><p>Phương trình \\(3x^2 - 5x + 2 = 0\\) có nghiệm nguyên.</p></div>
-                <div class="teach-choice"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(5 &lt; 7 - 3\\).</p></div>
-                <div class="teach-choice"><span class="teach-choice__key" style="background:#14b8a6">C</span><p>Có bao nhiêu dấu hiệu nhận biết hai tam giác đồng dạng?</p></div>
-                <div class="teach-choice"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>Đấy là cách xử lý khôn ngoan!</p></div>
+              <span class="teach-banner teach-banner--blue">Phần 1 · Tương tác</span>
+              <h2>Chọn tất cả câu <em>là mệnh đề</em></h2>
+              <p>Có thể chọn nhiều đáp án, rồi bấm Kiểm tra.</p>
+              <div class="teach-choices stagger" data-quiz-options>
+                <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>Phương trình \\(3x^2 - 5x + 2 = 0\\) có nghiệm nguyên.</p></button>
+                <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(5 &lt; 7 - 3\\).</p></button>
+                <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#14b8a6">C</span><p>Có bao nhiêu dấu hiệu nhận biết hai tam giác đồng dạng?</p></button>
+                <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>Đấy là cách xử lý khôn ngoan!</p></button>
               </div>
-              <div class="teach-callout">
-                <strong>Gợi ý:</strong> Mệnh đề phải là câu khẳng định <em>đúng hoặc sai</em>. Câu hỏi / cảm thán → không phải mệnh đề.
+              <div class="teach-quiz-actions">
+                <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
               </div>
+              <div class="teach-feedback" data-quiz-feedback></div>
             </div>
           `,
         },
@@ -238,24 +256,34 @@
         },
         {
           title: "Tranh luận đúng/sai",
+          quiz: {
+            type: "single",
+            correct: [0],
+            explain:
+              "Cả hai câu đều là mệnh đề. \\(2003\\) là số nguyên tố → Bình đúng, An sai.",
+          },
           html: `
             <div class="teach-pad">
-              <span class="teach-banner teach-banner--orange">Tình huống</span>
-              <h2>An và Bình đang tranh luận</h2>
+              <span class="teach-banner teach-banner--orange">Tình huống · Tương tác</span>
+              <h2>Ai đúng trong cuộc tranh luận?</h2>
               <div class="teach-split teach-split--img-right">
                 <div>
-                  <div class="teach-vs">
-                    <div class="teach-bubble teach-bubble--ok">
+                  <div class="teach-vs" data-quiz-options>
+                    <button type="button" class="teach-bubble teach-bubble--ok teach-pick" data-i="0">
                       <strong>Bình</strong>
                       <p>“\\(2003\\) là số nguyên tố.”</p>
-                    </div>
+                    </button>
                     <div class="teach-vs__mid">?</div>
-                    <div class="teach-bubble teach-bubble--bad">
+                    <button type="button" class="teach-bubble teach-bubble--bad teach-pick" data-i="1">
                       <strong>An</strong>
                       <p>“\\(2003\\) không phải là số nguyên tố.”</p>
-                    </div>
+                    </button>
                   </div>
-                  <div class="teach-callout">Hai câu đều là mệnh đề. Chỉ một trong hai đúng!</div>
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+                  </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
                 </div>
                 <div class="teach-media">
                   <img src="../images/sgk-debate-prime.jpg" alt="An và Bình tranh luận" />
@@ -293,20 +321,29 @@
         },
         {
           title: "Biển báo · Phủ định",
+          quiz: {
+            type: "single",
+            correct: [1],
+            explain:
+              "Phủ định của Khoa: “Đây <strong>không phải</strong> là biển báo đường dành cho người đi bộ.”",
+          },
           html: `
             <div class="teach-pad">
-              <span class="teach-banner teach-banner--orange">Phần 2 · Tình huống</span>
-              <h2>Khoa và An nhìn biển báo</h2>
+              <span class="teach-banner teach-banner--orange">Phần 2 · Tương tác</span>
+              <h2>An phủ định Khoa thế nào?</h2>
               <div class="teach-split teach-split--img-right">
                 <div>
-                  <div class="teach-bubble teach-bubble--bad" style="margin-bottom:0.75rem">
-                    <strong>Khoa nói</strong>
-                    <p>“Đây là biển báo đường dành cho người đi bộ.”</p>
+                  <p>Khoa: “Đây là biển báo đường dành cho người đi bộ.” — Chọn phát biểu của An:</p>
+                  <div class="teach-choices stagger" data-quiz-options>
+                    <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>Biển báo này đẹp quá!</p></button>
+                    <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>Đây không phải là biển báo đường dành cho người đi bộ.</p></button>
+                    <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#14b8a6">C</span><p>Có phải biển người đi bộ không?</p></button>
                   </div>
-                  <p>An không đồng ý. Nếu em là An, hãy phát biểu dưới dạng mệnh đề phủ định.</p>
-                  <div class="teach-callout">
-                    Gợi ý: thêm “không phải” → “Đây <strong>không phải</strong> là biển báo đường dành cho người đi bộ.”
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
                   </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
                 </div>
                 <div class="teach-media">
                   <img src="../images/slide-pedestrian.jpg" alt="Biển báo người đi bộ" />
@@ -341,21 +378,28 @@
         },
         {
           title: "Kéo theo",
+          quiz: {
+            type: "single",
+            correct: [0],
+            explain:
+              "Mệnh đề kéo theo đúng: tiền đề đúng và kết luận đúng. “Nếu An vượt đèn đỏ thì An vi phạm luật giao thông.” là mệnh đề đúng.",
+          },
           html: `
             <div class="teach-pad">
-              <span class="teach-banner teach-banner--teal">Phần 3</span>
-              <h2>Mệnh đề kéo theo</h2>
+              <span class="teach-banner teach-banner--teal">Phần 3 · Tương tác</span>
+              <h2>Mệnh đề kéo theo này đúng hay sai?</h2>
               <div class="teach-split teach-split--img-right">
                 <div>
-                  <div class="teach-def">“Nếu \\(P\\) thì \\(Q\\)” kí hiệu \\(P \\Rightarrow Q\\).</div>
-                  <ul>
-                    <li>\\(P \\Rightarrow Q\\) <strong>chỉ sai</strong> khi \\(P\\) đúng và \\(Q\\) sai.</li>
-                    <li>Định lí toán thường có dạng \\(P \\Rightarrow Q\\).</li>
-                    <li>\\(P\\): giả thiết · \\(Q\\): kết luận</li>
-                  </ul>
-                  <div class="teach-callout">
-                    Ví dụ giao thông: “Nếu An vượt đèn đỏ thì An vi phạm luật giao thông.”
+                  <div class="teach-def">“Nếu An vượt đèn đỏ thì An vi phạm luật giao thông.”</div>
+                  <div class="teach-choices" data-quiz-options>
+                    <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>Đúng</p></button>
+                    <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>Sai</p></button>
                   </div>
+                  <div class="teach-quiz-actions">
+                    <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                    <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+                  </div>
+                  <div class="teach-feedback" data-quiz-feedback></div>
                 </div>
                 <div class="teach-media">
                   <img src="../images/sgk-redlight.jpg" alt="Tình huống vượt đèn đỏ" />
@@ -484,6 +528,7 @@
       ];
 
       let index = 0;
+      const answered = {};
       const body = document.getElementById("deckBody");
       const bar = document.getElementById("deckBar");
       const titleEl = document.getElementById("deckTitle");
@@ -498,11 +543,110 @@
         .map((_, i) => `<button type="button" data-i="${i}" aria-label="Slide ${i + 1}"></button>`)
         .join("");
 
-      function show(i) {
+      function sameSet(a, b) {
+        if (a.length !== b.length) return false;
+        const sa = [...a].sort().join(",");
+        const sb = [...b].sort().join(",");
+        return sa === sb;
+      }
+
+      function bindQuiz(slideIndex) {
+        const slide = slides[slideIndex];
+        if (!slide.quiz) return;
+
+        const optsWrap = body.querySelector("[data-quiz-options]");
+        const checkBtn = body.querySelector("[data-quiz-check]");
+        const resetBtn = body.querySelector("[data-quiz-reset]");
+        const feedback = body.querySelector("[data-quiz-feedback]");
+        if (!optsWrap || !checkBtn || !feedback) return;
+
+        const options = [...optsWrap.querySelectorAll("[data-i]")];
+        let selected = new Set(answered[slideIndex]?.selected || []);
+        let locked = Boolean(answered[slideIndex]?.locked);
+
+        function paint() {
+          options.forEach((el) => {
+            const i = Number(el.dataset.i);
+            el.classList.toggle("is-selected", selected.has(i));
+            el.classList.remove("is-correct", "is-wrong");
+            if (locked) {
+              el.disabled = true;
+              const should = slide.quiz.correct.includes(i);
+              if (should) el.classList.add("is-correct");
+              else if (selected.has(i)) el.classList.add("is-wrong");
+            } else {
+              el.disabled = false;
+            }
+          });
+          if (resetBtn) resetBtn.hidden = !locked;
+          checkBtn.disabled = locked;
+        }
+
+        options.forEach((el) => {
+          el.addEventListener("click", () => {
+            if (locked) return;
+            const i = Number(el.dataset.i);
+            if (slide.quiz.type === "multi") {
+              if (selected.has(i)) selected.delete(i);
+              else selected.add(i);
+            } else {
+              selected = new Set([i]);
+            }
+            paint();
+          });
+        });
+
+        checkBtn.addEventListener("click", () => {
+          if (!selected.size) {
+            feedback.className = "teach-feedback is-visible is-bad";
+            feedback.textContent = "Hãy chọn đáp án trước đã nhé.";
+            return;
+          }
+          locked = true;
+          const ok = sameSet([...selected], slide.quiz.correct);
+          answered[slideIndex] = { selected: [...selected], locked: true, ok };
+          feedback.className = `teach-feedback is-visible ${ok ? "is-ok" : "is-bad"}`;
+          feedback.innerHTML = `<strong>${ok ? "Chính xác!" : "Chưa đúng."}</strong> ${slide.quiz.explain}`;
+          renderMathInElement(feedback, {
+            delimiters: [
+              { left: "\\(", right: "\\)", display: false },
+              { left: "\\[", right: "\\]", display: true },
+            ],
+          });
+          paint();
+        });
+
+        resetBtn?.addEventListener("click", () => {
+          locked = false;
+          selected = new Set();
+          delete answered[slideIndex];
+          feedback.className = "teach-feedback";
+          feedback.innerHTML = "";
+          paint();
+        });
+
+        if (locked) {
+          const ok = answered[slideIndex].ok;
+          feedback.className = `teach-feedback is-visible ${ok ? "is-ok" : "is-bad"}`;
+          feedback.innerHTML = `<strong>${ok ? "Chính xác!" : "Chưa đúng."}</strong> ${slide.quiz.explain}`;
+          renderMathInElement(feedback, {
+            delimiters: [
+              { left: "\\(", right: "\\)", display: false },
+              { left: "\\[", right: "\\]", display: true },
+            ],
+          });
+        }
+        paint();
+      }
+
+      function show(i, dir = 1) {
         index = Math.max(0, Math.min(slides.length - 1, i));
         const s = slides[index];
+        body.classList.remove("anim-in");
+        void body.offsetWidth;
         body.innerHTML = s.html;
-        titleEl.textContent = s.title;
+        body.classList.add("anim-in");
+        titleEl.textContent = s.title + (s.quiz ? " · Tương tác" : "");
         indexEl.textContent = String(index + 1);
         bar.style.width = `${((index + 1) / slides.length) * 100}%`;
         prevBtn.disabled = index === 0;
@@ -517,16 +661,18 @@
             { left: "\\[", right: "\\]", display: true },
           ],
         });
+        bindQuiz(index);
         history.replaceState(null, "", `#${index + 1}`);
       }
 
-      prevBtn.addEventListener("click", () => show(index - 1));
-      nextBtn.addEventListener("click", () => show(index + 1));
+      prevBtn.addEventListener("click", () => show(index - 1, -1));
+      nextBtn.addEventListener("click", () => show(index + 1, 1));
       dots.addEventListener("click", (e) => {
         const b = e.target.closest("button[data-i]");
         if (b) show(Number(b.dataset.i));
       });
       document.addEventListener("keydown", (e) => {
+        if (e.target.matches("input, textarea")) return;
         if (e.key === "ArrowRight" || e.key === "ArrowDown") show(index + 1);
         if (e.key === "ArrowLeft" || e.key === "ArrowUp") show(index - 1);
       });

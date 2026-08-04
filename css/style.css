@@ -1348,7 +1348,161 @@ body.sidebar-open .overlay {
   background: #fff;
   border: 1.5px solid var(--line);
   box-shadow: var(--shadow);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease,
+    box-shadow 0.15s ease;
 }
+
+.teach-choice:hover {
+  transform: translateY(-2px);
+  border-color: #93c5fd;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+}
+
+.teach-choice.is-selected {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.teach-choice.is-correct {
+  border-color: #14b8a6;
+  background: #ccfbf1;
+}
+
+.teach-choice.is-wrong {
+  border-color: #f43f5e;
+  background: #ffe4e6;
+}
+
+.teach-choice:disabled {
+  cursor: default;
+  transform: none;
+}
+
+.teach-pick {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.teach-pick:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+.teach-pick.is-selected {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.teach-pick.is-correct {
+  outline: 2px solid #14b8a6;
+  background: #f0fdfa;
+}
+
+.teach-pick.is-wrong {
+  outline: 2px solid #f43f5e;
+  background: #fff1f2;
+}
+
+.teach-feedback {
+  display: none;
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  animation: popIn 0.35s ease both;
+}
+
+.teach-feedback.is-visible {
+  display: block;
+}
+
+.teach-feedback.is-ok {
+  background: #ccfbf1;
+  color: #115e59;
+}
+
+.teach-feedback.is-bad {
+  background: #ffe4e6;
+  color: #9f1239;
+}
+
+.teach-quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.anim-in {
+  animation: slideIn 0.4s ease both;
+}
+
+.stagger > * {
+  opacity: 0;
+  animation: riseSoft 0.45s ease forwards;
+}
+
+.stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes riseSoft {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.deck__body.teach.anim-in {
+  animation: slideIn 0.35s ease both;
+}
+
 
 .teach-choice__key {
   flex-shrink: 0;
@@ -1381,6 +1535,9 @@ body.sidebar-open .overlay {
   border-radius: 16px;
   padding: 1rem;
   box-shadow: var(--shadow);
+  font: inherit;
+  color: inherit;
+  text-align: left;
 }
 
 .teach-bubble--ok {
