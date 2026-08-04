@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-    <link rel="stylesheet" href="../css/style.css?v=11" />
+    <link rel="stylesheet" href="../css/style.css?v=12" />
   </head>
   <body>
     <div class="overlay" id="overlay" hidden></div>
@@ -110,7 +110,7 @@
             <h2>Vé loại 1: 50k · Vé loại 2: 100k · Cần ≥ 20 triệu để không lỗ</h2>
             <div class="teach-split teach-split--img-right">
               <div>
-                <p>Gọi \\(x\\) = số vé loại 1, \\(y\\) = số vé loại 2. Điều kiện <strong>bù lỗ</strong> là?</p>
+                <p>Gọi \\(x\\) = số vé loại 1 (50&nbsp;000đ), \\(y\\) = số vé loại 2 (100&nbsp;000đ). Rạp <strong>bù lỗ</strong> khi doanh thu <em>nhỏ hơn</em> 20&nbsp;000&nbsp;000 đồng. Bất phương trình nào mô tả đúng điều kiện đó?</p>
                 <div class="teach-choices" data-quiz-options>
                   <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(50000x + 100000y = 20000000\\)</p></button>
                   <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(50000x + 100000y &lt; 20000000\\)</p></button>
@@ -157,15 +157,15 @@
         },
         {
           title: "Nhận biết BPT",
-          quiz: { type:"single", correct:[0], explain:"\\(2x - y + 1 &lt; 0\\) đúng dạng bậc nhất hai ẩn. \\(x^2 + y &lt; 1\\) có \\(x^2\\) nên không phải bậc nhất." },
+          quiz: { type:"single", correct:[0], explain:"\\(2x - y + 1 &lt; 0\\) đúng dạng bậc nhất hai ẩn. \\(x^2 + y &lt; 1\\) có \\(x^2\\). \\(x+3=0\\) là phương trình một ẩn. \\(xy-2&gt;0\\) có tích \\(xy\\)." },
           html: `<div class="teach-pad">
             <span class="teach-banner teach-banner--amber">Tập 1 · Tương tác</span>
-            <h2>Cái nào là BPT bậc nhất hai ẩn?</h2>
+            <h2>Biểu thức nào là bất phương trình bậc nhất hai ẩn?</h2>
             <div class="teach-choices" data-quiz-options>
               <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(2x - y + 1 &lt; 0\\)</p></button>
               <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(x^2 + y &lt; 1\\)</p></button>
-              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\(x + 3 = 0\\) (một ẩn)</p></button>
-              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\(\\sin x + y &gt; 0\\)</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\(x + 3 = 0\\) (phương trình một ẩn)</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\(xy - 2 &gt; 0\\)</p></button>
             </div>
             <div class="teach-quiz-actions">
               <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
@@ -176,10 +176,11 @@
         },
         {
           title: "Kiểm tra nghiệm",
-          quiz: { type:"single", correct:[0], explain:"Với \\(x-2y+1&lt;0\\): điểm \\((0;1)\\) cho \\(1-2&lt;0\\) đúng → là nghiệm. \\((0;0)\\) cho \\(1&lt;0\\) sai." },
+          quiz: { type:"single", correct:[0], explain:"Với \\(x-2y+1&lt;0\\): \\((0;1)\\) cho \\(-1&lt;0\\) đúng → là nghiệm. \\((0;0)\\) cho \\(1&lt;0\\) sai; \\((3;0)\\) cho \\(4&lt;0\\) sai; \\((2;-1)\\) cho \\(5&lt;0\\) sai." },
           html: `<div class="teach-pad">
             <span class="teach-banner teach-banner--rose">Tập 2 · Tương tác</span>
-            <h2>BPT \\(x - 2y + 1 &lt; 0\\). Cặp nào là nghiệm?</h2>
+            <h2>Cho BPT \\(x - 2y + 1 &lt; 0\\). Cặp số nào là một nghiệm?</h2>
+            <p>Hãy thay từng cặp vào vế trái rồi so với 0.</p>
             <div class="teach-choices" data-quiz-options>
               <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\((0; 1)\\)</p></button>
               <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\((0; 0)\\)</p></button>
@@ -213,12 +214,13 @@
         },
         {
           title: "Lab nửa mặt phẳng",
-          quiz: { type:"halfplane", correct:["below"], explain:"Thử \\((0;0)\\): nếu biểu thức dương/âm sẽ chỉ ra nửa mặt phẳng chứa hoặc không chứa gốc. Trong hình minh họa, miền A (cam) là nửa “dưới/phải” đường thẳng — chọn vùng A." },
+          quiz: { type:"halfplane", correct:["below"], explain:"Thử \\(O(0;0)\\): \\(0+0=0&lt;400\\) đúng ⇒ miền nghiệm của \\(x+2y&lt;400\\) là nửa mặt phẳng <strong>chứa gốc</strong> — vùng A (cam) trong hình." },
           html: `<div class="teach-pad">
             <span class="teach-banner teach-banner--amber">Tập 3 · Lab · Tương tác</span>
-            <h2>Bấm nửa mặt phẳng là miền nghiệm (vùng A)</h2>
+            <h2>Cho BPT \\(x + 2y &lt; 400\\). Đường vàng là biên \\(x+2y=400\\).</h2>
+            <p>Thử điểm \\(O(0;0)\\) (không nằm trên biên). Kết quả đúng ⇒ miền nghiệm chứa gốc. Hãy <strong>bấm nửa mặt phẳng chứa gốc</strong> (vùng A — màu cam).</p>
             ${halfPlaneSVG}
-            <p class="venn-caption">Đường vàng = bờ · chọn miền tô màu cam (A)</p>
+            <p class="venn-caption">A = nửa chứa \\(O\\) · B = nửa không chứa \\(O\\) · đường vàng = biên</p>
             <div class="teach-quiz-actions">
               <button type="button" class="btn btn--primary" data-quiz-check>Khóa đáp án</button>
               <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Thử lại</button>
@@ -242,15 +244,36 @@
         },
         {
           title: "Vé không lỗ",
-          quiz: { type:"single", correct:[2], explain:"Không lỗ khi \\(50000x+100000y \\ge 20000000\\). Chia 50000: \\(x+2y \\ge 400\\). Ví dụ \\((0;200)\\) hoặc \\((400;0)\\) đều OK." },
+          quiz: { type:"single", correct:[2], explain:"Điều kiện không lỗ: \\(x+2y\\ge400\\). Với \\(x=80\\): \\(80+2y\\ge400\\Rightarrow y\\ge160\\). Vậy cần ít nhất 160 vé loại 2." },
           html: `<div class="teach-pad">
             <span class="teach-banner teach-banner--amber">Vận dụng · Tương tác</span>
-            <h2>Cặp \\((x;y)\\) nào giúp rạp <em>không bù lỗ</em>?</h2>
+            <h2>Không lỗ khi \\(x+2y\\ge400\\) (\\(x\\): vé loại 1 · \\(y\\): vé loại 2)</h2>
+            <p>Rạp đã bán được <strong>80 vé loại 1</strong>. Cần bán <strong>ít nhất</strong> bao nhiêu vé loại 2 để không lỗ?</p>
             <div class="teach-choices" data-quiz-options>
-              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\((0; 100)\\) — 10 triệu</p></button>
-              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\((100; 50)\\) — 10 triệu</p></button>
-              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\((0; 200)\\) — 20 triệu</p></button>
-              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\((50; 50)\\) — 7,5 triệu</p></button>
+              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>120 vé</p></button>
+              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>140 vé</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>160 vé</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>200 vé</p></button>
+            </div>
+            <div class="teach-quiz-actions">
+              <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+              <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+            </div>
+            <div class="teach-feedback" data-quiz-feedback></div>
+          </div>`
+        },
+        {
+          title: "Hai điều kiện",
+          quiz: { type:"single", correct:[1], explain:"Cần \\(x+2y\\ge400\\) và \\(y\\le x/2\\). Chỉ \\((300;100)\\): \\(300+200=500\\ge400\\) và \\(100\\le150\\). Các cặp khác vi phạm ít nhất một điều kiện." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Vận dụng nâng cao</span>
+            <h2>Không lỗ \\(x+2y\\ge400\\) và thêm ràng buộc \\(y\\le\\dfrac{x}{2}\\)</h2>
+            <p>Cặp \\((x;y)\\) nào thỏa <strong>đồng thời</strong> cả hai điều kiện? (\\(x,y\\ge0\\))</p>
+            <div class="teach-choices" data-quiz-options>
+              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\((200; 120)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\((300; 100)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\((100; 200)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\((250; 140)\\)</p></button>
             </div>
             <div class="teach-quiz-actions">
               <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
