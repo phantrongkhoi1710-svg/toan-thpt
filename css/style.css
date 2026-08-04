@@ -2228,3 +2228,50 @@ body.sidebar-open .overlay {
   background: #e0e7ff;
   color: #4338ca;
 }
+
+/* ——— Bài 3 · Rạp Chiếu Phim / Miền Nghiệm ——— */
+.map-board--cinema {
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, #fecdd355, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, #fda4af33, transparent 50%),
+    linear-gradient(180deg, #fff7ed 0%, #f8fafc 45%, #fff1f2 100%);
+  border-radius: 24px;
+  padding: 1.25rem 1rem 2rem;
+  border: 1px solid #fed7aa;
+  max-width: 600px;
+}
+.map-board--cinema .map-path::before {
+  background: repeating-linear-gradient(180deg, #fb923c 0 10px, transparent 10px 20px);
+  opacity: 0.55;
+}
+.map-node__btn--cinema {
+  border-radius: 18px !important;
+  background: linear-gradient(160deg, #fb923c, #e11d48) !important;
+}
+.map-node__btn--cinema.map-node__btn--2 {
+  background: linear-gradient(160deg, #fbbf24, #ea580c) !important;
+}
+.map-node__btn--cinema.map-node__btn--3 {
+  background: linear-gradient(160deg, #f472b6, #be123c) !important;
+}
+.map-node__btn--cinema.map-node__btn--4 {
+  background: linear-gradient(160deg, #c084fc, #7c3aed) !important;
+}
+.halfplane {
+  position: relative;
+  width: min(360px, 100%);
+  height: 240px;
+  margin: 0.75rem auto;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0f172a;
+}
+.halfplane svg { width: 100%; height: 100%; display: block; }
+.hp-zone { cursor: pointer; transition: opacity 0.2s ease; }
+.hp-zone:hover { opacity: 0.95; }
+.hp-zone.is-selected { stroke: #fde68a; stroke-width: 3; }
+.hp-zone.is-correct { stroke: #4ade80; stroke-width: 3; filter: brightness(1.15); }
+.hp-zone.is-wrong { stroke: #fb7185; stroke-width: 3; filter: grayscale(0.3); }
+.teach-banner--amber { background: #ffedd5; color: #9a3412; }
+.teach-banner--rose { background: #ffe4e6; color: #9f1239; }

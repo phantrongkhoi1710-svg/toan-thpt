@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>Slide — Bài 3. BPT bậc nhất hai ẩn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <link rel="stylesheet" href="../css/style.css?v=11" />
+  </head>
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="../index.html">
+          <span class="brand__mark" style="background:linear-gradient(135deg,#fb923c,#e11d48)" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 6V4h10v2"/></svg>
+          </span>
+          Toán THPT
+        </a>
+        <nav>
+          <p class="nav-group__label">Học tập</p>
+          <ul class="nav-list">
+            <li><a href="../index.html"><span class="ico">⌂</span> Trang chủ</a></li>
+            <li><a class="is-active" href="slides.html"><span class="ico">▣</span> Slide Bài 3</a></li>
+            <li><a href="bai-tap.html"><span class="ico">🎟</span> Rạp Nghiệm</a></li>
+            <li><a href="../bai-1-menh-de/slides.html"><span class="ico">1</span> Bài 1</a></li>
+            <li><a href="../bai-2-tap-hop/slides.html"><span class="ico">2</span> Bài 2</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar__foot"><strong>Rạp Chiếu Phim</strong> Lập BPT từ tình huống vé · bấm nửa mặt phẳng để chọn miền nghiệm.</div>
+      </aside>
+      <div class="main-col">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu">☰</button>
+          <label class="search"><span>⌕</span><input type="search" placeholder="Tìm trong BPT hai ẩn..." /></label>
+          <div class="topbar__actions">
+            <a class="btn btn--ghost" href="bai-tap.html">Rạp Nghiệm →</a>
+            <div class="avatar" style="background:linear-gradient(135deg,#fb923c,#e11d48)">HS</div>
+          </div>
+        </header>
+        <main class="content">
+          <div class="page-head" style="margin-bottom:1rem">
+            <h1>Bài 3 · Bất phương trình bậc nhất hai ẩn</h1>
+            <p>3 tiết · Rạp Chiếu Phim · miền nghiệm tương tác</p>
+          </div>
+          <section class="deck">
+            <div class="deck__card">
+              <div class="deck__progress"><i id="deckBar" style="width:8%;background:linear-gradient(90deg,#fb923c,#e11d48)"></i></div>
+              <div class="deck__body teach" id="deckBody"></div>
+              <div class="deck__foot">
+                <div class="deck__meta"><strong id="deckTitle">Mở đầu</strong><span>Slide <span id="deckIndex">1</span> / <span id="deckTotal">0</span></span></div>
+                <div class="deck__dots" id="deckDots"></div>
+                <div class="deck__actions">
+                  <button type="button" class="btn btn--ghost" id="prevBtn">← Trước</button>
+                  <button type="button" class="btn btn--primary" id="nextBtn" style="background:linear-gradient(135deg,#f97316,#e11d48);box-shadow:0 8px 20px rgba(225,29,72,.3)">Tiếp →</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+      const halfPlaneSVG = `
+        <div class="halfplane" aria-label="Miền nghiệm tương tác">
+          <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fb923c" stop-opacity="0.55"/><stop offset="1" stop-color="#f97316" stop-opacity="0.25"/></linearGradient>
+              <linearGradient id="gB" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#818cf8" stop-opacity="0.45"/><stop offset="1" stop-color="#6366f1" stop-opacity="0.2"/></linearGradient>
+            </defs>
+            <rect width="360" height="240" fill="#0f172a"/>
+            <!-- axes -->
+            <line x1="40" y1="200" x2="330" y2="200" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#64748b" stroke-width="1.5"/>
+            <!-- half planes: line roughly x+2y=400 scaled visually as diagonal -->
+            <polygon class="hp-zone" data-zone="below" points="60,200 320,200 320,50 60,200" fill="url(#gA)" stroke="#fb923c" stroke-width="1"/>
+            <polygon class="hp-zone" data-zone="above" points="60,200 60,40 320,50 60,200" fill="url(#gB)" stroke="#818cf8" stroke-width="1"/>
+            <line x1="60" y1="200" x2="320" y2="50" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="60" cy="200" r="4" fill="#f8fafc"/>
+            <text x="300" y="215" fill="#94a3b8" font-size="12">Ox</text>
+            <text x="40" y="40" fill="#94a3b8" font-size="12">Oy</text>
+            <text x="200" y="170" fill="#fdba74" font-size="13" font-weight="700" pointer-events="none">A</text>
+            <text x="100" y="100" fill="#a5b4fc" font-size="13" font-weight="700" pointer-events="none">B</text>
+          </svg>
+        </div>`;
+
+      const slides = [
+        {
+          title: "Rạp Chiếu Phim",
+          html: `<div class="teach-hero" style="background:linear-gradient(135deg,#7c2d12 0%,#9f1239 45%,#4c1d95 100%)">
+            <div class="teach-hero__text">
+              <p class="deck__eyebrow">Toán 10 · 3 tiết</p>
+              <h2>Bài 3. Bất phương trình bậc nhất hai ẩn</h2>
+              <p>Ngày 1/6 · rạp phim hoạt hình · bao nhiêu vé thì không bù lỗ? Đó chính là BPT hai ẩn.</p>
+            </div>
+            <div class="teach-hero__art"><img src="../images/bai3/cinema.jpg" alt="Rạp chiếu phim"/></div>
+          </div>`
+        },
+        {
+          title: "Tình huống vé",
+          quiz: { type:"single", correct:[1], explain:"Doanh thu = \\(50000x + 100000y\\). Bù lỗ khi doanh thu &lt; 20 triệu → \\(50000x + 100000y &lt; 20000000\\)." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--amber">Mở đầu · Tương tác</span>
+            <h2>Vé loại 1: 50k · Vé loại 2: 100k · Cần ≥ 20 triệu để không lỗ</h2>
+            <div class="teach-split teach-split--img-right">
+              <div>
+                <p>Gọi \\(x\\) = số vé loại 1, \\(y\\) = số vé loại 2. Điều kiện <strong>bù lỗ</strong> là?</p>
+                <div class="teach-choices" data-quiz-options>
+                  <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(50000x + 100000y = 20000000\\)</p></button>
+                  <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(50000x + 100000y &lt; 20000000\\)</p></button>
+                  <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\(x + y &lt; 20\\)</p></button>
+                  <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\(x &gt; y\\)</p></button>
+                </div>
+                <div class="teach-quiz-actions">
+                  <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+                  <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+                </div>
+                <div class="teach-feedback" data-quiz-feedback></div>
+              </div>
+              <div class="teach-media"><img src="../images/bai3/sgk-1.jpg" alt="Tình huống SGK"/></div>
+            </div>
+          </div>`
+        },
+        {
+          title: "Lộ trình 3 tập",
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Suất chiếu kiến thức</span>
+            <h2>Ba tập phim hôm nay</h2>
+            <div class="teach-parts">
+              <div class="teach-part"><div class="teach-part__n" style="background:#f97316">1</div><h3>Định nghĩa</h3><p>Dạng \\(ax+by+c \\lessgtr 0\\)</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#e11d48">2</div><h3>Nghiệm</h3><p>Cặp \\((x_0;y_0)\\) làm BPT đúng</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#7c3aed">3</div><h3>Miền nghiệm</h3><p>Nửa mặt phẳng trên tọa độ</p></div>
+            </div>
+            <div class="teach-media" style="margin-top:1rem"><img src="../images/bai3/halfplane.jpg" alt="Miền nghiệm"/></div>
+          </div>`
+        },
+        {
+          title: "Định nghĩa",
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--amber">Tập 1</span>
+            <h2>Bất phương trình bậc nhất hai ẩn</h2>
+            <div class="teach-def">
+              Dạng tổng quát: \\(ax + by + c &lt; 0\\) (hoặc \\(&gt;, \\le, \\ge\\)),<br/>
+              trong đó \\(a,b,c \\in \\mathbb{R}\\), \\(a\\) và \\(b\\) <strong>không đồng thời bằng 0</strong>, \\(x,y\\) là ẩn.
+            </div>
+            <ul>
+              <li>\\((x_0; y_0)\\) là nghiệm nếu thay vào làm bất đẳng thức đúng.</li>
+              <li>BPT bậc nhất hai ẩn luôn có <strong>vô số nghiệm</strong>.</li>
+            </ul>
+          </div>`
+        },
+        {
+          title: "Nhận biết BPT",
+          quiz: { type:"single", correct:[0], explain:"\\(2x - y + 1 &lt; 0\\) đúng dạng bậc nhất hai ẩn. \\(x^2 + y &lt; 1\\) có \\(x^2\\) nên không phải bậc nhất." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--amber">Tập 1 · Tương tác</span>
+            <h2>Cái nào là BPT bậc nhất hai ẩn?</h2>
+            <div class="teach-choices" data-quiz-options>
+              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\(2x - y + 1 &lt; 0\\)</p></button>
+              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\(x^2 + y &lt; 1\\)</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\(x + 3 = 0\\) (một ẩn)</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\(\\sin x + y &gt; 0\\)</p></button>
+            </div>
+            <div class="teach-quiz-actions">
+              <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+              <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+            </div>
+            <div class="teach-feedback" data-quiz-feedback></div>
+          </div>`
+        },
+        {
+          title: "Kiểm tra nghiệm",
+          quiz: { type:"single", correct:[0], explain:"Với \\(x-2y+1&lt;0\\): điểm \\((0;1)\\) cho \\(1-2&lt;0\\) đúng → là nghiệm. \\((0;0)\\) cho \\(1&lt;0\\) sai." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Tập 2 · Tương tác</span>
+            <h2>BPT \\(x - 2y + 1 &lt; 0\\). Cặp nào là nghiệm?</h2>
+            <div class="teach-choices" data-quiz-options>
+              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\((0; 1)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\((0; 0)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\((3; 0)\\)</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\((2; -1)\\)</p></button>
+            </div>
+            <div class="teach-quiz-actions">
+              <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+              <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+            </div>
+            <div class="teach-feedback" data-quiz-feedback></div>
+          </div>`
+        },
+        {
+          title: "Miền nghiệm",
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Tập 3</span>
+            <h2>Miền nghiệm trên mặt phẳng</h2>
+            <div class="teach-split teach-split--img-right">
+              <div>
+                <div class="teach-def">Tập hợp các điểm \\((x;y)\\) là nghiệm gọi là <strong>miền nghiệm</strong>.</div>
+                <ul>
+                  <li>Đường thẳng \\(ax+by+c=0\\) chia mặt phẳng thành 2 nửa mặt phẳng.</li>
+                  <li>Một nửa thỏa \\(ax+by+c&gt;0\\), nửa kia thỏa \\(&lt;0\\).</li>
+                  <li>Bờ: có kể hay không tùy \\(\\le, \\ge\\) hay \\(&lt;, &gt;\\).</li>
+                </ul>
+              </div>
+              <div class="teach-media"><img src="../images/bai3/sgk-2.jpg" alt="Miền nghiệm SGK"/></div>
+            </div>
+          </div>`
+        },
+        {
+          title: "Lab nửa mặt phẳng",
+          quiz: { type:"halfplane", correct:["below"], explain:"Thử \\((0;0)\\): nếu biểu thức dương/âm sẽ chỉ ra nửa mặt phẳng chứa hoặc không chứa gốc. Trong hình minh họa, miền A (cam) là nửa “dưới/phải” đường thẳng — chọn vùng A." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--amber">Tập 3 · Lab · Tương tác</span>
+            <h2>Bấm nửa mặt phẳng là miền nghiệm (vùng A)</h2>
+            ${halfPlaneSVG}
+            <p class="venn-caption">Đường vàng = bờ · chọn miền tô màu cam (A)</p>
+            <div class="teach-quiz-actions">
+              <button type="button" class="btn btn--primary" data-quiz-check>Khóa đáp án</button>
+              <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Thử lại</button>
+            </div>
+            <div class="teach-feedback" data-quiz-feedback></div>
+          </div>`
+        },
+        {
+          title: "4 bước vẽ",
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Kỹ xảo đạo diễn</span>
+            <h2>Biểu diễn miền nghiệm — 4 bước</h2>
+            <div class="teach-parts">
+              <div class="teach-part"><div class="teach-part__n" style="background:#f97316">1</div><h3>Vẽ bờ</h3><p>Đường thẳng \\(ax+by+c=0\\)</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#e11d48">2</div><h3>Chọn điểm thử</h3><p>Không nằm trên bờ (hay dùng O)</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#7c3aed">3</div><h3>Thay &amp; so sánh</h3><p>Xem bất đẳng thức đúng/sai</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#0ea5e9">4</div><h3>Tô miền</h3><p>Nửa mặt phẳng thỏa · nhớ bờ</p></div>
+            </div>
+            <div class="teach-callout">Mẹo: nếu \\((0;0)\\) thỏa → miền chứa gốc; không thỏa → miền không chứa gốc.</div>
+          </div>`
+        },
+        {
+          title: "Vé không lỗ",
+          quiz: { type:"single", correct:[2], explain:"Không lỗ khi \\(50000x+100000y \\ge 20000000\\). Chia 50000: \\(x+2y \\ge 400\\). Ví dụ \\((0;200)\\) hoặc \\((400;0)\\) đều OK." },
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--amber">Vận dụng · Tương tác</span>
+            <h2>Cặp \\((x;y)\\) nào giúp rạp <em>không bù lỗ</em>?</h2>
+            <div class="teach-choices" data-quiz-options>
+              <button type="button" class="teach-choice" data-i="0"><span class="teach-choice__key">A</span><p>\\((0; 100)\\) — 10 triệu</p></button>
+              <button type="button" class="teach-choice" data-i="1"><span class="teach-choice__key" style="background:#f97316">B</span><p>\\((100; 50)\\) — 10 triệu</p></button>
+              <button type="button" class="teach-choice" data-i="2"><span class="teach-choice__key" style="background:#e11d48">C</span><p>\\((0; 200)\\) — 20 triệu</p></button>
+              <button type="button" class="teach-choice" data-i="3"><span class="teach-choice__key" style="background:#8b5cf6">D</span><p>\\((50; 50)\\) — 7,5 triệu</p></button>
+            </div>
+            <div class="teach-quiz-actions">
+              <button type="button" class="btn btn--primary" data-quiz-check>Kiểm tra</button>
+              <button type="button" class="btn btn--ghost" data-quiz-reset hidden>Chọn lại</button>
+            </div>
+            <div class="teach-feedback" data-quiz-feedback></div>
+          </div>`
+        },
+        {
+          title: "Tóm tắt",
+          html: `<div class="teach-pad">
+            <span class="teach-banner teach-banner--rose">Credits kiến thức</span>
+            <h2>Trước khi vào Rạp Nghiệm</h2>
+            <div class="teach-parts">
+              <div class="teach-part"><div class="teach-part__n" style="background:#f97316">1</div><h3>Dạng</h3><p>\\(ax+by+c \\lessgtr 0\\)</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#e11d48">2</div><h3>Nghiệm</h3><p>Cặp số làm BPT đúng</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#7c3aed">3</div><h3>Miền</h3><p>Nửa mặt phẳng</p></div>
+              <div class="teach-part"><div class="teach-part__n" style="background:#0ea5e9">4</div><h3>4 bước</h3><p>Vẽ · thử · tô</p></div>
+            </div>
+            <p class="slide-note" style="margin-top:1.2rem">
+              <a class="btn btn--primary" href="bai-tap.html" style="background:linear-gradient(135deg,#f97316,#e11d48)">Vào Rạp Nghiệm Challenge →</a>
+            </p>
+          </div>`
+        },
+      ];
+
+      let index = 0; const answered = {};
+      const body = document.getElementById("deckBody");
+      const bar = document.getElementById("deckBar");
+      const titleEl = document.getElementById("deckTitle");
+      const indexEl = document.getElementById("deckIndex");
+      const totalEl = document.getElementById("deckTotal");
+      const dots = document.getElementById("deckDots");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      totalEl.textContent = String(slides.length);
+      dots.innerHTML = slides.map((_,i)=>`<button type="button" data-i="${i}"></button>`).join("");
+
+      function sameSet(a,b){ return [...a].sort().join(",")===[...b].sort().join(","); }
+
+      function bindQuiz(si) {
+        const slide = slides[si]; if (!slide.quiz) return;
+        const checkBtn = body.querySelector("[data-quiz-check]");
+        const resetBtn = body.querySelector("[data-quiz-reset]");
+        const feedback = body.querySelector("[data-quiz-feedback]");
+        if (!checkBtn || !feedback) return;
+        const isHP = slide.quiz.type === "halfplane";
+        const options = isHP ? [...body.querySelectorAll(".hp-zone[data-zone]")] : [...body.querySelectorAll("[data-quiz-options] [data-i]")];
+        let selected = new Set(answered[si]?.selected||[]);
+        let locked = Boolean(answered[si]?.locked);
+
+        function paint(){
+          options.forEach(el=>{
+            const key = isHP ? el.dataset.zone : Number(el.dataset.i);
+            el.classList.toggle("is-selected", selected.has(key));
+            el.classList.remove("is-correct","is-wrong");
+            if (locked) {
+              if (!isHP) el.disabled = true;
+              if (slide.quiz.correct.includes(key)) el.classList.add("is-correct");
+              else if (selected.has(key)) el.classList.add("is-wrong");
+            } else if (!isHP) el.disabled = false;
+          });
+          if (resetBtn) resetBtn.hidden = !locked;
+          checkBtn.disabled = locked;
+        }
+        options.forEach(el=>el.addEventListener("click",()=>{
+          if (locked) return;
+          const key = isHP ? el.dataset.zone : Number(el.dataset.i);
+          selected = new Set([key]);
+          paint();
+        }));
+        checkBtn.addEventListener("click",()=>{
+          if (!selected.size){ feedback.className="teach-feedback is-visible is-bad"; feedback.textContent="Chọn đã nào!"; return; }
+          locked = true;
+          const ok = sameSet([...selected], slide.quiz.correct);
+          answered[si]={selected:[...selected],locked:true,ok};
+          feedback.className=`teach-feedback is-visible ${ok?"is-ok":"is-bad"}`;
+          feedback.innerHTML=`<strong>${ok?"Chuẩn!":"Chưa đúng."}</strong> ${slide.quiz.explain}`;
+          renderMathInElement(feedback,{delimiters:[{left:"\\(",right:"\\)",display:false}]});
+          paint();
+        });
+        resetBtn?.addEventListener("click",()=>{
+          locked=false; selected=new Set(); delete answered[si];
+          feedback.className="teach-feedback"; feedback.innerHTML=""; paint();
+        });
+        if (locked){
+          feedback.className=`teach-feedback is-visible ${answered[si].ok?"is-ok":"is-bad"}`;
+          feedback.innerHTML=`<strong>${answered[si].ok?"Chuẩn!":"Chưa đúng."}</strong> ${slide.quiz.explain}`;
+        }
+        paint();
+      }
+
+      function show(i){
+        index=Math.max(0,Math.min(slides.length-1,i));
+        const s=slides[index];
+        body.classList.remove("anim-in"); void body.offsetWidth;
+        body.innerHTML=s.html; body.classList.add("anim-in");
+        titleEl.textContent=s.title+(s.quiz?" · Tương tác":"");
+        indexEl.textContent=String(index+1);
+        bar.style.width=`${((index+1)/slides.length)*100}%`;
+        prevBtn.disabled=index===0; nextBtn.disabled=index===slides.length-1;
+        nextBtn.textContent=index===slides.length-1?"Hết":"Tiếp →";
+        dots.querySelectorAll("button").forEach((b,n)=>b.classList.toggle("is-active",n===index));
+        renderMathInElement(body,{delimiters:[{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}]});
+        bindQuiz(index); history.replaceState(null,"",`#${index+1}`);
+      }
+      prevBtn.onclick=()=>show(index-1); nextBtn.onclick=()=>show(index+1);
+      dots.onclick=e=>{const b=e.target.closest("[data-i]"); if(b) show(+b.dataset.i);};
+      document.addEventListener("keydown",e=>{
+        if(e.target.matches("input,textarea")) return;
+        if(e.key==="ArrowRight"||e.key==="ArrowDown") show(index+1);
+        if(e.key==="ArrowLeft"||e.key==="ArrowUp") show(index-1);
+      });
+      const h=+((location.hash||"").replace("#","")); show(Number.isFinite(h)&&h>=1?h-1:0);
+      const toggle=document.getElementById("menuToggle"), ov=document.getElementById("overlay");
+      toggle?.addEventListener("click",()=>{document.body.classList.toggle("sidebar-open"); ov.hidden=!document.body.classList.contains("sidebar-open");});
+      ov?.addEventListener("click",()=>{document.body.classList.remove("sidebar-open"); ov.hidden=true;});
+    </script>
+  </body>
+</html>

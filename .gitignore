@@ -1,6 +1,10 @@
-*.docx
+﻿*.docx
 *.doc
 _tmp*
 _docx*
+_b3/
+_b3.zip
+_b3_text.txt
+_b*_extract/
 .DS_Store
 Thumbs.db

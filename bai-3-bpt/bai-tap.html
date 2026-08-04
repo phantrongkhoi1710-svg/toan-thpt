@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>Rạp Nghiệm — Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <link rel="stylesheet" href="../css/style.css?v=11" />
+  </head>
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="../index.html">
+          <span class="brand__mark" style="background:linear-gradient(135deg,#fb923c,#e11d48)" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/></svg>
+          </span>
+          Toán THPT
+        </a>
+        <nav>
+          <p class="nav-group__label">Học tập</p>
+          <ul class="nav-list">
+            <li><a href="../index.html"><span class="ico">⌂</span> Trang chủ</a></li>
+            <li><a href="slides.html"><span class="ico">▣</span> Slide Bài 3</a></li>
+            <li><a class="is-active" href="bai-tap.html"><span class="ico">🎟</span> Rạp Nghiệm</a></li>
+            <li><a href="../bai-1-menh-de/bai-tap.html"><span class="ico">1</span> Map Bài 1</a></li>
+            <li><a href="../bai-2-tap-hop/bai-tap.html"><span class="ico">2</span> Đảo Bài 2</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar__foot"><strong>Rạp Nghiệm</strong> Mỗi mốc là một suất chiếu thử thách. Đúng → nhận Vé Vàng (XP).</div>
+      </aside>
+      <div class="main-col">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+          <label class="search"><span>⌕</span><input type="search" placeholder="Tìm suất chiếu..." /></label>
+          <div class="topbar__actions">
+            <a class="btn btn--ghost" href="slides.html">← Slide</a>
+            <div class="avatar" style="background:linear-gradient(135deg,#fb923c,#e11d48)">HS</div>
+          </div>
+        </header>
+        <main class="content">
+          <div class="page-head" style="margin-bottom:0.75rem">
+            <h1>Rạp Nghiệm</h1>
+            <p>Challenge map Bài 3 — bất phương trình bậc nhất hai ẩn</p>
+          </div>
+          <div class="map-hud">
+            <div class="map-stat">🎟 <strong id="xpVal">0</strong> <span>Vé Vàng</span></div>
+            <div class="map-stat">★ <strong id="doneVal">0</strong><span>/<span id="totalVal">0</span></span></div>
+            <div class="map-stat">🔥 <strong id="streakVal">0</strong> <span>chuỗi</span></div>
+            <button type="button" class="btn btn--ghost" id="resetProgress">Chiếu lại từ đầu</button>
+          </div>
+          <div class="map-board map-board--cinema" id="mapBoard"></div>
+        </main>
+      </div>
+    </div>
+    <div class="challenge-overlay" id="challenge" aria-hidden="true">
+      <div class="challenge-panel" role="dialog" aria-modal="true">
+        <div class="challenge-panel__head">
+          <h2 id="chTitle">Suất</h2>
+          <button type="button" class="btn btn--ghost" id="chClose">Đóng</button>
+        </div>
+        <div class="challenge-panel__body" id="chBody"></div>
+        <div class="challenge-panel__foot">
+          <button type="button" class="btn btn--ghost" id="chSkip">Để sau</button>
+          <button type="button" class="btn btn--primary" id="chCheck" style="background:linear-gradient(135deg,#f97316,#e11d48)">Kiểm tra</button>
+        </div>
+      </div>
+    </div>
+    <div class="map-toast" id="toast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+      const LEVEL_LABEL = {1:"Định nghĩa",2:"Nghiệm",3:"Miền nghiệm",4:"Vận dụng"};
+      const XP = {1:12,2:16,3:22,4:28};
+      const KEY = "toan-thpt-cinema-bpt-v1";
+      const bank = [
+        {level:1,title:"Bù lỗ khi nào?",image:"../images/bai3/cinema.jpg",
+          prompt:"Vé 50k và 100k, cần ≥20 triệu. Điều kiện bù lỗ?",
+          options:["\\(50000x+100000y=20000000\\)","\\(50000x+100000y&lt;20000000\\)","\\(x+y&lt;20\\)","\\(x&gt;y\\)"],answer:1,
+          explain:"Bù lỗ khi doanh thu nhỏ hơn 20 triệu."},
+        {level:1,title:"Dạng tổng quát",
+          prompt:"BPT bậc nhất hai ẩn có dạng?",
+          options:["\\(ax^2+by+c&lt;0\\)","\\(ax+by+c&lt;0\\) (a,b không đồng thời 0)","\\(a/x+by=0\\)","\\(\\sin x+y&gt;0\\)"],answer:1,
+          explain:"Bậc nhất: bậc của mỗi ẩn tối đa là 1; a và b không cùng bằng 0."},
+        {level:1,title:"Cái nào đúng dạng?",
+          prompt:"Cái nào là BPT bậc nhất hai ẩn?",
+          options:["\\(2x-y+1&lt;0\\)","\\(x^2+y&lt;1\\)","\\(x+3=0\\)","\\(y=\\sin x\\)"],answer:0,
+          explain:"Chỉ A đúng dạng bậc nhất hai ẩn."},
+        {level:2,title:"Nhận nghiệm",
+          prompt:"\\(x-2y+1&lt;0\\). Cặp nào là nghiệm?",
+          options:["\\((0;1)\\)","\\((0;0)\\)","\\((3;0)\\)","\\((2;-1)\\)"],answer:0,
+          explain:"\\(0-2+1=-1&lt;0\\) đúng."},
+        {level:2,title:"Vô số nghiệm",
+          prompt:"Khẳng định đúng về BPT bậc nhất hai ẩn?",
+          options:["Có đúng 1 nghiệm","Có đúng 2 nghiệm","Luôn có vô số nghiệm","Có thể vô nghiệm"],answer:2,
+          explain:"Miền nghiệm là nửa mặt phẳng → vô số điểm."},
+        {level:2,title:"Không phải nghiệm",
+          prompt:"Với \\(x+y-1&gt;0\\), cặp nào KHÔNG là nghiệm?",
+          options:["\\((1;1)\\)","\\((2;0)\\)","\\((0;0)\\)","\\((0;2)\\)"],answer:2,
+          explain:"\\(0+0-1=-1\\) không &gt; 0."},
+        {level:3,title:"Miền nghiệm là gì?",image:"../images/bai3/halfplane.jpg",
+          prompt:"Miền nghiệm của BPT bậc nhất hai ẩn là?",
+          options:["Một điểm","Một đoạn thẳng","Nửa mặt phẳng (có/không kể bờ)","Toàn bộ mặt phẳng"],answer:2,
+          explain:"Đường thẳng chia mặt phẳng thành hai nửa; một nửa là miền nghiệm."},
+        {level:3,title:"Bước vẽ miền",
+          prompt:"Thứ tự đúng?",
+          options:["Tô màu → vẽ đường","Vẽ bờ → điểm thử → tô miền","Chỉ cần điểm thử","Không cần đường thẳng"],answer:1,
+          explain:"Vẽ đường thẳng biên, thử điểm, xác định nửa mặt phẳng."},
+        {level:3,title:"Gốc tọa độ",
+          prompt:"Nếu \\((0;0)\\) thỏa BPT thì miền nghiệm?",
+          options:["Không chứa gốc","Chứa gốc tọa độ","Chỉ là bờ","Rỗng"],answer:1,
+          explain:"Điểm thử đúng → nửa mặt phẳng chứa điểm đó."},
+        {level:4,title:"Không lỗ",image:"../images/bai3/cinema.jpg",
+          prompt:"Cặp nào giúp rạp không bù lỗ (≥20 triệu)?",
+          options:["\\((0;100)\\)","\\((100;50)\\)","\\((0;200)\\)","\\((50;50)\\)"],answer:2,
+          explain:"\\(0\\cdot50k+200\\cdot100k=20\\) triệu."},
+        {level:4,title:"Rút gọn",
+          prompt:"\\(50000x+100000y\\ge20000000\\) tương đương?",
+          options:["\\(x+2y\\ge400\\)","\\(x+y\\ge400\\)","\\(x+2y\\le400\\)","\\(2x+y\\ge400\\)"],answer:0,
+          explain:"Chia cả hai vế cho 50000."},
+        {level:4,title:"Bờ có thuộc?",
+          prompt:"Với BPT \\(ax+by+c&lt;0\\), điểm trên đường \\(ax+by+c=0\\)?",
+          options:["Luôn thuộc miền nghiệm","Không thuộc miền nghiệm","Tuỳ a,b","Chỉ khi c=0"],answer:1,
+          explain:"Dấu &lt; nghiêm ngặt → không kể bờ."},
+      ];
+
+      let state=load(); let activeId=null;
+      const mapBoard=document.getElementById("mapBoard");
+      const challenge=document.getElementById("challenge");
+      const chBody=document.getElementById("chBody");
+      const chTitle=document.getElementById("chTitle");
+      const toast=document.getElementById("toast");
+
+      function load(){ try{const r=localStorage.getItem(KEY); if(r) return JSON.parse(r);}catch(_){} return {done:{},xp:0,streak:0}; }
+      function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+      function firstOpen(){ for(let i=0;i<bank.length;i++) if(!state.done[i]) return i; return bank.length; }
+      function status(i){ if(state.done[i]) return "done"; if(i===firstOpen()) return "current"; return "locked"; }
+      function hud(){
+        document.getElementById("xpVal").textContent=state.xp;
+        document.getElementById("doneVal").textContent=Object.keys(state.done).length;
+        document.getElementById("totalVal").textContent=bank.length;
+        document.getElementById("streakVal").textContent=state.streak;
+      }
+      function tip(m){ toast.textContent=m; toast.classList.add("is-show"); clearTimeout(tip._t); tip._t=setTimeout(()=>toast.classList.remove("is-show"),1800); }
+
+      function renderMap(){
+        let html="";
+        [1,2,3,4].forEach(lv=>{
+          const items=bank.map((q,i)=>({...q,id:i})).filter(q=>q.level===lv);
+          html+=`<div class="map-section"><div class="map-section__badge map-section__badge--${lv}">Suất ${lv} · ${LEVEL_LABEL[lv]}</div></div><ul class="map-path">`;
+          html+=items.map(q=>{
+            const st=status(q.id);
+            return `<li class="map-node"><div style="position:relative">
+              <button type="button" class="map-node__btn map-node__btn--cinema map-node__btn--${q.level} ${st==="done"?"is-done":st==="current"?"is-current":"is-locked"}"
+                data-open="${q.id}" ${st==="locked"?"disabled":""}>${st==="locked"?"🔒":q.id+1}</button>
+              <div class="map-node__label">${q.title}</div></div></li>`;
+          }).join("");
+          html+=`</ul><div class="map-chest"><button type="button" class="${items.every(q=>state.done[q.id])?"is-open":""}">${items.every(q=>state.done[q.id])?"🍿":"🎫"}</button></div>`;
+        });
+        mapBoard.innerHTML=html; hud();
+      }
+
+      function openCh(id){
+        if(status(id)==="locked"){ tip("Hết vé suất này — mở mốc trước!"); return; }
+        activeId=id; const q=bank[id];
+        chTitle.textContent=`Suất ${id+1} · ${q.title}`;
+        const img=q.image?`<img class="quiz-illust" src="${q.image}" alt=""/>`:"";
+        chBody.innerHTML=`${img}<div class="level-badge level-badge--${q.level}">${LEVEL_LABEL[q.level]} · +${XP[q.level]} Vé Vàng</div>
+          <p class="quiz-prompt">${q.prompt}</p>
+          <div class="options">${q.options.map((o,j)=>`<label class="option"><input type="radio" name="chAns" value="${j}"/><span>${String.fromCharCode(65+j)}. ${o}</span></label>`).join("")}</div>
+          <div class="quiz-result" id="chResult"></div>`;
+        renderMathInElement(chBody,{delimiters:[{left:"\\(",right:"\\)",display:false}]});
+        document.getElementById("chCheck").disabled=false;
+        document.getElementById("chCheck").textContent="Kiểm tra";
+        challenge.classList.add("is-open"); challenge.setAttribute("aria-hidden","false");
+      }
+      function closeCh(){ challenge.classList.remove("is-open"); challenge.setAttribute("aria-hidden","true"); activeId=null; }
+
+      function check(){
+        if(activeId==null) return;
+        const q=bank[activeId], sel=chBody.querySelector('input[name="chAns"]:checked'), res=document.getElementById("chResult"), labels=chBody.querySelectorAll(".option");
+        if(!sel){ res.className="quiz-result is-visible is-info"; res.textContent="Chọn đáp án đã!"; return; }
+        const chosen=+sel.value;
+        labels.forEach(el=>el.classList.remove("is-correct","is-wrong"));
+        labels[q.answer].classList.add("is-correct");
+        const ok=chosen===q.answer; if(!ok) labels[chosen].classList.add("is-wrong");
+        res.className=`quiz-result is-visible ${ok?"is-ok":"is-bad"}`;
+        res.innerHTML=`<strong>${ok?"Suất chiếu thành công!":"Cắt! Quay lại."}</strong> ${q.explain}`;
+        renderMathInElement(res,{delimiters:[{left:"\\(",right:"\\)",display:false}]});
+        chBody.querySelectorAll("input").forEach(i=>i.disabled=true);
+        if(ok && !state.done[activeId]){
+          state.done[activeId]=true; state.xp+=XP[q.level]; state.streak+=1; save(); tip(`+${XP[q.level]} Vé Vàng · Chuỗi ${state.streak}`); renderMap();
+          document.getElementById("chCheck").disabled=true; document.getElementById("chCheck").textContent="Đã mở suất tiếp";
+        } else if(!ok){
+          state.streak=0; save(); hud();
+          document.getElementById("chCheck").textContent="Thử lại";
+          setTimeout(()=>{ if(!state.done[activeId]){
+            chBody.querySelectorAll("input").forEach(i=>{i.disabled=false;i.checked=false;});
+            labels.forEach(el=>el.classList.remove("is-correct","is-wrong","is-selected"));
+            res.className="quiz-result"; res.innerHTML=""; document.getElementById("chCheck").textContent="Kiểm tra";
+          }},1500);
+        } else { document.getElementById("chCheck").disabled=true; document.getElementById("chCheck").textContent="Đã hoàn thành"; }
+      }
+
+      mapBoard.addEventListener("click",e=>{const b=e.target.closest("[data-open]"); if(b) openCh(+b.dataset.open);});
+      document.getElementById("chClose").onclick=closeCh;
+      document.getElementById("chSkip").onclick=closeCh;
+      document.getElementById("chCheck").onclick=check;
+      challenge.onclick=e=>{ if(e.target===challenge) closeCh(); };
+      document.getElementById("resetProgress").onclick=()=>{ if(!confirm("Xóa tiến độ Rạp Nghiệm?")) return; state={done:{},xp:0,streak:0}; save(); renderMap(); tip("Đèn sáng — bắt đầu lại!"); };
+      chBody.addEventListener("change",e=>{ if(e.target.name!=="chAns") return; chBody.querySelectorAll(".option").forEach(el=>el.classList.remove("is-selected")); e.target.closest(".option")?.classList.add("is-selected"); });
+      const toggle=document.getElementById("menuToggle"), ov=document.getElementById("overlay");
+      toggle?.addEventListener("click",()=>{document.body.classList.toggle("sidebar-open"); ov.hidden=!document.body.classList.contains("sidebar-open");});
+      ov?.addEventListener("click",()=>{document.body.classList.remove("sidebar-open"); ov.hidden=true;});
+      renderMap();
+    </script>
+  </body>
+</html>
