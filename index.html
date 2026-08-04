@@ -3,75 +3,365 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Toán THPT — Bài giảng</title>
+    <title>Toán THPT — Học tập</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="site-header__inner">
-        <a class="brand" href="index.html">Toán THPT</a>
-        <nav class="nav" aria-label="Điều hướng chính">
-          <a href="index.html" aria-current="page">Trang chủ</a>
-          <a href="bai-1-menh-de/slides.html">Slide</a>
-          <a href="bai-1-menh-de/bai-tap.html">Bài tập</a>
+    <div class="overlay" id="overlay" hidden></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="index.html">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </span>
+          Toán THPT
+        </a>
+
+        <nav aria-label="Menu chính">
+          <p class="nav-group__label">Học tập</p>
+          <ul class="nav-list">
+            <li>
+              <a class="is-active" href="index.html"
+                ><span class="ico">⌂</span> Trang chủ</a
+              >
+            </li>
+            <li>
+              <a href="bai-1-menh-de/slides.html"
+                ><span class="ico">▣</span> Slide bài giảng</a
+              >
+            </li>
+            <li>
+              <a href="bai-1-menh-de/bai-tap.html"
+                ><span class="ico">✎</span> Bài tập
+                <span class="badge-new">Mới</span></a
+              >
+            </li>
+          </ul>
+
+          <p class="nav-group__label">Chương I</p>
+          <ul class="nav-list">
+            <li>
+              <a href="bai-1-menh-de/slides.html"
+                ><span class="ico">1</span> Mệnh đề</a
+              >
+            </li>
+            <li>
+              <a href="#" aria-disabled="true" style="opacity: 0.55; pointer-events: none"
+                ><span class="ico">2</span> Tập hợp</a
+              >
+            </li>
+          </ul>
         </nav>
-      </div>
-    </header>
 
-    <main class="wrap">
-      <section class="hero">
-        <p class="hero__eyebrow">Chương I · Lớp 10</p>
-        <h1>Mệnh đề và tập hợp</h1>
-        <p class="hero__lead">
-          Bài giảng số thử nghiệm: slide kiến thức + bài tập về nhà, sẵn sàng
-          đưa lên GitHub Pages.
-        </p>
-        <div class="cta-row">
-          <a class="btn btn--primary" href="bai-1-menh-de/slides.html"
-            >Vào slide Bài 1</a
-          >
-          <a class="btn btn--ghost" href="bai-1-menh-de/bai-tap.html"
-            >Làm bài tập</a
-          >
+        <div class="sidebar__foot">
+          <strong>Mẹo học nhanh</strong>
+          Xem slide trước, rồi làm bài tập để nhớ lâu hơn.
         </div>
-      </section>
+      </aside>
 
-      <section class="section">
-        <h2>Bài đang có</h2>
-        <p>Nội dung bám giáo án Toán 10 — Bài 1. Mệnh đề (3 tiết).</p>
-        <ul class="lesson-list">
-          <li class="lesson-item">
-            <div class="lesson-item__meta">
-              <span class="pill">Bài 1</span>
-              <span>3 tiết</span>
-              <span>Mệnh đề · Phủ định · Kéo theo · Tương đương · ∀, ∃</span>
-            </div>
-            <h3>Mệnh đề</h3>
-            <p>
-              Nhận biết mệnh đề, lập phủ định, kéo theo, đảo, tương đương và
-              mệnh đề chứa lượng từ; luyện tập xác định đúng/sai.
-            </p>
-            <div class="lesson-item__actions">
-              <a class="btn btn--primary" href="bai-1-menh-de/slides.html"
-                >Slide bài giảng</a
-              >
-              <a class="btn btn--ghost" href="bai-1-menh-de/bai-tap.html"
-                >Bài tập về nhà</a
-              >
-            </div>
-          </li>
-        </ul>
-      </section>
-    </main>
+      <div class="main-col">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu">
+            ☰
+          </button>
+          <label class="search">
+            <span aria-hidden="true">⌕</span>
+            <input type="search" placeholder="Tìm bài giảng, bài tập..." />
+          </label>
+          <div class="topbar__actions">
+            <button class="icon-btn" type="button" aria-label="Thông báo">
+              🔔<span class="dot"></span>
+            </button>
+            <div class="avatar" title="Học sinh">HS</div>
+          </div>
+        </header>
 
-    <footer class="site-footer">
-      Bản thử · Nội dung tham chiếu giáo án Bài 1. Mệnh đề
-    </footer>
+        <main class="content">
+          <div class="dash">
+            <div class="dash__main">
+              <section class="card welcome">
+                <div>
+                  <h1>Chào bạn! Sẵn sàng học Toán chưa?</h1>
+                  <p>
+                    Hôm nay: <strong>Bài 1. Mệnh đề</strong> — lớp 10, Chương I.
+                    Hoàn thành slide + bài tập để nắm chắc logic.
+                  </p>
+                  <div class="btn-row">
+                    <a class="btn btn--primary" href="bai-1-menh-de/slides.html"
+                      >Bắt đầu slide</a
+                    >
+                    <a class="btn btn--ghost" href="bai-1-menh-de/bai-tap.html"
+                      >Làm bài tập</a
+                    >
+                  </div>
+                </div>
+                <svg
+                  class="welcome__art"
+                  viewBox="0 0 220 140"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <rect x="40" y="30" width="120" height="80" rx="12" fill="#fff" />
+                  <rect x="52" y="42" width="96" height="48" rx="6" fill="#dbeafe" />
+                  <circle cx="100" cy="66" r="14" fill="#3b82f6" opacity="0.9" />
+                  <text
+                    x="100"
+                    y="71"
+                    text-anchor="middle"
+                    fill="#fff"
+                    font-size="14"
+                    font-family="Be Vietnam Pro, sans-serif"
+                    font-weight="700"
+                  >
+                    P
+                  </text>
+                  <rect x="150" y="55" width="50" height="55" rx="10" fill="#fdba74" />
+                  <circle cx="175" cy="48" r="14" fill="#fb923c" />
+                  <path
+                    d="M20 110h180"
+                    stroke="#93c5fd"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="48" cy="108" r="10" fill="#14b8a6" />
+                  <circle cx="175" cy="108" r="10" fill="#8b5cf6" />
+                </svg>
+              </section>
+
+              <section class="stats">
+                <div class="stat stat--blue">
+                  <div class="stat__label">Bài đang học</div>
+                  <div class="stat__value">01</div>
+                  <div class="stat__hint">Mệnh đề · 3 tiết</div>
+                </div>
+                <div class="stat stat--orange">
+                  <div class="stat__label">Câu luyện tập</div>
+                  <div class="stat__value">08</div>
+                  <div class="stat__hint">Trắc nghiệm có giải</div>
+                </div>
+                <div class="stat stat--teal">
+                  <div class="stat__label">Tiến độ gợi ý</div>
+                  <div class="stat__value">72%</div>
+                  <div class="stat__hint">Slide + bài tập</div>
+                </div>
+              </section>
+
+              <div class="dual">
+                <section class="card">
+                  <div class="card__head">
+                    <h2>Tiến độ chủ đề</h2>
+                    <a class="link-soft" href="bai-1-menh-de/slides.html">Xem slide</a>
+                  </div>
+                  <ul class="progress-list">
+                    <li class="progress-item">
+                      <div class="progress-item__avatar" style="background: #3b82f6">
+                        P
+                      </div>
+                      <div class="progress-item__meta">
+                        <strong>Mệnh đề &amp; chứa biến</strong>
+                        <span>Khái niệm cơ bản</span>
+                        <div class="bar"><i style="width: 90%; background: #3b82f6"></i></div>
+                      </div>
+                      <div class="progress-item__pct" style="color: #2563eb">90%</div>
+                    </li>
+                    <li class="progress-item">
+                      <div class="progress-item__avatar" style="background: #f97316">
+                        ¬
+                      </div>
+                      <div class="progress-item__meta">
+                        <strong>Mệnh đề phủ định</strong>
+                        <span>Lập phủ định · đúng/sai</span>
+                        <div class="bar"><i style="width: 75%; background: #f97316"></i></div>
+                      </div>
+                      <div class="progress-item__pct" style="color: #ea580c">75%</div>
+                    </li>
+                    <li class="progress-item">
+                      <div class="progress-item__avatar" style="background: #14b8a6">
+                        ⇒
+                      </div>
+                      <div class="progress-item__meta">
+                        <strong>Kéo theo &amp; đảo</strong>
+                        <span>Điều kiện cần · đủ</span>
+                        <div class="bar"><i style="width: 60%; background: #14b8a6"></i></div>
+                      </div>
+                      <div class="progress-item__pct" style="color: #0d9488">60%</div>
+                    </li>
+                    <li class="progress-item">
+                      <div class="progress-item__avatar" style="background: #8b5cf6">
+                        ∀
+                      </div>
+                      <div class="progress-item__meta">
+                        <strong>Lượng từ ∀, ∃</strong>
+                        <span>Phủ định lượng từ</span>
+                        <div class="bar"><i style="width: 45%; background: #8b5cf6"></i></div>
+                      </div>
+                      <div class="progress-item__pct" style="color: #7c3aed">45%</div>
+                    </li>
+                  </ul>
+                </section>
+
+                <section class="card">
+                  <div class="card__head">
+                    <h2>Hoàn thành</h2>
+                  </div>
+                  <div class="donut-wrap">
+                    <div class="donut" aria-label="72 phần trăm"><span>72%</span></div>
+                    <div class="legend">
+                      <span><i style="background: #3b82f6"></i>Đã học</span>
+                      <span><i style="background: #f97316"></i>Còn lại</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <section class="promos">
+                <a class="promo promo--orange" href="bai-1-menh-de/slides.html">
+                  <div>
+                    <h3>Slide bài giảng</h3>
+                    <p>13 slide · công thức KaTeX · trình chiếu lớp</p>
+                  </div>
+                  <div class="promo__emoji" aria-hidden="true">▣</div>
+                </a>
+                <a class="promo promo--blue" href="bai-1-menh-de/bai-tap.html">
+                  <div>
+                    <h3>Bài tập về nhà</h3>
+                    <p>8 câu trắc nghiệm có lời giải chi tiết</p>
+                  </div>
+                  <div class="promo__emoji" aria-hidden="true">✎</div>
+                </a>
+              </section>
+            </div>
+
+            <aside class="dash__side">
+              <section class="card calendar">
+                <div class="calendar__nav">
+                  <button class="icon-btn" type="button" aria-label="Tháng trước">‹</button>
+                  <strong>Tháng 8 · 2026</strong>
+                  <button class="icon-btn" type="button" aria-label="Tháng sau">›</button>
+                </div>
+                <div class="calendar__grid" aria-hidden="true">
+                  <div class="hd">T2</div>
+                  <div class="hd">T3</div>
+                  <div class="hd">T4</div>
+                  <div class="hd">T5</div>
+                  <div class="hd">T6</div>
+                  <div class="hd">T7</div>
+                  <div class="hd">CN</div>
+                  <div class="day"></div>
+                  <div class="day"></div>
+                  <div class="day"></div>
+                  <div class="day"></div>
+                  <div class="day"></div>
+                  <div class="day">1</div>
+                  <div class="day">2</div>
+                  <div class="day is-today">3</div>
+                  <div class="day has-event">4</div>
+                  <div class="day">5</div>
+                  <div class="day">6</div>
+                  <div class="day">7</div>
+                  <div class="day">8</div>
+                  <div class="day">9</div>
+                  <div class="day">10</div>
+                  <div class="day has-event">11</div>
+                  <div class="day">12</div>
+                  <div class="day">13</div>
+                  <div class="day">14</div>
+                  <div class="day">15</div>
+                  <div class="day">16</div>
+                  <div class="day">17</div>
+                  <div class="day">18</div>
+                  <div class="day">19</div>
+                  <div class="day">20</div>
+                  <div class="day">21</div>
+                  <div class="day">22</div>
+                  <div class="day">23</div>
+                  <div class="day">24</div>
+                  <div class="day">25</div>
+                  <div class="day">26</div>
+                  <div class="day">27</div>
+                  <div class="day">28</div>
+                  <div class="day">29</div>
+                  <div class="day">30</div>
+                  <div class="day">31</div>
+                </div>
+              </section>
+
+              <section class="card">
+                <div class="card__head">
+                  <h3>Bài học</h3>
+                  <a class="link-soft" href="bai-1-menh-de/slides.html">Xem tất cả</a>
+                </div>
+                <ul class="lesson-stack">
+                  <li class="lesson-mini">
+                    <strong>Mệnh đề</strong>
+                    <span>Tiết 1 · Khái niệm &amp; chứa biến</span>
+                    <div class="lesson-mini__foot">
+                      <div class="avatars">
+                        <span>A</span><span>B</span><span>C</span>
+                      </div>
+                      <a class="plus" href="bai-1-menh-de/slides.html" aria-label="Mở">+</a>
+                    </div>
+                  </li>
+                  <li class="lesson-mini">
+                    <strong>Phủ định · Kéo theo</strong>
+                    <span>Tiết 2 · Đảo &amp; điều kiện</span>
+                    <div class="lesson-mini__foot">
+                      <div class="avatars">
+                        <span>D</span><span>E</span>
+                      </div>
+                      <a class="plus" href="bai-1-menh-de/slides.html" aria-label="Mở">+</a>
+                    </div>
+                  </li>
+                  <li class="lesson-mini">
+                    <strong>Tương đương · ∀ ∃</strong>
+                    <span>Tiết 3 · Lượng từ</span>
+                    <div class="lesson-mini__foot">
+                      <div class="avatars">
+                        <span>F</span><span>G</span><span>H</span>
+                      </div>
+                      <a class="plus" href="bai-1-menh-de/slides.html" aria-label="Mở">+</a>
+                    </div>
+                  </li>
+                  <li class="lesson-mini">
+                    <strong>Luyện tập</strong>
+                    <span>Bài tập về nhà · 8 câu</span>
+                    <div class="lesson-mini__foot">
+                      <div class="avatars"><span>HS</span></div>
+                      <a class="plus" href="bai-1-menh-de/bai-tap.html" aria-label="Mở">+</a>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </aside>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const toggle = document.getElementById("menuToggle");
+      const overlay = document.getElementById("overlay");
+      function closeNav() {
+        document.body.classList.remove("sidebar-open");
+        overlay.hidden = true;
+      }
+      function openNav() {
+        document.body.classList.add("sidebar-open");
+        overlay.hidden = false;
+      }
+      toggle?.addEventListener("click", () => {
+        document.body.classList.contains("sidebar-open") ? closeNav() : openNav();
+      });
+      overlay?.addEventListener("click", closeNav);
+    </script>
   </body>
 </html>
