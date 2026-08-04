@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <title>Bài tập — Bài 1. Mệnh đề</title>
+    <title>Bài tập — Challenge Map</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css?v=6" />
+    <link rel="stylesheet" href="../css/style.css?v=9" />
   </head>
   <body>
     <div class="overlay" id="overlay" hidden></div>
@@ -41,22 +41,21 @@
             </li>
             <li>
               <a class="is-active" href="bai-tap.html"
-                ><span class="ico">✎</span> Bài tập
-                <span class="badge-new">Mới</span></a
+                ><span class="ico">✎</span> Challenge Map</a
               >
             </li>
           </ul>
-          <p class="nav-group__label">Phân hóa</p>
+          <p class="nav-group__label">Mốc đường đi</p>
           <ul class="nav-list">
-            <li><a href="#" data-jump="1"><span class="ico">1</span> Nhận biết</a></li>
-            <li><a href="#" data-jump="2"><span class="ico">2</span> Thông hiểu</a></li>
-            <li><a href="#" data-jump="3"><span class="ico">3</span> Vận dụng</a></li>
-            <li><a href="#" data-jump="4"><span class="ico">4</span> VĐ cao</a></li>
+            <li><a href="#sec-1"><span class="ico">1</span> Nhận biết</a></li>
+            <li><a href="#sec-2"><span class="ico">2</span> Thông hiểu</a></li>
+            <li><a href="#sec-3"><span class="ico">3</span> Vận dụng</a></li>
+            <li><a href="#sec-4"><span class="ico">4</span> VĐ cao</a></li>
           </ul>
         </nav>
         <div class="sidebar__foot">
-          <strong>Mẹo</strong>
-          Làm lần lượt theo mức, hoặc lọc mức bạn muốn luyện.
+          <strong>Luật chơi</strong>
+          Mở lần lượt các mốc. Làm đúng để mở mốc tiếp theo và nhận XP!
         </div>
       </aside>
 
@@ -67,7 +66,7 @@
           </button>
           <label class="search">
             <span aria-hidden="true">⌕</span>
-            <input type="search" placeholder="Tìm câu hỏi..." />
+            <input type="search" placeholder="Tìm mốc..." />
           </label>
           <div class="topbar__actions">
             <a class="btn btn--ghost" href="slides.html">← Slide</a>
@@ -77,69 +76,39 @@
 
         <main class="content">
           <div class="page-head" style="margin-bottom: 0.75rem">
-            <h1>Bài tập về nhà</h1>
-            <p>
-              Bài 1. Mệnh đề · Mỗi câu một card lớn · phân hóa 4 mức độ
-            </p>
+            <h1>Challenge Map · Mệnh đề</h1>
+            <p>Hành trình luyện tập kiểu Duolingo — chạm mốc để mở câu hỏi</p>
           </div>
 
-          <div class="quiz-toolbar" id="levelBar" role="tablist" aria-label="Lọc mức độ">
-            <button type="button" class="level-chip is-active" data-filter="all">
-              Tất cả
-            </button>
-            <button type="button" class="level-chip" data-filter="1" data-level="1">
-              Mức 1 · Nhận biết
-            </button>
-            <button type="button" class="level-chip" data-filter="2" data-level="2">
-              Mức 2 · Thông hiểu
-            </button>
-            <button type="button" class="level-chip" data-filter="3" data-level="3">
-              Mức 3 · Vận dụng
-            </button>
-            <button type="button" class="level-chip" data-filter="4" data-level="4">
-              Mức 4 · VĐ cao
-            </button>
-          </div>
-
-          <section class="deck quiz-deck" aria-label="Bài tập từng câu">
-            <div class="deck__card">
-              <div class="deck__progress" aria-hidden="true">
-                <i id="deckBar" style="width: 8%"></i>
-              </div>
-
-              <div class="deck__body" id="deckBody" aria-live="polite"></div>
-
-              <div class="deck__foot">
-                <div class="deck__meta">
-                  <strong id="deckTitle">Câu hỏi</strong>
-                  <span
-                    >Câu <span id="deckIndex">1</span> /
-                    <span id="deckTotal">0</span></span
-                  >
-                </div>
-                <div class="deck__dots" id="deckDots"></div>
-                <div class="deck__actions">
-                  <button type="button" class="btn btn--ghost" id="prevBtn">← Trước</button>
-                  <button type="button" class="btn btn--primary" id="checkBtn">
-                    Kiểm tra
-                  </button>
-                  <button type="button" class="btn btn--primary" id="nextBtn">Tiếp →</button>
-                </div>
-              </div>
+          <div class="map-hud">
+            <div class="map-stat">⚡ <strong id="xpVal">0</strong> <span>XP</span></div>
+            <div class="map-stat">
+              ✓ <strong id="doneVal">0</strong><span>/<span id="totalVal">0</span></span>
             </div>
-          </section>
-
-          <div class="quiz-summary" id="summary">
-            <h2>Hoàn thành bộ câu hỏi!</h2>
-            <p id="summaryText"></p>
-            <div class="btn-row">
-              <button type="button" class="btn btn--primary" id="restartBtn">Làm lại</button>
-              <a class="btn btn--ghost" href="slides.html">Xem lại slide</a>
-            </div>
+            <div class="map-stat">🔥 <strong id="streakVal">0</strong> <span>chuỗi đúng</span></div>
+            <button type="button" class="btn btn--ghost" id="resetProgress">Chơi lại</button>
           </div>
+
+          <div class="map-board" id="mapBoard"></div>
         </main>
       </div>
     </div>
+
+    <div class="challenge-overlay" id="challenge" aria-hidden="true">
+      <div class="challenge-panel" role="dialog" aria-modal="true" aria-labelledby="chTitle">
+        <div class="challenge-panel__head">
+          <h2 id="chTitle">Mốc 1</h2>
+          <button type="button" class="btn btn--ghost" id="chClose">Đóng</button>
+        </div>
+        <div class="challenge-panel__body" id="chBody"></div>
+        <div class="challenge-panel__foot">
+          <button type="button" class="btn btn--ghost" id="chSkip">Để sau</button>
+          <button type="button" class="btn btn--primary" id="chCheck">Kiểm tra</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-toast" id="toast"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
@@ -150,10 +119,13 @@
         3: "Vận dụng",
         4: "Vận dụng cao",
       };
+      const XP_BY_LEVEL = { 1: 10, 2: 15, 3: 20, 4: 30 };
+      const STORAGE_KEY = "toan-thpt-map-menhde-v1";
 
       const bank = [
         {
           level: 1,
+          title: "Không phải mệnh đề",
           image: "../images/quiz-truefalse.jpg",
           prompt:
             "Trong các câu sau, câu nào <strong>không</strong> phải mệnh đề?",
@@ -169,6 +141,7 @@
         },
         {
           level: 1,
+          title: "Biển báo giao thông",
           image: "../images/quiz-traffic.jpg",
           prompt:
             "Quan sát tình huống giao thông: câu nào là <strong>mệnh đề đúng</strong>?",
@@ -180,10 +153,11 @@
           ],
           answer: 1,
           explain:
-            "Chỉ câu khẳng định đúng/sai mới là mệnh đề. Câu B là khẳng định đúng theo luật giao thông.",
+            "Chỉ câu khẳng định đúng/sai mới là mệnh đề. Câu B đúng theo luật giao thông.",
         },
         {
           level: 1,
+          title: "Đọc kéo theo",
           prompt:
             "Cho \\(P\\): “4 là số chẵn” và \\(Q\\): “Hà Nội là thủ đô Việt Nam”. Phát biểu của \\(P \\Rightarrow Q\\) là:",
           options: [
@@ -197,6 +171,7 @@
         },
         {
           level: 1,
+          title: "Phủ định cơ bản",
           prompt:
             "Mệnh đề phủ định của “Phương trình \\(x^2 + 1 = 0\\) vô nghiệm” (trên \\(\\mathbb{R}\\)) là:",
           options: [
@@ -210,6 +185,7 @@
         },
         {
           level: 1,
+          title: "Chứa biến",
           prompt: "Câu nào là mệnh đề chứa biến?",
           options: [
             "\\(2\\) là số nguyên tố.",
@@ -223,6 +199,7 @@
         },
         {
           level: 2,
+          title: "Mệnh đề đảo",
           image: "../images/quiz-implication.jpg",
           prompt:
             "Cho mệnh đề: “Nếu hai tứ giác bằng nhau thì diện tích bằng nhau”. Mệnh đề đảo là:",
@@ -237,6 +214,7 @@
         },
         {
           level: 2,
+          title: "Phủ định ∀",
           image: "../images/quiz-quantifiers.jpg",
           prompt: "Phủ định của \\(\\forall x \\in \\mathbb{R},\\; x^2 \\ge 0\\) là:",
           options: [
@@ -251,6 +229,7 @@
         },
         {
           level: 2,
+          title: "Chọn mệnh đề đúng",
           prompt: "Mệnh đề nào dưới đây đúng?",
           options: [
             "Một số nguyên dương chia hết cho 3 khi và chỉ khi tổng các chữ số của nó chia hết cho 3.",
@@ -263,6 +242,7 @@
         },
         {
           level: 2,
+          title: "Điều kiện cần",
           prompt:
             "Với định lí “Nếu \\(n\\) chia hết cho \\(15\\) thì \\(n\\) chia hết cho \\(5\\)”, khẳng định nào đúng?",
           options: [
@@ -273,10 +253,11 @@
           ],
           answer: 2,
           explain:
-            "Với \\(P \\Rightarrow Q\\): \\(Q\\) là điều kiện cần của \\(P\\). Ở đây \\(Q\\) = chia hết cho 5.",
+            "Với \\(P \\Rightarrow Q\\): \\(Q\\) là điều kiện cần của \\(P\\).",
         },
         {
           level: 3,
+          title: "Phủ định “có ít nhất”",
           prompt:
             "Phủ định của “Có ít nhất một số vô tỉ là số thập phân vô hạn tuần hoàn” là:",
           options: [
@@ -290,6 +271,7 @@
         },
         {
           level: 3,
+          title: "Hai kéo theo",
           image: "../images/quiz-implication.jpg",
           prompt:
             "Xét \\(P \\Rightarrow Q\\): “Nếu 18 chia hết cho 3 thì tam giác cân có 2 cạnh bằng nhau” và \\(R \\Rightarrow S\\): “Nếu 17 là số chẵn thì 25 là số chính phương”. Khẳng định đúng?",
@@ -305,6 +287,7 @@
         },
         {
           level: 3,
+          title: "Phủ định ∀ trên N",
           prompt:
             "Cho mệnh đề \\(\\forall x \\in \\mathbb{N},\\; x(x+1)\\) chẵn. Mệnh đề phủ định và tính đúng/sai của phủ định?",
           options: [
@@ -315,10 +298,11 @@
           ],
           answer: 0,
           explain:
-            "Phủ định là “tồn tại \\(x\\) sao cho \\(x(x+1)\\) lẻ”. Nhưng tích hai số liên tiếp luôn chẵn nên phủ định sai (mệnh đề gốc đúng).",
+            "Phủ định là tồn tại \\(x\\) sao cho tích lẻ — nhưng tích hai số liên tiếp luôn chẵn nên phủ định sai.",
         },
         {
           level: 4,
+          title: "Đảo nào đúng?",
           prompt:
             "Trong các mệnh đề sau, mệnh đề nào có <strong>mệnh đề đảo đúng</strong>?",
           options: [
@@ -329,13 +313,13 @@
           ],
           answer: 3,
           explain:
-            "Đảo của D đúng (có thể chứng minh qua số dư modulo 3). Các đảo còn lại đều có phản ví dụ.",
+            "Đảo của D đúng (modulo 3). Các đảo còn lại đều có phản ví dụ.",
         },
         {
           level: 4,
+          title: "Chọn mệnh đề sai",
           image: "../images/quiz-quantifiers.jpg",
-          prompt:
-            "Chọn mệnh đề <strong>sai</strong>:",
+          prompt: "Chọn mệnh đề <strong>sai</strong>:",
           options: [
             "\\(\\forall a \\in \\mathbb{Z},\\; \\exists b \\in \\mathbb{Z}: a + b\\) là số nguyên.",
             "\\(\\forall x &gt; 0,\\; \\exists y &gt; 0: xy = 1\\).",
@@ -344,199 +328,255 @@
           ],
           answer: 2,
           explain:
-            "Với \\(n = 4\\): \\(16 + 4 + 1 = 21\\) không nguyên tố. Các mệnh đề còn lại đúng.",
+            "Với \\(n = 4\\): \\(21\\) không nguyên tố. Các mệnh đề còn lại đúng.",
         },
       ];
 
-      let filter = "all";
-      let queue = [];
-      let index = 0;
-      let answers = {}; // id -> chosen
-      let checked = {};
+      let state = loadState();
+      let activeId = null;
+      let chosen = null;
+      let checked = false;
 
-      const body = document.getElementById("deckBody");
-      const bar = document.getElementById("deckBar");
-      const titleEl = document.getElementById("deckTitle");
-      const indexEl = document.getElementById("deckIndex");
-      const totalEl = document.getElementById("deckTotal");
-      const dots = document.getElementById("deckDots");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const checkBtn = document.getElementById("checkBtn");
-      const summary = document.getElementById("summary");
-      const summaryText = document.getElementById("summaryText");
+      const mapBoard = document.getElementById("mapBoard");
+      const challenge = document.getElementById("challenge");
+      const chBody = document.getElementById("chBody");
+      const chTitle = document.getElementById("chTitle");
+      const toast = document.getElementById("toast");
 
-      function buildQueue() {
-        queue = bank
-          .map((q, i) => ({ ...q, id: i }))
-          .filter((q) => filter === "all" || String(q.level) === filter);
-        index = 0;
-        summary.classList.remove("is-visible");
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (_) {}
+        return { done: {}, xp: 0, streak: 0 };
       }
 
-      function renderMath(el) {
-        renderMathInElement(el, {
-          delimiters: [
-            { left: "\\(", right: "\\)", display: false },
-            { left: "\\[", right: "\\]", display: true },
-          ],
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function firstLockedIndex() {
+        for (let i = 0; i < bank.length; i++) {
+          if (!state.done[i]) return i;
+        }
+        return bank.length;
+      }
+
+      function nodeStatus(i) {
+        if (state.done[i]) return "done";
+        if (i === firstLockedIndex()) return "current";
+        if (i < firstLockedIndex()) return "done";
+        return "locked";
+      }
+
+      function updateHud() {
+        const doneCount = Object.keys(state.done).length;
+        document.getElementById("xpVal").textContent = state.xp;
+        document.getElementById("doneVal").textContent = doneCount;
+        document.getElementById("totalVal").textContent = bank.length;
+        document.getElementById("streakVal").textContent = state.streak;
+      }
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("is-show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove("is-show"), 1800);
+      }
+
+      function renderMap() {
+        const levels = [1, 2, 3, 4];
+        let html = "";
+        levels.forEach((lv) => {
+          const items = bank
+            .map((q, i) => ({ ...q, id: i }))
+            .filter((q) => q.level === lv);
+          html += `
+            <div class="map-section" id="sec-${lv}">
+              <div class="map-section__badge map-section__badge--${lv}">
+                Mức ${lv} · ${LEVEL_LABEL[lv]}
+              </div>
+            </div>
+            <ul class="map-path">
+              ${items
+                .map((q) => {
+                  const st = nodeStatus(q.id);
+                  return `
+                  <li class="map-node">
+                    <div style="position:relative">
+                      <button
+                        type="button"
+                        class="map-node__btn map-node__btn--${q.level} ${
+                          st === "done"
+                            ? "is-done"
+                            : st === "current"
+                              ? "is-current"
+                              : "is-locked"
+                        }"
+                        data-open="${q.id}"
+                        ${st === "locked" ? "disabled" : ""}
+                        aria-label="Mốc ${q.id + 1}: ${q.title}"
+                      >${st === "locked" ? "🔒" : q.id + 1}</button>
+                      <div class="map-node__label">${q.title}</div>
+                    </div>
+                  </li>`;
+                })
+                .join("")}
+            </ul>
+            <div class="map-chest">
+              <button type="button" class="${
+                items.every((q) => state.done[q.id]) ? "is-open" : ""
+              }" aria-label="Rương mức ${lv}">${
+                items.every((q) => state.done[q.id]) ? "🏆" : "🎁"
+              }</button>
+            </div>`;
         });
+        mapBoard.innerHTML = html;
+        updateHud();
       }
 
-      function show(i) {
-        if (!queue.length) {
-          body.innerHTML = `<p>Không có câu hỏi ở mức này.</p>`;
+      function openChallenge(id) {
+        const st = nodeStatus(id);
+        if (st === "locked") {
+          showToast("Hãy hoàn thành mốc trước đã!");
           return;
         }
-        index = Math.max(0, Math.min(queue.length - 1, i));
-        const q = queue[index];
-        const chosen = answers[q.id];
-        const isChecked = checked[q.id];
-
-        titleEl.textContent = `Mức ${q.level} · ${LEVEL_LABEL[q.level]}`;
-        indexEl.textContent = String(index + 1);
-        totalEl.textContent = String(queue.length);
-        bar.style.width = `${((index + 1) / queue.length) * 100}%`;
-        prevBtn.disabled = index === 0;
-        nextBtn.textContent = index === queue.length - 1 ? "Kết thúc" : "Tiếp →";
-
-        dots.innerHTML = queue
-          .map(
-            (_, n) =>
-              `<button type="button" data-i="${n}" class="${n === index ? "is-active" : ""}" aria-label="Câu ${n + 1}"></button>`
-          )
-          .join("");
-
+        activeId = id;
+        chosen = null;
+        checked = false;
+        const q = bank[id];
+        chTitle.textContent = `Mốc ${id + 1} · ${q.title}`;
         const img = q.image
-          ? `<img class="quiz-illust" src="${q.image}" alt="" loading="lazy" />`
+          ? `<img class="quiz-illust" src="${q.image}" alt="" />`
           : "";
-
-        body.innerHTML = `
+        chBody.innerHTML = `
           ${img}
-          <div class="level-badge level-badge--${q.level}">Mức ${q.level} · ${LEVEL_LABEL[q.level]}</div>
+          <div class="level-badge level-badge--${q.level}">Mức ${q.level} · ${LEVEL_LABEL[q.level]} · +${XP_BY_LEVEL[q.level]} XP</div>
           <p class="quiz-prompt">${q.prompt}</p>
-          <div class="options" role="radiogroup" aria-label="Đáp án">
+          <div class="options" id="chOptions">
             ${q.options
               .map(
                 (opt, j) => `
-              <label class="option ${chosen === j ? "is-selected" : ""} ${
-                  isChecked ? (j === q.answer ? "is-correct" : chosen === j ? "is-wrong" : "") : ""
-                }">
-                <input type="radio" name="ans" value="${j}" ${chosen === j ? "checked" : ""} ${isChecked ? "disabled" : ""} />
+              <label class="option">
+                <input type="radio" name="chAns" value="${j}" />
                 <span>${String.fromCharCode(65 + j)}. ${opt}</span>
               </label>`
               )
               .join("")}
           </div>
-          <div class="quiz-result" id="resultBox"></div>
+          <div class="quiz-result" id="chResult"></div>
         `;
-
-        renderMath(body);
-
-        if (isChecked) {
-          const box = document.getElementById("resultBox");
-          const ok = chosen === q.answer;
-          box.className = `quiz-result is-visible ${ok ? "is-ok" : "is-bad"}`;
-          box.innerHTML = `<strong>${ok ? "Đúng!" : "Chưa đúng."}</strong> ${q.explain}`;
-          renderMath(box);
-          checkBtn.disabled = true;
-        } else {
-          checkBtn.disabled = false;
-        }
-
-        history.replaceState(null, "", `#${index + 1}`);
-      }
-
-      function checkCurrent() {
-        const q = queue[index];
-        if (!q) return;
-        const selected = body.querySelector('input[name="ans"]:checked');
-        const box = document.getElementById("resultBox");
-        if (!selected) {
-          box.className = "quiz-result is-visible is-info";
-          box.textContent = "Hãy chọn một đáp án trước khi kiểm tra.";
-          return;
-        }
-        answers[q.id] = Number(selected.value);
-        checked[q.id] = true;
-        show(index);
-      }
-
-      function finishIfNeeded() {
-        const answered = queue.filter((q) => checked[q.id]).length;
-        if (answered < queue.length) return false;
-        const correct = queue.filter((q) => answers[q.id] === q.answer).length;
-        summary.classList.add("is-visible");
-        summaryText.textContent = `Bạn đúng ${correct}/${queue.length} câu${
-          filter === "all" ? " (tất cả các mức)" : ` (mức ${filter} · ${LEVEL_LABEL[filter]})`
-        }.`;
-        summary.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        return true;
-      }
-
-      document.getElementById("levelBar").addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-filter]");
-        if (!btn) return;
-        filter = btn.dataset.filter;
-        document
-          .querySelectorAll(".level-chip")
-          .forEach((c) => c.classList.toggle("is-active", c === btn));
-        answers = {};
-        checked = {};
-        buildQueue();
-        show(0);
-      });
-
-      document.querySelectorAll("[data-jump]").forEach((a) => {
-        a.addEventListener("click", (e) => {
-          e.preventDefault();
-          const lv = a.getAttribute("data-jump");
-          const chip = document.querySelector(`.level-chip[data-filter="${lv}"]`);
-          chip?.click();
+        renderMathInElement(chBody, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
         });
-      });
+        document.getElementById("chCheck").disabled = false;
+        document.getElementById("chCheck").textContent = "Kiểm tra";
+        challenge.classList.add("is-open");
+        challenge.setAttribute("aria-hidden", "false");
+      }
 
-      prevBtn.addEventListener("click", () => show(index - 1));
-      nextBtn.addEventListener("click", () => {
-        if (index === queue.length - 1) {
-          if (!checked[queue[index].id]) checkCurrent();
-          finishIfNeeded();
+      function closeChallenge() {
+        challenge.classList.remove("is-open");
+        challenge.setAttribute("aria-hidden", "true");
+        activeId = null;
+      }
+
+      function checkAnswer() {
+        if (activeId == null) return;
+        const q = bank[activeId];
+        const selected = chBody.querySelector('input[name="chAns"]:checked');
+        const result = document.getElementById("chResult");
+        const labels = chBody.querySelectorAll(".option");
+
+        if (!selected) {
+          result.className = "quiz-result is-visible is-info";
+          result.textContent = "Chọn một đáp án trước nhé.";
           return;
         }
-        show(index + 1);
-      });
-      checkBtn.addEventListener("click", checkCurrent);
-      dots.addEventListener("click", (e) => {
-        const b = e.target.closest("button[data-i]");
-        if (b) show(Number(b.dataset.i));
+
+        chosen = Number(selected.value);
+        checked = true;
+        labels.forEach((el) => el.classList.remove("is-correct", "is-wrong", "is-selected"));
+        labels[q.answer].classList.add("is-correct");
+
+        const ok = chosen === q.answer;
+        if (!ok) labels[chosen].classList.add("is-wrong");
+        result.className = `quiz-result is-visible ${ok ? "is-ok" : "is-bad"}`;
+        result.innerHTML = `<strong>${ok ? "Chuẩn luôn!" : "Chưa đúng."}</strong> ${q.explain}`;
+        renderMathInElement(result, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+        });
+
+        chBody.querySelectorAll("input").forEach((inp) => (inp.disabled = true));
+        document.getElementById("chCheck").disabled = true;
+
+        if (ok && !state.done[activeId]) {
+          state.done[activeId] = true;
+          state.xp += XP_BY_LEVEL[q.level];
+          state.streak += 1;
+          saveState();
+          showToast(`+${XP_BY_LEVEL[q.level]} XP · Chuỗi ${state.streak}`);
+          renderMap();
+          document.getElementById("chCheck").textContent = "Đã mở mốc tiếp theo";
+        } else if (!ok) {
+          state.streak = 0;
+          saveState();
+          updateHud();
+          document.getElementById("chCheck").disabled = false;
+          document.getElementById("chCheck").textContent = "Thử lại";
+          // allow retry
+          setTimeout(() => {
+            if (!state.done[activeId]) {
+              chBody.querySelectorAll("input").forEach((inp) => {
+                inp.disabled = false;
+                inp.checked = false;
+              });
+              labels.forEach((el) =>
+                el.classList.remove("is-correct", "is-wrong", "is-selected")
+              );
+              result.className = "quiz-result";
+              result.innerHTML = "";
+              document.getElementById("chCheck").textContent = "Kiểm tra";
+              checked = false;
+            }
+          }, 1600);
+        } else {
+          document.getElementById("chCheck").textContent = "Đã hoàn thành";
+        }
+      }
+
+      mapBoard.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-open]");
+        if (!btn) return;
+        openChallenge(Number(btn.dataset.open));
       });
 
-      body.addEventListener("change", (e) => {
-        if (e.target.name !== "ans") return;
-        const q = queue[index];
-        if (checked[q.id]) return;
-        answers[q.id] = Number(e.target.value);
-        body.querySelectorAll(".option").forEach((el) => el.classList.remove("is-selected"));
+      document.getElementById("chClose").addEventListener("click", closeChallenge);
+      document.getElementById("chSkip").addEventListener("click", closeChallenge);
+      document.getElementById("chCheck").addEventListener("click", checkAnswer);
+      challenge.addEventListener("click", (e) => {
+        if (e.target === challenge) closeChallenge();
+      });
+
+      document.getElementById("resetProgress").addEventListener("click", () => {
+        if (!confirm("Xóa tiến độ Challenge Map và chơi lại từ đầu?")) return;
+        state = { done: {}, xp: 0, streak: 0 };
+        saveState();
+        renderMap();
+        showToast("Đã reset hành trình!");
+      });
+
+      chBody.addEventListener("change", (e) => {
+        if (e.target.name !== "chAns") return;
+        chBody.querySelectorAll(".option").forEach((el) => el.classList.remove("is-selected"));
         e.target.closest(".option")?.classList.add("is-selected");
       });
-
-      document.getElementById("restartBtn").addEventListener("click", () => {
-        answers = {};
-        checked = {};
-        buildQueue();
-        show(0);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") nextBtn.click();
-        if (e.key === "ArrowLeft") show(index - 1);
-        if (e.key === "Enter") checkCurrent();
-      });
-
-      buildQueue();
-      const hash = Number((location.hash || "").replace("#", ""));
-      show(Number.isFinite(hash) && hash >= 1 ? hash - 1 : 0);
 
       const toggle = document.getElementById("menuToggle");
       const overlay = document.getElementById("overlay");
@@ -552,6 +592,8 @@
         document.body.classList.contains("sidebar-open") ? closeNav() : openNav();
       });
       overlay?.addEventListener("click", closeNav);
+
+      renderMap();
     </script>
   </body>
 </html>
