@@ -138,9 +138,10 @@ alter table public.classrooms enable row level security;
 alter table public.class_members enable row level security;
 
 drop policy if exists "classrooms_select_auth" on public.classrooms;
-create policy "classrooms_select_auth"
+drop policy if exists "classrooms_select_public" on public.classrooms;
+create policy "classrooms_select_public"
   on public.classrooms for select
-  to authenticated
+  to anon, authenticated
   using (true);
 
 drop policy if exists "class_members_select_own_or_teacher" on public.class_members;
@@ -148,5 +149,19 @@ create policy "class_members_select_own_or_teacher"
   on public.class_members for select
   to authenticated
   using (user_id = auth.uid() or public.is_teacher());
+
+drop policy if exists "class_members_insert_own" on public.class_members;
+create policy "class_members_insert_own"
+  on public.class_members for insert
+  to authenticated
+  with check (user_id = auth.uid());
+
+insert into public.classrooms (id, name)
+values
+  ('11111111-1111-1111-1111-111111111111', 'Lớp test'),
+  ('22222222-2222-2222-2222-222222222222', '10A1'),
+  ('33333333-3333-3333-3333-333333333333', '10A2'),
+  ('44444444-4444-4444-4444-444444444444', '10A3')
+on conflict (id) do update set name = excluded.name;
 
 -- Lớp test: chạy thêm supabase/seed_class_test.sql

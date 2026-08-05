@@ -116,11 +116,27 @@ set display_name = format('User %s', substring(p.email from 'user([0-9]{2})'))
 where p.email ~ '^user[0-9]{2}@toanthpt\.test$';
 
 insert into public.classrooms (id, name, teacher_id)
-values (
-  '11111111-1111-1111-1111-111111111111',
-  'Lớp test',
-  (select id from public.profiles where email = 'gv.quynh@toanthpt.test')
-)
+values
+  (
+    '11111111-1111-1111-1111-111111111111',
+    'Lớp test',
+    (select id from public.profiles where email = 'gv.quynh@toanthpt.test')
+  ),
+  (
+    '22222222-2222-2222-2222-222222222222',
+    '10A1',
+    (select id from public.profiles where email = 'gv.quynh@toanthpt.test')
+  ),
+  (
+    '33333333-3333-3333-3333-333333333333',
+    '10A2',
+    (select id from public.profiles where email = 'gv.quynh@toanthpt.test')
+  ),
+  (
+    '44444444-4444-4444-4444-444444444444',
+    '10A3',
+    (select id from public.profiles where email = 'gv.quynh@toanthpt.test')
+  )
 on conflict (id) do update
 set name = excluded.name,
     teacher_id = excluded.teacher_id;

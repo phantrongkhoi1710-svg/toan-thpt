@@ -1,7 +1,15 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
 import { useAuth } from "../lib/auth";
+import {
+  FALLBACK_CLASSES,
+  getSelectedClassroom,
+  joinClassroom,
+  loadClassrooms,
+  setSelectedClassroom,
+  type ClassroomOption,
+} from "../lib/classrooms";
 
 const studentOptions = Array.from({ length: 40 }, (_, i) => String(i + 1).padStart(2, "0"));
 
@@ -15,9 +23,18 @@ export function LoginPage() {
   const [email, setEmail] = useState("user01@toanthpt.test");
   const [password, setPassword] = useState("Pass01");
   const [displayName, setDisplayName] = useState("");
+  const [classes, setClasses] = useState<ClassroomOption[]>(FALLBACK_CLASSES);
+  const [classroomId, setClassroomId] = useState(getSelectedClassroom().id);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    void loadClassrooms().then((rows) => {
+      setClasses(rows);
+      setClassroomId((current) => (rows.some((row) => row.id === current) ? current : rows[0].id));
+    });
+  }, []);
 
   const destination = useMemo(() => {
     if (profile?.role === "teacher" && (next === "/" || next === "")) return "/quan-tri";
@@ -54,10 +71,16 @@ export function LoginPage() {
     setBusy(true);
     setError(null);
     setInfo(null);
+    const classroom = classes.find((row) => row.id === classroomId) ?? classes[0];
+    setSelectedClassroom(classroom);
+
     const msg =
       mode === "in"
         ? await signIn(email.trim(), password)
         : await signUp(email.trim(), password, displayName.trim() || email.split("@")[0]);
+    if (!msg && mode === "in" && role === "student") {
+      await joinClassroom(classroom.id);
+    }
     setBusy(false);
     if (msg) {
       setError(translateAuthError(msg));
@@ -94,9 +117,27 @@ export function LoginPage() {
             </p>
           ) : (
             <form className="login-form" onSubmit={onSubmit}>
+              <label>
+                Chọn lớp
+                <select
+                  value={classroomId}
+                  onChange={(e) => {
+                    const nextClass = classes.find((row) => row.id === e.target.value);
+                    setClassroomId(e.target.value);
+                    if (nextClass) setSelectedClassroom(nextClass);
+                  }}
+                >
+                  {classes.map((row) => (
+                    <option key={row.id} value={row.id}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
               {role === "student" && mode === "in" ? (
                 <label>
-                  Học sinh lớp test
+                  Học sinh
                   <select value={studentNo} onChange={(e) => setStudent(e.target.value)}>
                     {studentOptions.map((no) => (
                       <option key={no} value={no}>

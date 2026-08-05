@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { lessons } from "../lessons/registry";
 import { useAuth } from "../lib/auth";
+import { getSelectedClassroom } from "../lib/classrooms";
 
 interface AppShellProps {
   children: ReactNode;
@@ -23,6 +24,7 @@ export function AppShell({
 
   const close = () => setOpen(false);
   const { configured, user, profile, signOut } = useAuth();
+  const classroom = getSelectedClassroom();
 
   return (
     <>
@@ -111,8 +113,8 @@ export function AppShell({
             {configured
               ? user
                 ? profile?.role === "teacher"
-                  ? "Tài khoản giáo viên · xem Giám sát để theo dõi lớp."
-                  : "Tiến độ challenge đang được lưu lên Supabase."
+                  ? `Giáo viên · ${classroom.name}`
+                  : `Học sinh · ${classroom.name}`
                 : "Đăng nhập để lưu tiến độ và để giáo viên theo dõi."
               : "Xem slide trước, rồi làm challenge map của cùng bài đó."}
           </div>

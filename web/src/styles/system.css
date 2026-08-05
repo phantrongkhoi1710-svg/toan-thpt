@@ -201,6 +201,22 @@ code {
 .login-msg.is-bad { background: #fff1f2; color: #9f1239; }
 .login-msg.is-ok { background: #ecfdf5; color: #065f46; }
 
+.class-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+.class-switch select {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+  background: #fff;
+  font: inherit;
+}
+
 .auth-card {
   max-width: 480px;
   padding-bottom: 1.25rem;

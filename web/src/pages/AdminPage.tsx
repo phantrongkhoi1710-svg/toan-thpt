@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
 import { useAuth } from "../lib/auth";
+import { getSelectedClassroom, setSelectedClassroom } from "../lib/classrooms";
 import { supabase } from "../lib/supabase";
 import { lessons } from "../lessons/registry";
 
@@ -32,7 +33,8 @@ export function AdminPage() {
   const { profile, loading } = useAuth();
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
-  const [classroom, setClassroom] = useState<ClassroomRow | null>(null);
+  const [classrooms, setClassrooms] = useState<ClassroomRow[]>([]);
+  const [classroomId, setClassroomId] = useState(getSelectedClassroom().id);
   const [memberIds, setMemberIds] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +44,7 @@ export function AdminPage() {
     Promise.all([
       supabase.from("profiles").select("id,email,display_name,role"),
       supabase.from("lesson_progress").select("user_id,lesson_id,xp,streak,done_count,total_count,updated_at"),
-      supabase.from("classrooms").select("id,name,teacher_id").eq("name", "Lớp test").maybeSingle(),
+      supabase.from("classrooms").select("id,name,teacher_id").order("name"),
       supabase.from("class_members").select("classroom_id,user_id"),
     ]).then(([p, pr, cl, mem]) => {
       if (!alive) return;
@@ -50,10 +52,13 @@ export function AdminPage() {
         setError(p.error?.message || pr.error?.message || "Không tải được dữ liệu.");
         return;
       }
+      const classRows = (cl.data ?? []) as ClassroomRow[];
       setProfiles((p.data ?? []) as ProfileRow[]);
       setProgress((pr.data ?? []) as ProgressRow[]);
-      setClassroom((cl.data as ClassroomRow | null) ?? null);
-      const classId = (cl.data as ClassroomRow | null)?.id;
+      setClassrooms(classRows);
+      const selected = classRows.find((row) => row.id === classroomId) ?? classRows[0] ?? null;
+      if (selected && selected.id !== classroomId) setClassroomId(selected.id);
+      const classId = selected?.id;
       const members = ((mem.data ?? []) as { classroom_id: string; user_id: string }[]).filter(
         (row) => !classId || row.classroom_id === classId,
       );
@@ -62,8 +67,9 @@ export function AdminPage() {
     return () => {
       alive = false;
     };
-  }, [profile?.role]);
+  }, [profile?.role, classroomId]);
 
+  const classroom = classrooms.find((row) => row.id === classroomId) ?? classrooms[0] ?? null;
   const teacher = profiles.find((p) => p.role === "teacher" && p.email === "gv.quynh@toanthpt.test")
     ?? profiles.find((p) => p.id === classroom?.teacher_id)
     ?? profiles.find((p) => p.role === "teacher");
@@ -113,6 +119,25 @@ export function AdminPage() {
           GVCN: <strong>{teacher?.display_name || "Nguyễn Trúc Quỳnh"}</strong>
           {teacher?.email ? ` · ${teacher.email}` : ""} · {rows.length} học sinh
         </p>
+        {classrooms.length > 0 ? (
+          <label className="class-switch">
+            Lớp
+            <select
+              value={classroom?.id ?? ""}
+              onChange={(e) => {
+                const nextClass = classrooms.find((row) => row.id === e.target.value);
+                setClassroomId(e.target.value);
+                if (nextClass) setSelectedClassroom({ id: nextClass.id, name: nextClass.name });
+              }}
+            >
+              {classrooms.map((row) => (
+                <option key={row.id} value={row.id}>
+                  {row.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
       </div>
 
       <section className="stats" style={{ marginBottom: "1rem" }}>
