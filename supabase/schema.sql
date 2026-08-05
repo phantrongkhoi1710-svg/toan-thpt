@@ -121,5 +121,32 @@ create policy "events_insert_own"
   to authenticated
   with check (user_id = auth.uid());
 
--- Sau khi tự đăng ký tài khoản giáo viên, chạy 1 dòng này (đổi email):
--- update public.profiles set role = 'teacher' where email = 'ban@email.com';
+create table if not exists public.classrooms (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  teacher_id uuid references public.profiles (id) on delete set null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.class_members (
+  classroom_id uuid not null references public.classrooms (id) on delete cascade,
+  user_id uuid not null references public.profiles (id) on delete cascade,
+  primary key (classroom_id, user_id)
+);
+
+alter table public.classrooms enable row level security;
+alter table public.class_members enable row level security;
+
+drop policy if exists "classrooms_select_auth" on public.classrooms;
+create policy "classrooms_select_auth"
+  on public.classrooms for select
+  to authenticated
+  using (true);
+
+drop policy if exists "class_members_select_own_or_teacher" on public.class_members;
+create policy "class_members_select_own_or_teacher"
+  on public.class_members for select
+  to authenticated
+  using (user_id = auth.uid() or public.is_teacher());
+
+-- Lớp test: chạy thêm supabase/seed_class_test.sql

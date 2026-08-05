@@ -22,19 +22,29 @@ interface ProgressRow {
   updated_at: string;
 }
 
+interface ClassroomRow {
+  id: string;
+  name: string;
+  teacher_id: string | null;
+}
+
 export function AdminPage() {
   const { profile, loading } = useAuth();
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
+  const [classroom, setClassroom] = useState<ClassroomRow | null>(null);
+  const [memberIds, setMemberIds] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!supabase || profile?.role !== "teacher") return;
     let alive = true;
     Promise.all([
-      supabase.from("profiles").select("id,email,display_name,role").order("created_at", { ascending: false }),
+      supabase.from("profiles").select("id,email,display_name,role"),
       supabase.from("lesson_progress").select("user_id,lesson_id,xp,streak,done_count,total_count,updated_at"),
-    ]).then(([p, pr]) => {
+      supabase.from("classrooms").select("id,name,teacher_id").eq("name", "Lớp test").maybeSingle(),
+      supabase.from("class_members").select("classroom_id,user_id"),
+    ]).then(([p, pr, cl, mem]) => {
       if (!alive) return;
       if (p.error || pr.error) {
         setError(p.error?.message || pr.error?.message || "Không tải được dữ liệu.");
@@ -42,24 +52,36 @@ export function AdminPage() {
       }
       setProfiles((p.data ?? []) as ProfileRow[]);
       setProgress((pr.data ?? []) as ProgressRow[]);
+      setClassroom((cl.data as ClassroomRow | null) ?? null);
+      const classId = (cl.data as ClassroomRow | null)?.id;
+      const members = ((mem.data ?? []) as { classroom_id: string; user_id: string }[]).filter(
+        (row) => !classId || row.classroom_id === classId,
+      );
+      setMemberIds(members.map((row) => row.user_id));
     });
     return () => {
       alive = false;
     };
   }, [profile?.role]);
 
+  const teacher = profiles.find((p) => p.role === "teacher" && p.email === "gv.quynh@toanthpt.test")
+    ?? profiles.find((p) => p.id === classroom?.teacher_id)
+    ?? profiles.find((p) => p.role === "teacher");
+
   const rows = useMemo(() => {
-    return profiles
+    const students = profiles
       .filter((p) => p.role === "student")
-      .map((p) => {
-        const items = progress.filter((row) => row.user_id === p.id);
-        const done = items.reduce((sum, row) => sum + row.done_count, 0);
-        const total = items.reduce((sum, row) => sum + row.total_count, 0) || lessons.reduce((s, l) => s + l.challenges.length, 0);
-        const xp = items.reduce((sum, row) => sum + row.xp, 0);
-        const last = items.map((row) => row.updated_at).sort().at(-1);
-        return { profile: p, items, done, total, xp, last };
-      });
-  }, [profiles, progress]);
+      .filter((p) => memberIds.length === 0 || memberIds.includes(p.id))
+      .sort((a, b) => (a.display_name || a.email || "").localeCompare(b.display_name || b.email || "", "vi", { numeric: true }));
+
+    return students.map((p) => {
+      const items = progress.filter((row) => row.user_id === p.id);
+      const done = items.reduce((sum, row) => sum + row.done_count, 0);
+      const xp = items.reduce((sum, row) => sum + row.xp, 0);
+      const last = items.map((row) => row.updated_at).sort().at(-1);
+      return { profile: p, items, done, xp, last };
+    });
+  }, [profiles, progress, memberIds]);
 
   if (loading) {
     return (
@@ -76,11 +98,7 @@ export function AdminPage() {
           <h2>Giám sát học tập</h2>
           <p>Mục này chỉ dành cho giáo viên.</p>
           <p className="auth-note">
-            Sau khi đăng ký, vào{" "}
-            <a href="https://supabase.com/dashboard/project/xiieyrbqsjnpdphyjioi/editor" target="_blank" rel="noreferrer">
-              Table Editor → profiles
-            </a>{" "}
-            đổi <code>role</code> của bạn thành <code>teacher</code>.
+            Đăng nhập giáo viên: <code>gv.quynh@toanthpt.test</code> / <code>Pass01</code>
           </p>
         </section>
       </AppShell>
@@ -90,8 +108,11 @@ export function AdminPage() {
   return (
     <AppShell searchPlaceholder="Tìm học sinh...">
       <div className="page-head">
-        <h1>Giám sát tiến độ</h1>
-        <p>{rows.length} học sinh · dữ liệu realtime từ Supabase</p>
+        <h1>{classroom?.name || "Giám sát tiến độ"}</h1>
+        <p>
+          GVCN: <strong>{teacher?.display_name || "Nguyễn Trúc Quỳnh"}</strong>
+          {teacher?.email ? ` · ${teacher.email}` : ""} · {rows.length} học sinh
+        </p>
       </div>
 
       <section className="stats" style={{ marginBottom: "1rem" }}>
@@ -109,11 +130,24 @@ export function AdminPage() {
         </div>
       </section>
 
+      <section className="card" style={{ marginBottom: "1rem" }}>
+        <div className="card__head">
+          <h2>Tài khoản lớp test</h2>
+        </div>
+        <p className="auth-note" style={{ marginTop: 0 }}>
+          Mật khẩu chung: <code>Pass01</code>
+          <br />
+          Giáo viên: <code>gv.quynh@toanthpt.test</code>
+          <br />
+          Học sinh: <code>user01@toanthpt.test</code> → <code>user40@toanthpt.test</code>
+        </p>
+      </section>
+
       {error ? <p className="auth-error">{error}</p> : null}
 
       <section className="card">
         <div className="card__head">
-          <h2>Bảng tiến độ</h2>
+          <h2>Danh sách lớp</h2>
           <Link className="link-soft" to="/">
             Về trang chủ
           </Link>
@@ -122,6 +156,7 @@ export function AdminPage() {
           <table className="monitor-table">
             <thead>
               <tr>
+                <th>STT</th>
                 <th>Học sinh</th>
                 <th>Email</th>
                 {lessons.map((lesson) => (
@@ -134,11 +169,14 @@ export function AdminPage() {
             <tbody>
               {rows.length === 0 ? (
                 <tr>
-                  <td colSpan={4 + lessons.length}>Chưa có học sinh đăng nhập / làm bài.</td>
+                  <td colSpan={5 + lessons.length}>
+                    Chưa có lớp test. Chạy file <code>supabase/seed_class_test.sql</code> trên Supabase.
+                  </td>
                 </tr>
               ) : (
-                rows.map((row) => (
+                rows.map((row, index) => (
                   <tr key={row.profile.id}>
+                    <td>{String(index + 1).padStart(2, "0")}</td>
                     <td>{row.profile.display_name || "—"}</td>
                     <td>{row.profile.email}</td>
                     {lessons.map((lesson) => {

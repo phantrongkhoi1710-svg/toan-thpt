@@ -85,6 +85,10 @@ export function LoginPage() {
           </form>
         )}
         <p className="auth-note">
+          Lớp test · mật khẩu <code>Pass01</code>
+          <br />
+          GV: <code>gv.quynh@toanthpt.test</code> · HS: <code>user01@toanthpt.test</code> … <code>user40@toanthpt.test</code>
+          <br />
           <Link to="/">← Về trang chủ</Link>
         </p>
       </section>

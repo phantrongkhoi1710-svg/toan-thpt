@@ -58,12 +58,9 @@ VITE_SUPABASE_ANON_KEY=...
    - Site URL: `https://phantrongkhoi1710-svg.github.io/toan-thpt/`
    - Redirect: `http://localhost:5173/**` và `https://phantrongkhoi1710-svg.github.io/toan-thpt/**`
 5. Nên tắt **Confirm email** nếu dùng trong lớp (Auth → Providers → Email).
-6. Đăng ký tài khoản giáo viên trên site, rồi chạy:
-
-```sql
-update public.profiles set role = 'teacher' where email = 'ban@email.com';
-```
-
+6. Chạy tiếp `supabase/seed_class_test.sql` để tạo **Lớp test**:
+   - GV: `gv.quynh@toanthpt.test` / `Pass01` · Nguyễn Trúc Quỳnh
+   - HS: `user01@toanthpt.test` → `user40@toanthpt.test` / `Pass01`
 7. GitHub repo → Settings → Secrets → Actions, thêm `VITE_SUPABASE_URL` và `VITE_SUPABASE_ANON_KEY`.
 
 - Học sinh đăng nhập mới làm được challenge map (tiến độ lưu cloud).
