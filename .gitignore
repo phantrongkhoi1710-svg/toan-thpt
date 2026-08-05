@@ -8,3 +8,7 @@ _b3_text.txt
 _b*_extract/
 .DS_Store
 Thumbs.db
+node_modules/
+web/dist/
+web/node_modules/
+*.local

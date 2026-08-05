@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap");
+
+body.sidebar-open .sidebar {
+  transform: translateX(0);
+}
+
+.venn-lab {
+  width: min(360px, 100%);
+  margin: 0.75rem auto;
+}
+.venn-lab svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.venn-zone {
+  cursor: pointer;
+  transition: filter 0.15s ease, stroke-width 0.15s ease;
+}
+.venn-zone.is-selected {
+  filter: brightness(1.08);
+  stroke-width: 3;
+}
+.venn-zone.is-correct {
+  filter: brightness(1.15);
+  stroke: #16a34a;
+  stroke-width: 3;
+}
+.venn-zone.is-wrong {
+  filter: grayscale(0.25);
+  stroke: #e11d48;
+  stroke-width: 3;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  background: #f1f5f9;
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+}
