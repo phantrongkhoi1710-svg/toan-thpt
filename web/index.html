@@ -11,7 +11,8 @@
         delete sessionStorage.redirect;
         if (!redirect) return;
         var url = new URL(redirect);
-        history.replaceState(null, "", url.pathname + url.search + url.hash);
+        var path = url.pathname.replace(/\/$/, "");
+        history.replaceState(null, "", path + url.search + url.hash);
       })();
     </script>
   </head>

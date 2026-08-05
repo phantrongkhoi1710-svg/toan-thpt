@@ -1,22 +1,20 @@
 import { useMemo, useState, type FormEvent } from "react";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
+import { AppShell } from "../components/AppShell";
 import { useAuth } from "../lib/auth";
 
-type RoleGate = "student" | "teacher";
-
-const FLOAT_SYMBOLS = ["∀", "∃", "π", "√", "∩", "∪", "⇒", "∞", "Δ", "θ", "∑", "∈"];
+const studentOptions = Array.from({ length: 40 }, (_, i) => String(i + 1).padStart(2, "0"));
 
 export function LoginPage() {
   const { configured, user, profile, signIn, signUp } = useAuth();
   const [params] = useSearchParams();
   const next = params.get("next") || "/";
-  const [gate, setGate] = useState<RoleGate>("student");
+  const [role, setRole] = useState<"student" | "teacher">("student");
   const [mode, setMode] = useState<"in" | "up">("in");
   const [studentNo, setStudentNo] = useState("01");
   const [email, setEmail] = useState("user01@toanthpt.test");
   const [password, setPassword] = useState("Pass01");
   const [displayName, setDisplayName] = useState("");
-  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -29,25 +27,26 @@ export function LoginPage() {
   if (user && profile) return <Navigate to={destination} replace />;
   if (user && !configured) return <Navigate to={next} replace />;
 
-  const applyGate = (nextGate: RoleGate) => {
-    setGate(nextGate);
-    setError(null);
-    setInfo(null);
-    setPassword("Pass01");
-    if (nextGate === "teacher") {
-      setMode("in");
-      setEmail("gv.quynh@toanthpt.test");
-    } else {
-      setEmail(`user${studentNo}@toanthpt.test`);
-    }
+  const setStudent = (no: string) => {
+    setStudentNo(no);
+    setEmail(`user${no}@toanthpt.test`);
   };
 
-  const applyStudentNo = (value: string) => {
-    const padded = value.replace(/\D/g, "").slice(0, 2).padStart(2, "0");
-    const safe = Math.min(40, Math.max(1, Number(padded) || 1));
-    const code = String(safe).padStart(2, "0");
-    setStudentNo(code);
-    if (gate === "student" && mode === "in") setEmail(`user${code}@toanthpt.test`);
+  const setTeacher = () => {
+    setRole("teacher");
+    setMode("in");
+    setEmail("gv.quynh@toanthpt.test");
+    setPassword("Pass01");
+    setError(null);
+    setInfo(null);
+  };
+
+  const setStudentRole = () => {
+    setRole("student");
+    setEmail(`user${studentNo}@toanthpt.test`);
+    setPassword("Pass01");
+    setError(null);
+    setInfo(null);
   };
 
   const onSubmit = async (e: FormEvent) => {
@@ -65,127 +64,76 @@ export function LoginPage() {
       return;
     }
     if (mode === "up") {
-      setInfo("Thẻ học viên đã được phát hành! Nếu cần xác nhận email thì kiểm tra hộp thư, rồi đăng nhập nhé.");
+      setInfo("Tạo tài khoản xong. Hãy đăng nhập lại.");
       setMode("in");
     }
   };
 
   return (
-    <div className="gate">
-      <div className="gate__art" aria-hidden="true">
-        <div className="gate__board">
-          <p className="gate__eyebrow">Học viện Toán THPT</p>
-          <h1>Mở cổng lớp học</h1>
-          <p className="gate__lead">
-            Vào bằng thẻ học viên hoặc chìa khóa giáo viên. Bên trong có slide, challenge map và bảng giám sát tiến độ.
-          </p>
-          <ul className="gate__facts">
-            <li>
-              <strong>P ⇒ Q</strong>
-              <span>Đăng nhập đúng mới mở challenge</span>
-            </li>
-            <li>
-              <strong>∀ học sinh</strong>
-              <span>Tiến độ được lưu trên Supabase</span>
-            </li>
-            <li>
-              <strong>∃ giáo viên</strong>
-              <span>Nhìn thấy cả lớp đang học tới đâu</span>
-            </li>
-          </ul>
-        </div>
-        {FLOAT_SYMBOLS.map((sym) => (
-          <span key={sym} className="gate__float">
-            {sym}
-          </span>
-        ))}
-      </div>
+    <AppShell searchPlaceholder="Tìm bài giảng...">
+      <section className="login-wrap">
+        <div className="login-card">
+          <p className="login-kicker">Toán THPT</p>
+          <h1>{mode === "up" ? "Tạo tài khoản" : "Đăng nhập"}</h1>
+          <p className="login-sub">Dùng tài khoản Supabase để lưu tiến độ và vào lớp học.</p>
 
-      <div className="gate__panel">
-        <Link className="gate__back" to="/">
-          ← Về sảnh học tập
-        </Link>
-        <div className="gate__ticket">
-          <div className="gate__stamp">{gate === "teacher" ? "GV" : "HS"}</div>
-          <p className="gate__kicker">{mode === "in" ? "Soát vé vào lớp" : "Làm thẻ học viên mới"}</p>
-          <h2>{gate === "teacher" ? "Phòng giáo viên" : "Cổng học sinh"}</h2>
-
-          <div className="gate__roles" role="tablist">
-            <button type="button" className={gate === "student" ? "is-on" : ""} onClick={() => applyGate("student")}>
+          <div className="login-tabs">
+            <button type="button" className={role === "student" ? "is-on" : ""} onClick={setStudentRole}>
               Học sinh
             </button>
-            <button type="button" className={gate === "teacher" ? "is-on" : ""} onClick={() => applyGate("teacher")}>
+            <button type="button" className={role === "teacher" ? "is-on" : ""} onClick={setTeacher}>
               Giáo viên
             </button>
           </div>
 
-          {user && !profile ? <p className="gate__alert">Đang kiểm tra thẻ học viên...</p> : null}
+          {user && !profile ? <p className="login-msg">Đang tải hồ sơ...</p> : null}
 
-          {!configured ? (
-            <p className="gate__alert">
-              Chưa gắn Supabase. Thêm <code>VITE_SUPABASE_URL</code> và <code>VITE_SUPABASE_ANON_KEY</code> vào{" "}
-              <code>web/.env.local</code>.
+          {user && !profile ? null : !configured ? (
+            <p className="login-msg is-bad">
+              Chưa cấu hình Supabase. Thêm key vào <code>web/.env.local</code> rồi chạy lại.
             </p>
           ) : (
-            <form className="gate__form" onSubmit={onSubmit}>
-              {gate === "student" && mode === "in" ? (
-                <label className="gate__field">
-                  Số báo danh lớp test
-                  <div className="gate__seat">
-                    <button type="button" onClick={() => applyStudentNo(String(Number(studentNo) - 1))} aria-label="Giảm">
-                      −
-                    </button>
-                    <input
-                      inputMode="numeric"
-                      value={studentNo}
-                      onChange={(e) => applyStudentNo(e.target.value)}
-                      aria-label="Số học sinh từ 01 đến 40"
-                    />
-                    <button type="button" onClick={() => applyStudentNo(String(Number(studentNo) + 1))} aria-label="Tăng">
-                      +
-                    </button>
-                  </div>
+            <form className="login-form" onSubmit={onSubmit}>
+              {role === "student" && mode === "in" ? (
+                <label>
+                  Học sinh lớp test
+                  <select value={studentNo} onChange={(e) => setStudent(e.target.value)}>
+                    {studentOptions.map((no) => (
+                      <option key={no} value={no}>
+                        User {no}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               ) : null}
 
               {mode === "up" ? (
-                <label className="gate__field">
-                  Tên trên thẻ
+                <label>
+                  Họ tên
                   <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Nguyễn Văn A" />
                 </label>
               ) : null}
 
-              <label className="gate__field">
+              <label>
                 Email
                 <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
               </label>
 
-              <label className="gate__field">
+              <label>
                 Mật khẩu
-                <div className="gate__pass">
-                  <input
-                    type={showPass ? "text" : "password"}
-                    required
-                    minLength={6}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button type="button" onClick={() => setShowPass((v) => !v)}>
-                    {showPass ? "Ẩn" : "Hiện"}
-                  </button>
-                </div>
+                <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
               </label>
 
-              {error ? <p className="gate__alert is-bad">{error}</p> : null}
-              {info ? <p className="gate__alert is-ok">{info}</p> : null}
+              {error ? <p className="login-msg is-bad">{error}</p> : null}
+              {info ? <p className="login-msg is-ok">{info}</p> : null}
 
-              <button className="gate__submit" type="submit" disabled={busy}>
-                {busy ? "Đang mở cổng..." : mode === "in" ? "Vào lớp!" : "Nhận thẻ học viên"}
+              <button className="btn btn--primary" type="submit" disabled={busy}>
+                {busy ? "Đang đăng nhập..." : mode === "in" ? "Đăng nhập" : "Đăng ký"}
               </button>
 
-              {gate === "student" ? (
+              {role === "student" ? (
                 <button
-                  className="gate__switch"
+                  className="login-switch"
                   type="button"
                   onClick={() => {
                     setMode(mode === "in" ? "up" : "in");
@@ -193,28 +141,25 @@ export function LoginPage() {
                     setInfo(null);
                   }}
                 >
-                  {mode === "in" ? "Chưa có thẻ? Đăng ký học viên mới" : "Đã có thẻ? Đăng nhập tại đây"}
+                  {mode === "in" ? "Chưa có tài khoản? Đăng ký" : "Đã có tài khoản? Đăng nhập"}
                 </button>
               ) : (
-                <p className="gate__hint">GVCN lớp test: Nguyễn Trúc Quỳnh</p>
+                <p className="login-hint">Giáo viên: Nguyễn Trúc Quỳnh</p>
               )}
             </form>
           )}
 
-          <div className="gate__footer">
-            <span>Lớp test · mật khẩu chung</span>
-            <strong>Pass01</strong>
-          </div>
+          <p className="login-hint">Mật khẩu lớp test: Pass01</p>
         </div>
-      </div>
-    </div>
+      </section>
+    </AppShell>
   );
 }
 
 function translateAuthError(message: string) {
   const lower = message.toLowerCase();
-  if (lower.includes("invalid login")) return "Sai email hoặc mật khẩu. Thử lại như làm lại một bài tập nhé!";
-  if (lower.includes("email not confirmed")) return "Email chưa xác nhận. Kiểm tra hộp thư rồi quay lại cổng.";
-  if (lower.includes("already registered")) return "Email này đã có thẻ học viên. Hãy đăng nhập.";
+  if (lower.includes("invalid login")) return "Sai email hoặc mật khẩu.";
+  if (lower.includes("email not confirmed")) return "Email chưa xác nhận.";
+  if (lower.includes("already registered")) return "Email này đã được đăng ký.";
   return message;
 }
