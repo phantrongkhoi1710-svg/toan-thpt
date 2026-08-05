@@ -105,6 +105,268 @@ code {
   color: var(--ink);
 }
 
+.gate {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: #f4efe4;
+  color: #1f2937;
+}
+.gate__art {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(251, 191, 36, 0.25), transparent 28%),
+    linear-gradient(160deg, #0f172a 0%, #1e3a5f 55%, #312e81 100%);
+  color: #e2e8f0;
+  padding: 3.5rem 3rem;
+  display: flex;
+  align-items: center;
+}
+.gate__board {
+  position: relative;
+  z-index: 1;
+  max-width: 460px;
+}
+.gate__eyebrow {
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fde68a;
+}
+.gate__art h1 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.15;
+  color: #fff;
+}
+.gate__lead {
+  margin: 0 0 1.6rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+}
+.gate__facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+.gate__facts li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.gate__facts strong {
+  color: #fde68a;
+  font-family: "Cambria Math", "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+.gate__facts span {
+  color: #e2e8f0;
+  font-size: 0.92rem;
+}
+.gate__float {
+  position: absolute;
+  color: rgba(253, 230, 138, 0.28);
+  font-size: 2rem;
+  font-weight: 700;
+  animation: gateDrift 12s linear infinite;
+}
+.gate__float:nth-child(2) { top: 12%; left: 72%; animation-delay: -1s; }
+.gate__float:nth-child(3) { top: 22%; left: 58%; animation-delay: -2s; font-size: 1.4rem; }
+.gate__float:nth-child(4) { top: 38%; left: 78%; animation-delay: -3s; }
+.gate__float:nth-child(5) { top: 55%; left: 66%; animation-delay: -4s; font-size: 2.4rem; }
+.gate__float:nth-child(6) { top: 70%; left: 80%; animation-delay: -5s; }
+.gate__float:nth-child(7) { top: 78%; left: 60%; animation-delay: -6s; }
+.gate__float:nth-child(8) { top: 18%; left: 86%; animation-delay: -7s; }
+.gate__float:nth-child(9) { bottom: 12%; left: 18%; animation-delay: -8s; }
+.gate__float:nth-child(10) { bottom: 22%; left: 8%; animation-delay: -9s; font-size: 1.5rem; }
+.gate__float:nth-child(11) { top: 8%; left: 12%; animation-delay: -10s; }
+.gate__float:nth-child(12) { top: 48%; left: 8%; animation-delay: -11s; }
+.gate__float:nth-child(13) { bottom: 8%; left: 40%; animation-delay: -3.5s; }
+@keyframes gateDrift {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-12px) rotate(6deg); }
+}
+
+.gate__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+.gate__back {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  color: #64748b;
+  font-weight: 600;
+}
+.gate__ticket {
+  position: relative;
+  background: #fffaf3;
+  border: 1px solid #e7dcc8;
+  border-radius: 28px;
+  padding: 1.6rem 1.5rem 1.2rem;
+  box-shadow: 0 18px 50px rgba(49, 46, 129, 0.12);
+}
+.gate__stamp {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 3px dashed #dc2626;
+  color: #dc2626;
+  font-weight: 800;
+  transform: rotate(12deg);
+  background: rgba(254, 226, 226, 0.7);
+}
+.gate__kicker {
+  margin: 0 0 0.35rem;
+  color: #b45309;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.gate__ticket h2 {
+  margin: 0 0 1rem;
+  font-size: 1.7rem;
+}
+.gate__roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.gate__roles button {
+  border: 1px solid #e7dcc8;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.7rem 0.5rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: #57534e;
+}
+.gate__roles button.is-on {
+  background: #1e3a5f;
+  border-color: #1e3a5f;
+  color: #fff;
+}
+.gate__form {
+  display: grid;
+  gap: 0.8rem;
+}
+.gate__field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #44403c;
+}
+.gate__field input,
+.gate__seat input {
+  width: 100%;
+  border: 1px solid #e7dcc8;
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  background: #fff;
+  font: inherit;
+}
+.gate__seat,
+.gate__pass {
+  display: flex;
+  gap: 0.45rem;
+}
+.gate__seat button,
+.gate__pass button {
+  border: 1px solid #e7dcc8;
+  background: #fff7ed;
+  border-radius: 12px;
+  min-width: 44px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.gate__seat input {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.gate__pass {
+  align-items: stretch;
+}
+.gate__pass input { flex: 1; }
+.gate__submit {
+  border: 0;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(135deg, #f59e0b, #dc2626);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(220, 38, 38, 0.25);
+}
+.gate__submit:disabled { opacity: 0.7; cursor: wait; }
+.gate__switch,
+.gate__hint {
+  border: 0;
+  background: transparent;
+  color: #57534e;
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  text-align: center;
+}
+.gate__hint { margin: 0; cursor: default; }
+.gate__alert {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 0.9rem;
+}
+.gate__alert.is-bad { background: #fff1f2; color: #9f1239; }
+.gate__alert.is-ok { background: #ecfdf5; color: #065f46; }
+.gate__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed #e7dcc8;
+  color: #78716c;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+  .gate {
+    grid-template-columns: 1fr;
+  }
+  .gate__art {
+    min-height: 280px;
+    padding: 2rem 1.4rem 1.5rem;
+  }
+  .gate__panel {
+    padding: 1.2rem 1rem 2rem;
+  }
+  .gate__float { display: none; }
+}
+
 .auth-card {
   max-width: 480px;
   padding-bottom: 1.25rem;
