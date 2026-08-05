@@ -7,7 +7,7 @@ export function HomePage() {
   const prev = lessons[lessons.length - 2];
 
   return (
-    <AppShell active="home">
+    <AppShell>
       <div className="dash">
         <div className="dash__main">
           <section className="card welcome">

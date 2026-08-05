@@ -15,8 +15,6 @@ export function ChallengePage() {
   }
   return (
     <AppShell
-      lesson={lesson}
-      active="challenge"
       searchPlaceholder="Tìm mốc..."
       topAction={
         <Link className="btn btn--ghost" to={`/bai/${lesson.slug}/slides`}>

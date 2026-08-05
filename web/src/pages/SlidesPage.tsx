@@ -15,8 +15,6 @@ export function SlidesPage() {
   }
   return (
     <AppShell
-      lesson={lesson}
-      active="slides"
       searchPlaceholder={`Tìm trong ${lesson.shortTitle}...`}
       topAction={
         <Link className="btn btn--ghost" to={`/bai/${lesson.slug}/challenge`}>

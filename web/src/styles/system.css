@@ -4,6 +4,50 @@ body.sidebar-open .sidebar {
   transform: translateX(0);
 }
 
+.nav-lesson {
+  margin: 0 0 0.85rem;
+  padding: 0.2rem 0 0.15rem;
+  border-radius: 14px;
+}
+.nav-lesson.is-current {
+  background: #f8fafc;
+  padding: 0.45rem 0.2rem 0.35rem;
+}
+.nav-lesson.is-current .nav-lesson__num {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.nav-lesson + .nav-lesson {
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+}
+.nav-lesson__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.55rem 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+}
+.nav-lesson__num {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 8px;
+  background: #e2e8f0;
+  color: #334155;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+.nav-lesson .nav-list {
+  margin-bottom: 0;
+}
+.nav-lesson .nav-list a {
+  padding-left: 1.05rem;
+}
+
 .venn-lab {
   width: min(360px, 100%);
   margin: 0.75rem auto;
