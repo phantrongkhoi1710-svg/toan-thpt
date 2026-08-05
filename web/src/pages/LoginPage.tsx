@@ -5,9 +5,9 @@ import { useAuth } from "../lib/auth";
 import {
   FALLBACK_CLASSES,
   getSelectedClassroom,
-  joinClassroom,
   loadClassrooms,
   setSelectedClassroom,
+  studentDisplayName,
   type ClassroomOption,
 } from "../lib/classrooms";
 
@@ -25,6 +25,7 @@ export function LoginPage() {
   const [displayName, setDisplayName] = useState("");
   const [classes, setClasses] = useState<ClassroomOption[]>(FALLBACK_CLASSES);
   const [classroomId, setClassroomId] = useState(getSelectedClassroom().id);
+  const selectedClass = classes.find((row) => row.id === classroomId) ?? classes[0];
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -71,16 +72,19 @@ export function LoginPage() {
     setBusy(true);
     setError(null);
     setInfo(null);
-    const classroom = classes.find((row) => row.id === classroomId) ?? classes[0];
-    setSelectedClassroom(classroom);
+    setSelectedClassroom(selectedClass);
+    const classStudentName = studentDisplayName(selectedClass.name, studentNo);
 
     const msg =
       mode === "in"
-        ? await signIn(email.trim(), password)
-        : await signUp(email.trim(), password, displayName.trim() || email.split("@")[0]);
-    if (!msg && mode === "in" && role === "student") {
-      await joinClassroom(classroom.id);
-    }
+        ? await signIn(
+            email.trim(),
+            password,
+            role === "student"
+              ? { classroomId: selectedClass.id, className: selectedClass.name, studentNo }
+              : undefined,
+          )
+        : await signUp(email.trim(), password, displayName.trim() || classStudentName);
     setBusy(false);
     if (msg) {
       setError(translateAuthError(msg));
@@ -141,7 +145,7 @@ export function LoginPage() {
                   <select value={studentNo} onChange={(e) => setStudent(e.target.value)}>
                     {studentOptions.map((no) => (
                       <option key={no} value={no}>
-                        User {no}
+                        {studentDisplayName(selectedClass.name, no)}
                       </option>
                     ))}
                   </select>
@@ -151,7 +155,11 @@ export function LoginPage() {
               {mode === "up" ? (
                 <label>
                   Họ tên
-                  <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Nguyễn Văn A" />
+                  <input
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    placeholder={studentDisplayName(selectedClass.name, "01")}
+                  />
                 </label>
               ) : null}
 

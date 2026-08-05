@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Session, User } from "@supabase/supabase-js";
+import { joinClassroom } from "./classrooms";
 import { supabase, supabaseConfigured } from "./supabase";
 
 export interface Profile {
@@ -22,7 +23,11 @@ interface AuthContextValue {
   session: Session | null;
   user: User | null;
   profile: Profile | null;
-  signIn: (email: string, password: string) => Promise<string | null>;
+  signIn: (
+    email: string,
+    password: string,
+    options?: { classroomId?: string; className?: string; studentNo?: string },
+  ) => Promise<string | null>;
   signUp: (email: string, password: string, displayName: string) => Promise<string | null>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -71,10 +76,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user: session?.user ?? null,
       profile,
-      async signIn(email, password) {
+      async signIn(email, password, options) {
         if (!supabase) return "Chưa cấu hình Supabase.";
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        return error?.message ?? null;
+        if (error) return error.message;
+        if (options?.classroomId) {
+          await joinClassroom(options.classroomId, options.className, options.studentNo);
+          const { data } = await supabase.auth.getUser();
+          if (data.user) await loadProfile(data.user.id);
+        }
+        return null;
       },
       async signUp(email, password, displayName) {
         if (!supabase) return "Chưa cấu hình Supabase.";

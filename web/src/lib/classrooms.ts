@@ -42,7 +42,15 @@ export async function loadClassrooms(): Promise<ClassroomOption[]> {
   return data as ClassroomOption[];
 }
 
-export async function joinClassroom(classroomId: string) {
+export function studentDisplayName(className: string, studentNo: string) {
+  return `${className} · HS ${studentNo}`;
+}
+
+export function studentNoFromEmail(email: string | null | undefined) {
+  return email?.match(/user(\d{2})@/i)?.[1] ?? null;
+}
+
+export async function joinClassroom(classroomId: string, className?: string, studentNo?: string) {
   if (!supabase || !classroomId) return;
   const { data } = await supabase.auth.getUser();
   const userId = data.user?.id;
@@ -51,4 +59,8 @@ export async function joinClassroom(classroomId: string) {
     { classroom_id: classroomId, user_id: userId },
     { onConflict: "classroom_id,user_id" },
   );
+  const no = studentNo || studentNoFromEmail(data.user?.email);
+  if (className && no) {
+    await supabase.from("profiles").update({ display_name: studentDisplayName(className, no) }).eq("id", userId);
+  }
 }

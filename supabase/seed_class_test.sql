@@ -110,9 +110,9 @@ update public.profiles p
 set display_name = initcap(replace(split_part(p.email, '@', 1), 'user', 'User '))
 where p.email ~ '^user[0-9]{2}@toanthpt\.test$';
 
--- chuẩn hóa tên User 01 ... User 40
+-- chuẩn hóa tên theo lớp test
 update public.profiles p
-set display_name = format('User %s', substring(p.email from 'user([0-9]{2})'))
+set display_name = format('Lớp test · HS %s', substring(p.email from 'user([0-9]{2})'))
 where p.email ~ '^user[0-9]{2}@toanthpt\.test$';
 
 insert into public.classrooms (id, name, teacher_id)

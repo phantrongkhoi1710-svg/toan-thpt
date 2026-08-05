@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
 import { useAuth } from "../lib/auth";
-import { getSelectedClassroom, setSelectedClassroom } from "../lib/classrooms";
+import { getSelectedClassroom, setSelectedClassroom, studentDisplayName, studentNoFromEmail } from "../lib/classrooms";
 import { supabase } from "../lib/supabase";
 import { lessons } from "../lessons/registry";
 
@@ -202,7 +202,11 @@ export function AdminPage() {
                 rows.map((row, index) => (
                   <tr key={row.profile.id}>
                     <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>{row.profile.display_name || "—"}</td>
+                    <td>
+                      {studentNoFromEmail(row.profile.email) && classroom
+                        ? studentDisplayName(classroom.name, studentNoFromEmail(row.profile.email)!)
+                        : row.profile.display_name || "—"}
+                    </td>
                     <td>{row.profile.email}</td>
                     {lessons.map((lesson) => {
                       const item = row.items.find((it) => it.lesson_id === lesson.id);

@@ -39,3 +39,8 @@ values
 on conflict (id) do update
 set name = excluded.name,
     teacher_id = coalesce(excluded.teacher_id, public.classrooms.teacher_id);
+
+update public.profiles p
+set display_name = format('Lớp test · HS %s', substring(p.email from 'user([0-9]{2})'))
+where p.email ~ '^user[0-9]{2}@toanthpt\.test$'
+  and (p.display_name is null or p.display_name ~ '^User ');
