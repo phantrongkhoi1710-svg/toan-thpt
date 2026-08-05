@@ -1,14 +1,38 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChallengeQuestion, Lesson, Level } from "../lib/schema";
-import { loadProgress, saveProgress, type ProgressState } from "../lib/progress";
+import {
+  fetchRemoteProgress,
+  loadProgress,
+  logProgressEvent,
+  mergeProgress,
+  saveProgress,
+  syncProgress,
+  type ProgressState,
+} from "../lib/progress";
 import { MathHtml } from "../lib/math";
+import { useAuth } from "../lib/auth";
 
 export function ChallengeMap({ lesson }: { lesson: Lesson }) {
+  const { user } = useAuth();
   const [state, setState] = useState<ProgressState>(() => loadProgress(lesson.progressKey));
   const [activeId, setActiveId] = useState<number | null>(null);
   const [chosen, setChosen] = useState<number | null>(null);
   const [checked, setChecked] = useState(false);
   const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    if (!user) return;
+    void fetchRemoteProgress(user.id, lesson.id).then((remote) => {
+      if (!remote) {
+        void syncProgress(user.id, lesson.id, loadProgress(lesson.progressKey), lesson.challenges.length);
+        return;
+      }
+      const merged = mergeProgress(loadProgress(lesson.progressKey), remote);
+      setState(merged);
+      saveProgress(lesson.progressKey, merged);
+      void syncProgress(user.id, lesson.id, merged, lesson.challenges.length);
+    });
+  }, [user, lesson.id, lesson.progressKey, lesson.challenges.length]);
 
   const bank = lesson.challenges;
   const firstOpen = useMemo(() => {
@@ -30,6 +54,7 @@ export function ChallengeMap({ lesson }: { lesson: Lesson }) {
   const persist = (next: ProgressState) => {
     setState(next);
     saveProgress(lesson.progressKey, next);
+    if (user) void syncProgress(user.id, lesson.id, next, lesson.challenges.length);
   };
 
   const open = (id: number) => {
@@ -54,6 +79,7 @@ export function ChallengeMap({ lesson }: { lesson: Lesson }) {
     if (chosen == null) return;
     setChecked(true);
     const ok = chosen === q.answer;
+    if (user) void logProgressEvent(user.id, lesson.id, activeId, ok);
     if (ok && !state.done[String(activeId)]) {
       const next = {
         ...state,

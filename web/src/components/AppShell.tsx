@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { lessons } from "../lessons/registry";
+import { useAuth } from "../lib/auth";
 
 interface AppShellProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ export function AppShell({
   }, [open]);
 
   const close = () => setOpen(false);
+  const { configured, user, profile, signOut } = useAuth();
 
   return (
     <>
@@ -45,6 +47,28 @@ export function AppShell({
                   <span className="ico">⌂</span> Trang chủ
                 </NavLink>
               </li>
+              <li>
+                {user ? (
+                  <button className="nav-text-btn" type="button" onClick={() => void signOut().then(close)}>
+                    <span className="ico">⎋</span> Đăng xuất
+                  </button>
+                ) : (
+                  <NavLink to="/dang-nhap" className={({ isActive }) => (isActive ? "is-active" : undefined)} onClick={close}>
+                    <span className="ico">⇨</span> Đăng nhập
+                  </NavLink>
+                )}
+              </li>
+              {profile?.role === "teacher" ? (
+                <li>
+                  <NavLink
+                    to="/quan-tri"
+                    className={({ isActive }) => (isActive ? "is-active" : undefined)}
+                    onClick={close}
+                  >
+                    <span className="ico">▣</span> Giám sát
+                  </NavLink>
+                </li>
+              ) : null}
             </ul>
 
             <p className="nav-group__label">Chương I</p>
@@ -83,8 +107,14 @@ export function AppShell({
           </nav>
 
           <div className="sidebar__foot">
-            <strong>Cách học</strong>
-            Xem slide trước, rồi làm challenge map của cùng bài đó.
+            <strong>{user ? profile?.display_name || user.email : "Chưa đăng nhập"}</strong>
+            {configured
+              ? user
+                ? profile?.role === "teacher"
+                  ? "Tài khoản giáo viên · xem Giám sát để theo dõi lớp."
+                  : "Tiến độ challenge đang được lưu lên Supabase."
+                : "Đăng nhập để lưu tiến độ và để giáo viên theo dõi."
+              : "Xem slide trước, rồi làm challenge map của cùng bài đó."}
           </div>
         </aside>
 
@@ -99,8 +129,8 @@ export function AppShell({
             </label>
             <div className="topbar__actions">
               {topAction}
-              <div className="avatar" title="Học sinh">
-                HS
+              <div className="avatar" title={profile?.display_name || user?.email || "Học sinh"}>
+                {(profile?.display_name || user?.email || "HS").slice(0, 2).toUpperCase()}
               </div>
             </div>
           </header>

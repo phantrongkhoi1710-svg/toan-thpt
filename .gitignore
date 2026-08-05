@@ -12,3 +12,6 @@ node_modules/
 web/dist/
 web/node_modules/
 *.local
+web/.env
+web/.env.local
+web/.env.*.local

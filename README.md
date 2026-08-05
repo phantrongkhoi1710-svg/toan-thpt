@@ -41,6 +41,34 @@ web/src/components/     engine UI
 web/public/images/      ảnh SGK / minh họa
 ```
 
+## Đăng nhập & giám sát (Supabase)
+
+Project: [xiieyrbqsjnpdphyjioi](https://supabase.com/dashboard/project/xiieyrbqsjnpdphyjioi)
+
+1. Mở [SQL Editor](https://supabase.com/dashboard/project/xiieyrbqsjnpdphyjioi/sql/new), dán và chạy `supabase/schema.sql`.
+2. Lấy **anon public** key ở [API Settings](https://supabase.com/dashboard/project/xiieyrbqsjnpdphyjioi/settings/api).
+3. Tạo `web/.env.local`:
+
+```
+VITE_SUPABASE_URL=https://xiieyrbqsjnpdphyjioi.supabase.co
+VITE_SUPABASE_ANON_KEY=...
+```
+
+4. Authentication → URL configuration:
+   - Site URL: `https://phantrongkhoi1710-svg.github.io/toan-thpt/`
+   - Redirect: `http://localhost:5173/**` và `https://phantrongkhoi1710-svg.github.io/toan-thpt/**`
+5. Nên tắt **Confirm email** nếu dùng trong lớp (Auth → Providers → Email).
+6. Đăng ký tài khoản giáo viên trên site, rồi chạy:
+
+```sql
+update public.profiles set role = 'teacher' where email = 'ban@email.com';
+```
+
+7. GitHub repo → Settings → Secrets → Actions, thêm `VITE_SUPABASE_URL` và `VITE_SUPABASE_ANON_KEY`.
+
+- Học sinh đăng nhập mới làm được challenge map (tiến độ lưu cloud).
+- Giáo viên vào mục **Giám sát** để xem XP / số mốc từng bài.
+
 ## Deploy
 
 Push lên `main` → GitHub Actions build Vite và publish GitHub Pages.

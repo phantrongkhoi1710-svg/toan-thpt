@@ -83,3 +83,78 @@ code {
   padding: 0.1em 0.35em;
   border-radius: 6px;
 }
+
+.nav-text-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.75rem;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.94rem;
+  cursor: pointer;
+  text-align: left;
+}
+.nav-text-btn:hover {
+  background: #f8fafc;
+  color: var(--ink);
+}
+
+.auth-card {
+  max-width: 480px;
+  padding-bottom: 1.25rem;
+}
+.auth-form {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0 1.1rem 0.25rem;
+}
+.auth-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #334155;
+}
+.auth-form input {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  background: #fff;
+}
+.auth-note,
+.auth-error,
+.auth-info {
+  margin: 0.75rem 1.1rem;
+  font-size: 0.92rem;
+}
+.auth-error { color: #be123c; }
+.auth-info { color: #0f766e; }
+
+.table-wrap {
+  overflow-x: auto;
+  padding: 0 0.4rem 1rem;
+}
+.monitor-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.monitor-table th,
+.monitor-table td {
+  text-align: left;
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.monitor-table th {
+  color: #64748b;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
