@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useMemo, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { lessons } from "../lessons/registry";
 import { useAuth } from "../lib/auth";
@@ -17,6 +17,36 @@ export function AppShell({
 }: AppShellProps) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+
+  const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>(() => {
+    const currentLesson = lessons.find((l) => location.pathname.includes(`/bai/${l.slug}/`));
+    if (currentLesson) {
+      return { [currentLesson.chapter]: true };
+    }
+    return {};
+  });
+
+  useEffect(() => {
+    const currentLesson = lessons.find((l) => location.pathname.includes(`/bai/${l.slug}/`));
+    if (currentLesson) {
+      setExpandedChapters(prev => ({ ...prev, [currentLesson.chapter]: true }));
+    }
+  }, [location.pathname]);
+
+  const toggleChapter = (chapter: string) => {
+    setExpandedChapters(prev => ({ ...prev, [chapter]: !prev[chapter] }));
+  };
+
+  const lessonsByChapter = useMemo(() => {
+    const groups: Record<string, typeof lessons> = {};
+    for (const lesson of lessons) {
+      if (!groups[lesson.chapter]) {
+        groups[lesson.chapter] = [];
+      }
+      groups[lesson.chapter].push(lesson);
+    }
+    return groups;
+  }, []);
   useEffect(() => {
     document.body.classList.toggle("sidebar-open", open);
     return () => document.body.classList.remove("sidebar-open");
@@ -73,37 +103,54 @@ export function AppShell({
               ) : null}
             </ul>
 
-            <p className="nav-group__label">Chương I</p>
-            {lessons.map((item) => (
-              <div
-                className={`nav-lesson${location.pathname.includes(`/bai/${item.slug}/`) ? " is-current" : ""}`}
-                key={item.id}
-              >
-                <div className="nav-lesson__title">
-                  <span className="nav-lesson__num">{item.number}</span>
-                  <span>{item.shortTitle}</span>
-                  {item.isNew ? <span className="badge-new">Mới</span> : null}
+            {Object.entries(lessonsByChapter).map(([chapter, chapterLessons]) => (
+              <div key={chapter} className="nav-chapter-group">
+                <button 
+                  className="nav-group__label nav-group__toggle" 
+                  onClick={() => toggleChapter(chapter)}
+                  type="button"
+                >
+                  {chapter}
+                  <span className={`toggle-icon ${expandedChapters[chapter] ? "is-open" : ""}`}>
+                    ▼
+                  </span>
+                </button>
+                <div className={`nav-chapter-lessons ${expandedChapters[chapter] ? "is-open" : ""}`}>
+                  <div className="nav-chapter-lessons-inner">
+                    {chapterLessons.map((item) => (
+                    <div
+                      className={`nav-lesson${location.pathname.includes(`/bai/${item.slug}/`) ? " is-current" : ""}`}
+                      key={item.id}
+                    >
+                      <div className="nav-lesson__title">
+                        <span className="nav-lesson__num">{item.number}</span>
+                        <span>{item.shortTitle}</span>
+                        {item.isNew ? <span className="badge-new">Mới</span> : null}
+                      </div>
+                      <ul className="nav-list">
+                        <li>
+                          <NavLink
+                            to={`/bai/${item.slug}/slides`}
+                            className={({ isActive }) => (isActive ? "is-active" : undefined)}
+                            onClick={close}
+                          >
+                            <span className="ico">▣</span> Slide
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to={`/bai/${item.slug}/challenge`}
+                            className={({ isActive }) => (isActive ? "is-active" : undefined)}
+                            onClick={close}
+                          >
+                            <span className="ico">✎</span> {item.theme.mapName}
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                  </div>
                 </div>
-                <ul className="nav-list">
-                  <li>
-                    <NavLink
-                      to={`/bai/${item.slug}/slides`}
-                      className={({ isActive }) => (isActive ? "is-active" : undefined)}
-                      onClick={close}
-                    >
-                      <span className="ico">▣</span> Slide
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to={`/bai/${item.slug}/challenge`}
-                      className={({ isActive }) => (isActive ? "is-active" : undefined)}
-                      onClick={close}
-                    >
-                      <span className="ico">✎</span> {item.theme.mapName}
-                    </NavLink>
-                  </li>
-                </ul>
               </div>
             ))}
           </nav>

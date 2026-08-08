@@ -79,11 +79,11 @@ export function SlideDeck({ lesson }: { lesson: Lesson }) {
 
   return (
     <>
-      <div className="page-head" style={{ marginBottom: "1rem" }}>
-        <h1>
+      <div className="page-head" style={{ marginBottom: "0.4rem" }}>
+        <h1 style={{ fontSize: "1.2rem", margin: "0 0 0.15rem" }}>
           Bài {lesson.number} · {lesson.title}
         </h1>
-        <p>
+        <p style={{ margin: 0, fontSize: "0.82rem", color: "var(--muted)" }}>
           {lesson.periods} tiết · {lesson.theme.mapName} · {lesson.blurb}
         </p>
       </div>
