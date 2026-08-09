@@ -72,6 +72,8 @@ interface SlideBase {
   title: string;
   banner?: string;
   bannerTone?: "blue" | "orange" | "teal" | "violet" | "rose" | "cyan" | "indigo" | "amber";
+  image?: string;
+  imageAlt?: string;
 }
 
 export type Slide =

@@ -4,7 +4,7 @@ import { AppShell } from "../components/AppShell";
 import { useAuth } from "../lib/auth";
 import { getSelectedClassroom, setSelectedClassroom, studentDisplayName, studentNoFromEmail } from "../lib/classrooms";
 import { supabase } from "../lib/supabase";
-import { lessons } from "../lessons/registry";
+import { useLessons } from "../lib/lessonsStore";
 
 interface ProfileRow {
   id: string;
@@ -31,6 +31,7 @@ interface ClassroomRow {
 
 export function AdminPage() {
   const { profile, loading } = useAuth();
+  const { lessons } = useLessons();
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
   const [classrooms, setClassrooms] = useState<ClassroomRow[]>([]);
@@ -114,30 +115,37 @@ export function AdminPage() {
   return (
     <AppShell searchPlaceholder="Tìm học sinh...">
       <div className="page-head">
-        <h1>{classroom?.name || "Giám sát tiến độ"}</h1>
-        <p>
-          GVCN: <strong>{teacher?.display_name || "Nguyễn Trúc Quỳnh"}</strong>
-          {teacher?.email ? ` · ${teacher.email}` : ""} · {rows.length} học sinh
-        </p>
-        {classrooms.length > 0 ? (
-          <label className="class-switch">
-            Lớp
-            <select
-              value={classroom?.id ?? ""}
-              onChange={(e) => {
-                const nextClass = classrooms.find((row) => row.id === e.target.value);
-                setClassroomId(e.target.value);
-                if (nextClass) setSelectedClassroom({ id: nextClass.id, name: nextClass.name });
-              }}
-            >
-              {classrooms.map((row) => (
-                <option key={row.id} value={row.id}>
-                  {row.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : null}
+        <div>
+          <h1>{classroom?.name || "Giám sát tiến độ"}</h1>
+          <p>
+            GVCN: <strong>{teacher?.display_name || "Nguyễn Trúc Quỳnh"}</strong>
+            {teacher?.email ? ` · ${teacher.email}` : ""} · {rows.length} học sinh
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+          <Link to="/soan-bai" className="btn btn--primary">
+            ✏️ Soạn bài học
+          </Link>
+          {classrooms.length > 0 ? (
+            <label className="class-switch">
+              Lớp
+              <select
+                value={classroom?.id ?? ""}
+                onChange={(e) => {
+                  const nextClass = classrooms.find((row) => row.id === e.target.value);
+                  setClassroomId(e.target.value);
+                  if (nextClass) setSelectedClassroom({ id: nextClass.id, name: nextClass.name });
+                }}
+              >
+                {classrooms.map((row) => (
+                  <option key={row.id} value={row.id}>
+                    {row.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+        </div>
       </div>
 
       <section className="stats" style={{ marginBottom: "1rem" }}>

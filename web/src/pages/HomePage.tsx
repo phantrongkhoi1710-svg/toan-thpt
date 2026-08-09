@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
-import { lessons } from "../lessons/registry";
+import { useLessons } from "../lib/lessonsStore";
 
 export function HomePage() {
-  const newest = lessons[lessons.length - 1];
-  const prev = lessons[lessons.length - 2];
+  const { lessons } = useLessons();
+  const newest = lessons[lessons.length - 1] || lessons[0];
 
   return (
     <AppShell>
@@ -63,38 +63,26 @@ export function HomePage() {
           </section>
 
           <section className="promos">
-            {prev ? (
+            {lessons.map((lesson) => (
               <Link
-                className="promo promo--orange"
-                to={`/bai/${prev.slug}/slides`}
-                style={{ background: `linear-gradient(145deg, ${prev.theme.accentFrom}, ${prev.theme.accentTo} 55%, #0f172a)` }}
+                key={lesson.id}
+                className="promo"
+                to={`/bai/${lesson.slug}/slides`}
+                style={{
+                  background: `linear-gradient(145deg, ${lesson.theme.accentFrom}, ${lesson.theme.accentTo} 55%, #0f172a)`,
+                }}
               >
                 <div>
                   <h3>
-                    Bài {prev.number} · {prev.theme.mapName}
+                    Bài {lesson.number} · {lesson.shortTitle}
                   </h3>
-                  <p>{prev.blurb}</p>
+                  <p>{lesson.blurb}</p>
                 </div>
                 <div className="promo__emoji" aria-hidden="true">
-                  {prev.number}
+                  {lesson.number}
                 </div>
               </Link>
-            ) : null}
-            <Link
-              className="promo promo--blue"
-              to={`/bai/${newest.slug}/slides`}
-              style={{ background: `linear-gradient(145deg, ${newest.theme.accentFrom}, ${newest.theme.accentTo} 55%, #4c1d95)` }}
-            >
-              <div>
-                <h3>
-                  Bài {newest.number} · {newest.theme.mapName}
-                </h3>
-                <p>{newest.blurb}</p>
-              </div>
-              <div className="promo__emoji" aria-hidden="true">
-                {newest.number}
-              </div>
-            </Link>
+            ))}
           </section>
         </div>
 
@@ -109,42 +97,33 @@ export function HomePage() {
             <ul className="lesson-stack">
               {lessons.map((lesson) => (
                 <li className="lesson-mini" key={lesson.id}>
-                  <strong>
-                    Bài {lesson.number} · {lesson.shortTitle}
-                  </strong>
-                  <span>{lesson.theme.mapName}</span>
-                  <div className="lesson-mini__foot">
-                    <div className="avatars">
-                      <span>{lesson.number}</span>
+                  <Link to={`/bai/${lesson.slug}/slides`} style={{ color: "inherit", textDecoration: "none", display: "block" }}>
+                    <strong>
+                      Bài {lesson.number} · {lesson.shortTitle}
+                    </strong>
+                    <span>{lesson.theme.mapName}</span>
+                    <div className="lesson-mini__foot">
+                      <div className="avatars">
+                        <span>{lesson.number}</span>
+                      </div>
                     </div>
-                    <Link className="plus" to={`/bai/${lesson.slug}/slides`}>
-                      +
-                    </Link>
-                  </div>
+                  </Link>
                 </li>
               ))}
-              <li className="lesson-mini">
-                <strong>{newest.theme.mapName}</strong>
-                <span>{newest.challenges.length} thử thách</span>
-                <div className="lesson-mini__foot">
-                  <div className="avatars">
-                    <span>★</span>
-                  </div>
-                  <Link className="plus" to={`/bai/${newest.slug}/challenge`}>
-                    +
-                  </Link>
-                </div>
-              </li>
             </ul>
           </section>
           <section className="card" style={{ marginTop: "1rem" }}>
             <div className="card__head">
-              <h3>Thêm bài mới</h3>
+              <h3>Soạn bài mới</h3>
             </div>
             <p style={{ margin: "0 1.1rem 1.1rem", color: "#64748b", fontSize: "0.92rem" }}>
-              Copy file <code>web/src/lessons/_template.ts</code>, điền bài giảng + câu hỏi, rồi đăng ký trong{" "}
-              <code>registry.ts</code>. Engine bài giảng và thử thách dùng chung, không copy HTML nữa.
+              Sử dụng <strong>Teacher Studio</strong> để tạo bài giảng, câu hỏi thử thách, tải PDF và thiết kế lộ trình học tập trực quan ngay trên trình duyệt.
             </p>
+            <div style={{ margin: "0 1.1rem 1.1rem" }}>
+              <Link to="/soan-bai" className="btn btn--primary" style={{ width: "100%", justifyContent: "center" }}>
+                Vào Teacher Studio
+              </Link>
+            </div>
           </section>
         </aside>
       </div>

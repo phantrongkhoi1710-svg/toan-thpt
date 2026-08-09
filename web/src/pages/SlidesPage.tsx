@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
 import { SlideDeck } from "../components/SlideDeck";
-import { getLesson } from "../lessons/registry";
+import { useLessons } from "../lib/lessonsStore";
 
 export function SlidesPage() {
   const { slug } = useParams();
-  const lesson = slug ? getLesson(slug) : undefined;
+  const { lessons } = useLessons();
+  const lesson = slug ? lessons.find((l) => l.slug === slug || l.id === slug) : undefined;
   if (!lesson) {
     return (
       <AppShell>

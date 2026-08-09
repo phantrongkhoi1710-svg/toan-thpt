@@ -4,12 +4,20 @@ import { SlidesPage } from "./pages/SlidesPage";
 import { ChallengePage } from "./pages/ChallengePage";
 import { LoginPage } from "./pages/LoginPage";
 import { AdminPage } from "./pages/AdminPage";
+import { TeacherStudioPage } from "./pages/TeacherStudioPage";
 import { RequireAuth } from "./components/RequireAuth";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <HomePage />
+          </RequireAuth>
+        }
+      />
       <Route path="/dang-nhap" element={<LoginPage />} />
       <Route
         path="/quan-tri"
@@ -19,7 +27,22 @@ export default function App() {
           </RequireAuth>
         }
       />
-      <Route path="/bai/:slug/slides" element={<SlidesPage />} />
+      <Route
+        path="/soan-bai"
+        element={
+          <RequireAuth teacherOnly>
+            <TeacherStudioPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/bai/:slug/slides"
+        element={
+          <RequireAuth>
+            <SlidesPage />
+          </RequireAuth>
+        }
+      />
       <Route
         path="/bai/:slug/challenge"
         element={
