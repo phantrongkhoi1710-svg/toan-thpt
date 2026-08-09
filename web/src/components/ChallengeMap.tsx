@@ -113,7 +113,7 @@ export function ChallengeMap({ lesson }: { lesson: Lesson }) {
       <div className="page-head" style={{ marginBottom: "0.75rem" }}>
         <h1>{lesson.theme.mapName}</h1>
         <p>
-          Challenge map Bài {lesson.number} — {lesson.title}
+          Thử thách Bài {lesson.number} — {lesson.title}
         </p>
       </div>
       <div className="map-hud">
@@ -205,17 +205,34 @@ export function ChallengeMap({ lesson }: { lesson: Lesson }) {
             </div>
             <div className="challenge-panel__foot">
               <button type="button" className="btn btn--ghost" onClick={close}>
-                Để sau
+                {checked && chosen === active.answer ? "Đóng" : "Để sau"}
               </button>
-              <button
-                type="button"
-                className="btn btn--primary"
-                style={{ background: `linear-gradient(135deg, ${lesson.theme.accentFrom}, ${lesson.theme.accentTo})` }}
-                onClick={check}
-                disabled={checked && chosen === active.answer}
-              >
-                {checked && chosen === active.answer ? "Đã mở mốc tiếp" : "Kiểm tra"}
-              </button>
+              {checked && chosen === active.answer ? (
+                <button
+                  type="button"
+                  className="btn btn--primary"
+                  style={{ background: `linear-gradient(135deg, ${lesson.theme.accentFrom}, ${lesson.theme.accentTo})` }}
+                  onClick={() => {
+                    if (activeId < bank.length - 1) {
+                      open(activeId + 1);
+                    } else {
+                      close();
+                    }
+                  }}
+                >
+                  {activeId < bank.length - 1 ? "Mốc tiếp theo →" : "Hoàn thành ✓"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn--primary"
+                  style={{ background: `linear-gradient(135deg, ${lesson.theme.accentFrom}, ${lesson.theme.accentTo})` }}
+                  onClick={check}
+                  disabled={chosen == null || checked}
+                >
+                  Kiểm tra
+                </button>
+              )}
             </div>
           </div>
         ) : null}

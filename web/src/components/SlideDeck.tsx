@@ -87,7 +87,7 @@ export function SlideDeck({ lesson }: { lesson: Lesson }) {
           {lesson.periods} tiết · {lesson.theme.mapName} · {lesson.blurb}
         </p>
       </div>
-      <section className="deck" aria-label="Slide bài giảng">
+      <section className="deck" aria-label="Bài giảng">
         <div className="deck__card">
           <div className="deck__progress">
             <i id="deckBar" style={{ width: `${bar}%`, background: accent }} />
@@ -109,7 +109,7 @@ export function SlideDeck({ lesson }: { lesson: Lesson }) {
             <div className="deck__meta">
               <strong>{slide.title}{quiz ? " · Tương tác" : ""}</strong>
               <span>
-                Slide {index + 1} / {lesson.slides.length}
+                Bài giảng {index + 1} / {lesson.slides.length}
               </span>
             </div>
             <div className="deck__dots">

@@ -209,7 +209,7 @@ export const bai3: Lesson = {
       banner: "Credits kiến thức",
       bannerTone: "rose",
       heading: "Trước khi vào Rạp Nghiệm",
-      ctaLabel: "Vào Rạp Nghiệm Challenge →",
+      ctaLabel: "Vào Rạp Nghiệm Thử thách →",
       parts: [
         { n: "1", title: "Dạng", text: "\\(ax+by+c \\lessgtr 0\\)", color: "#f97316" },
         { n: "2", title: "Nghiệm", text: "Cặp số làm BPT đúng", color: "#e11d48" },

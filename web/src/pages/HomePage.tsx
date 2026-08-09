@@ -14,7 +14,7 @@ export function HomePage() {
             <div>
               <h1>Chào bạn! Sẵn sàng học Toán chưa?</h1>
               <p>
-                Hệ thống bài giảng chuẩn: slide tương tác + challenge map. Mới nhất:{" "}
+                Hệ thống bài giảng chuẩn: bài giảng tương tác + thử thách. Mới nhất:{" "}
                 <strong>
                   Bài {newest.number} · {newest.theme.mapName}
                 </strong>{" "}
@@ -51,7 +51,7 @@ export function HomePage() {
               <div className="stat__hint">Chương I</div>
             </div>
             <div className="stat stat--orange">
-              <div className="stat__label">Challenge map</div>
+              <div className="stat__label">Thử thách</div>
               <div className="stat__value">{String(lessons.length).padStart(2, "0")}</div>
               <div className="stat__hint">Mỗi bài 1 theme</div>
             </div>
@@ -125,7 +125,7 @@ export function HomePage() {
               ))}
               <li className="lesson-mini">
                 <strong>{newest.theme.mapName}</strong>
-                <span>{newest.challenges.length} suất challenge</span>
+                <span>{newest.challenges.length} thử thách</span>
                 <div className="lesson-mini__foot">
                   <div className="avatars">
                     <span>★</span>
@@ -142,8 +142,8 @@ export function HomePage() {
               <h3>Thêm bài mới</h3>
             </div>
             <p style={{ margin: "0 1.1rem 1.1rem", color: "#64748b", fontSize: "0.92rem" }}>
-              Copy file <code>web/src/lessons/_template.ts</code>, điền slide + câu hỏi, rồi đăng ký trong{" "}
-              <code>registry.ts</code>. Engine slide và map dùng chung, không copy HTML nữa.
+              Copy file <code>web/src/lessons/_template.ts</code>, điền bài giảng + câu hỏi, rồi đăng ký trong{" "}
+              <code>registry.ts</code>. Engine bài giảng và thử thách dùng chung, không copy HTML nữa.
             </p>
           </section>
         </aside>

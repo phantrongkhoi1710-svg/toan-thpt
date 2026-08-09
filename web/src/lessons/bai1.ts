@@ -17,7 +17,7 @@ export const bai1: Lesson = {
     mapBoardClass: "",
     nodeClass: "",
     xpLabel: "XP",
-    mapName: "Challenge Map",
+    mapName: "Thử thách",
     sectionPrefix: "Mức",
     chestClosed: "📦",
     chestOpen: "🎁",
@@ -25,13 +25,13 @@ export const bai1: Lesson = {
     failText: "Chưa đúng.",
     lockedToast: "Hãy mở mốc trước đã!",
     resetLabel: "Chơi lại từ đầu",
-    resetConfirm: "Xóa tiến độ Challenge Map Bài 1?",
+    resetConfirm: "Xóa tiến độ Thử thách Bài 1?",
     brandMark: "book",
   },
   progressKey: "toan-thpt-map-menhde-v1",
   levelLabels: { 1: "Nhận biết", 2: "Thông hiểu", 3: "Vận dụng", 4: "Vận dụng cao" },
   xpByLevel: { 1: 10, 2: 15, 3: 20, 4: 30 },
-  sidebarFoot: "← → chuyển slide · làm đúng trên map để mở mốc tiếp theo.",
+  sidebarFoot: "← → chuyển bài giảng · làm đúng trên thử thách để mở mốc tiếp theo.",
   slides: [
     {
       type: "hero",
@@ -244,7 +244,7 @@ export const bai1: Lesson = {
       banner: "Tổng kết",
       bannerTone: "blue",
       heading: "Nhớ nhanh 5 ý chính",
-      ctaLabel: "Sang Challenge Map →",
+      ctaLabel: "Sang Thử thách →",
       parts: [
         { n: "1", title: "Mệnh đề", text: "Đúng hoặc sai", color: "#2563eb" },
         { n: "2", title: "Phủ định", text: "\\(\\overline{P}\\)", color: "#f97316" },

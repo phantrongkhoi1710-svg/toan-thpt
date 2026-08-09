@@ -24,7 +24,7 @@ export const baiMoi: Lesson = {
     mapBoardClass: "",
     nodeClass: "",
     xpLabel: "XP",
-    mapName: "Challenge Map",
+    mapName: "Thử thách",
     sectionPrefix: "Mức",
     chestClosed: "📦",
     chestOpen: "🎁",
@@ -76,7 +76,7 @@ export const baiMoi: Lesson = {
       banner: "Tổng kết",
       bannerTone: "blue",
       heading: "Nhớ nhanh",
-      ctaLabel: "Sang Challenge Map →",
+      ctaLabel: "Sang Thử thách →",
       parts: [
         { n: "1", title: "Ý 1", text: "Tóm tắt", color: "#14b8a6" },
         { n: "2", title: "Ý 2", text: "Tóm tắt", color: "#f97316" },

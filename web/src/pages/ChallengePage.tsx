@@ -9,7 +9,7 @@ export function ChallengePage() {
   if (!lesson) {
     return (
       <AppShell>
-        <p>Không tìm thấy challenge map.</p>
+        <p>Không tìm thấy thử thách.</p>
       </AppShell>
     );
   }
@@ -18,7 +18,7 @@ export function ChallengePage() {
       searchPlaceholder="Tìm mốc..."
       topAction={
         <Link className="btn btn--ghost" to={`/bai/${lesson.slug}/slides`}>
-          ← Slide
+          ← Bài giảng
         </Link>
       }
     >

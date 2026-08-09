@@ -1,6 +1,6 @@
 # Toán THPT
 
-Hệ thống bài giảng Toán 10: **slide tương tác + challenge map**, viết bằng React.
+Hệ thống bài giảng Toán 10: **bài giảng tương tác + thử thách**, viết bằng React.
 
 Site: https://phantrongkhoi1710-svg.github.io/toan-thpt/
 
@@ -63,7 +63,7 @@ VITE_SUPABASE_ANON_KEY=...
    - HS: `user01@toanthpt.test` → `user40@toanthpt.test` / `Pass01`
 7. GitHub repo → Settings → Secrets → Actions, thêm `VITE_SUPABASE_URL` và `VITE_SUPABASE_ANON_KEY`.
 
-- Học sinh đăng nhập mới làm được challenge map (tiến độ lưu cloud).
+- Học sinh đăng nhập mới làm được thử thách (tiến độ lưu cloud).
 - Giáo viên vào mục **Giám sát** để xem XP / số mốc từng bài.
 
 ## Deploy

@@ -134,7 +134,7 @@ export function AppShell({
                             className={({ isActive }) => (isActive ? "is-active" : undefined)}
                             onClick={close}
                           >
-                            <span className="ico">▣</span> Slide
+                            <span className="ico">▣</span> Bài giảng
                           </NavLink>
                         </li>
                         <li>
@@ -163,7 +163,7 @@ export function AppShell({
                   ? `Giáo viên · ${classroom.name}`
                   : `Học sinh · ${classroom.name}`
                 : "Đăng nhập để lưu tiến độ và để giáo viên theo dõi."
-              : "Xem slide trước, rồi làm challenge map của cùng bài đó."}
+              : "Xem bài giảng trước, rồi làm thử thách của cùng bài đó."}
           </div>
         </aside>
 

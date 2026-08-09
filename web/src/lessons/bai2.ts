@@ -214,7 +214,7 @@ export const bai2: Lesson = {
       title: "Tóm tắt đảo",
       banner: "Kho báu kiến thức",
       bannerTone: "indigo",
-      heading: "Nhớ nhanh trước khi ra đảo Challenge",
+      heading: "Nhớ nhanh trước khi ra đảo Thử thách",
       ctaLabel: "Vào Đảo Tập Hợp →",
       parts: [
         { n: "∈", title: "Thuộc", text: "Phần tử · ∅", color: "#06b6d4" },
